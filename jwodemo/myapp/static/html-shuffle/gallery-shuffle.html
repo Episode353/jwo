@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Gallery</title>
+    <style>
+        .gallery img {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
+</head>
+<body>
+    <center>
+        <div class="gallery"></div>
+        <p>Submit your own art on <br /><a href="pages/board.html">The Board</a></p>
+        <script>
+            // Create a reference to the images folder in Firebase Storage
+            var imagesRef = storage.ref().child('images');
+
+            // Get the list of all images in the images folder
+            imagesRef.listAll().then(function (result) {
+                // Get a random image from the list of items
+                var randomIndex = Math.floor(Math.random() * result.items.length);
+                var randomImageRef = result.items[randomIndex];
+
+                // Get the download URL for the random image
+                randomImageRef.getDownloadURL().then(function (url) {
+                    // Create an img element with the download URL as the src attribute
+                    var img = document.createElement('img');
+                    img.src = url;
+                    // Add the img element to the gallery div
+                    document.querySelector('.gallery').appendChild(img);
+                });
+            }).catch(function (error) {
+                console.log(error);
+            });
+        </script>
+    </center>
+</body>
+</html>
