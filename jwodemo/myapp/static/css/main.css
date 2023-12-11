@@ -106,6 +106,7 @@
         background: snow;
         padding: 10px;
         border: 3px solid lightsteelblue;
+        height: fit-content;
 
     }
 
@@ -691,16 +692,7 @@
     //
     //
     */
-    .header-login {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-image: url('../media/mc/block/obsidian.png');
-        color: white;
-        padding: 10px 20px;
-        border: groove;
-        border-color: #b2b5c7;
-    }
+
 
     .logo {
         font-size: 24px;

@@ -1,6 +1,96 @@
-{% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% extends "template.html" %}
+{% block title %} Home Page {% endblock %}
 {% block content %}
-<p style="color:red">This is a Test Page for Seep Coin</p>
-{% endblock %}
 
-</html>
+    <link rel="stylesheet" href="../style.css?v=6">
+
+    <style>
+        /* Add the styles from your original HTML file here */
+        .scoreboard-data table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .scoreboard-data th,
+        .scoreboard-data td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .scoreboard-data th {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .scoreboard-data td {
+            font-size: 16px;
+        }
+
+        /* Additional styles for the scoreboard */
+        .scoreboard-data tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .scoreboard-data tr:hover {
+            background-color: #ddd;
+        }
+
+        .seep-coin-text {
+            margin-bottom: 10px;
+            font-size: 200%;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Style for the message */
+        .scoreboard-data .user-message {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px; /* Adjust as needed */
+        }
+    </style>
+
+    <div style=" display: flex; align-items: center; justify-content: center; border:none;">
+        <div class="seep-coin-text">
+            <h2>Seep Coin</h2>
+        </div>
+    </div>
+
+    <!-- Display Seep Coins on a single scoreboard -->
+    <div class="scoreboard-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="scoreboard-body">
+                {% for account in seep_coin_list %}
+                    <tr>
+                        <td>
+                            {% if forloop.first %}
+                                1st🥇
+                            {% elif forloop.counter == 2 %}
+                                2nd🥈
+                            {% elif forloop.counter == 3 %}
+                                3rd🥉
+                            {% else %}
+                                {{ forloop.counter }}th
+                            {% endif %}
+                        </td>
+                        <td>
+                            <p>{{ account.name }}</p>
+                            <p class="user-message">{{ account.coin_message }}</p>
+                        </td>
+                        <td>{{ account.coin_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
