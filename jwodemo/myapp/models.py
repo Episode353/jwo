@@ -7,7 +7,7 @@ class account(models.Model):
     # How many Seep Coins someone can have
     coin_count = models.IntegerField()
     # Seep Coin Message
-    coin_message = models.TextField()
+    coin_message = models.TextField(null=True, blank=True)
 
 
     def __str__(self):

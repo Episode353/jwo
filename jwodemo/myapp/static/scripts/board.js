@@ -218,19 +218,16 @@ document.body.addEventListener('touchmove', (event) => {
 }, { passive: false });
 
 // image upload
-function saveImage() {
-    const canvas = document.getElementById("board");
+const saveButton = document.getElementById('save');
+saveButton.addEventListener('click', () => {
+    const canvas = document.getElementById("canvas");
     const imageData = canvas.toDataURL("image/png");
     const fileName = `image-${Date.now()}.png`;
-    const storageRef = ref(storage, `images/${fileName}`);
-    uploadBytes(storageRef, imageDataToBlob(imageData)).then((snapshot) => {
-        console.log("Image uploaded successfully");
-        snapshot.ref.getDownloadURL().then((url) => {
-            console.log(`File available at ${url}`);
-            displayImage(url);
-        });
-    });
-}
+
+    
+});
+
+
 
 function imageDataToBlob(dataURI) {
     const byteString = atob(dataURI.split(",")[1]);
@@ -261,30 +258,6 @@ async function getStorageItems(ref) {
     );
     return items;
 } 
-
-const shapeButton = document.getElementById('shape');
-const rectangleButton = document.getElementById('rectangle');
-const circleButton = document.getElementById('circle');
-const triangleButton = document.getElementById('triangle');
-
-let currentShape = '';
-
-shapeButton.addEventListener('click', () => {
-    currentTool = 'shape';
-    currentShape = '';
-});
-
-rectangleButton.addEventListener('click', () => {
-    currentShape = 'rectangle';
-});
-
-circleButton.addEventListener('click', () => {
-    currentShape = 'circle';
-});
-
-triangleButton.addEventListener('click', () => {
-    currentShape = 'triangle';
-});
 
 canvas.addEventListener('mousemove', (event) => {
     if (currentTool === 'shape' && currentShape !== '') {

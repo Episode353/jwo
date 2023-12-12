@@ -652,6 +652,122 @@
     }
 
 
+    #status {
+        font-weight: bold;
+    }
+
+        #status::before {
+            content: "Status: ";
+        }
+
+        #status[data-status="offline"] {
+            color: red;
+        }
+
+        #status[data-status="online"] {
+            color: green;
+        }
+
+    .column {
+        border-right: none !important;
+        border-left: none !important;
+        background-color: #ebe4cd !important;
+        width: 85%;
+        margin-top: 2%;
+    }
+
+        .column p {
+            font-size: .7rem;
+        }
+
+        .column h {
+            font-size: .7rem;
+        }
+
+    .row-index {
+        border-top: none !important;
+        border-bottom: none !important;
+        background-color: #eee3c1 !important;
+    }
+
+    table {
+        margin-top: 1rem;
+    }
+
+    th {
+        border: 3px dotted #92AAFC;
+        border-top: none !important;
+        border-bottom: none !important;
+        background-color: #ebe4cd !important;
+        padding: .5rem;
+    }
+
+    .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 10px;
+        border-top: none !important;
+        border-bottom: none !important;
+        background-color: #bababa !important;
+        margin-top: 1rem;
+    }
+
+    .button {
+        border: 3px dotted #92AAFC;
+        border-top: none !important;
+        border-bottom: none !important;
+        background-color: #ebe4cd !important;
+        padding: .5rem;
+        margin: .5rem;
+    }
+
+    
+    .scoreboard-data table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    .scoreboard-data {
+        margin-top: 1rem;
+    }
+
+        .scoreboard-data th,
+        .scoreboard-data td {
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+            
+        }
+
+        .scoreboard-data th {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 18px;
+            background-color: #bababa !important;
+        }
+
+    .scoreboard-data td {
+        font-size: 16px;
+    }
+
+    .scoreboard-data tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .scoreboard-data tr:hover {
+        background-color: #ddd;
+    }
+
+    @media (max-width: 768px) {
+        /* Apply smaller text size for screens up to 768px width (typical phones) */
+        .scoreboard-data th,
+        .scoreboard-data td {
+            font-size: 12px;
+            padding: 0px;
+        }
+    }
+
 
 
     /*Seep Coin text*/

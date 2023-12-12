@@ -4,7 +4,8 @@ from .models import account
 
 # Create your views here.
 def home(request):
-    return render(request, "home.html")
+    seep_coin_list = account.objects.all().order_by('-coin_count')
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list})
 
 def seepcoin(request):
     seep_coin_list = account.objects.all().order_by('-coin_count')
