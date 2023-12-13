@@ -10,8 +10,14 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/fly_edible.jpg" alt="the sky is cheese" width="90%" height="90%">
+            <img id="loadedImage" alt="the sky is cheese" width="90%" height="90%">
         </center>
+
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/fly_edible.jpg';
+        </script>
 
 </body>
 </html>

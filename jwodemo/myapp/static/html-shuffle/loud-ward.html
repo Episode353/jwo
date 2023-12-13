@@ -11,8 +11,14 @@
 
         <center>
             <p>it come with eggwol</p>
-            <img src="../../media/png/loud-ward.png" width="50%" height="50%">
+            <img id="loadedImage" width="50%" height="50%">
         </center>
 
+
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'png/loud-ward.png';
+        </script>
 </body>
 </html>

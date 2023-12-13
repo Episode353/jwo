@@ -10,8 +10,12 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/funny_turtle.jpg" style="max-width: 25vw;" /> <img />
+            <img id="loadedImage" style="max-width: 25vw;" /> <img />
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/funny_turtle.jpg';
+        </script>
 </body>
 </html>

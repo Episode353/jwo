@@ -12,8 +12,11 @@
         <center>
             <h><em>Attention Attention</em> <span class="word-red"<em>Hear Ye Hear Ye</em></span></h>
             <p>G U N T F I S H</p>
-            <img src="static/jpg/funnylookingfish.jpg" alt="the sky is cheese" width="50%" height="50%">
+            <img id="loadedImage"  alt="the sky is cheese" width="50%" height="50%">
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/funnylookingfish.jpg';
+        </script>
 </body>
 </html>

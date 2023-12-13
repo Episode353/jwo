@@ -10,8 +10,12 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/pizza_tower_description.jpg" style="max-width: 25vw;" /> <img />
+            <img id="loadedImage" style="max-width: 25vw;" /> <img />
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/pizza_tower_description.jpg';
+        </script>
 </body>
 </html>

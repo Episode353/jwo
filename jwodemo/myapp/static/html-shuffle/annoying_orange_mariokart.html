@@ -11,11 +11,14 @@
     <center>
 
 
-        <img src="../../media/jpg/annoying_orange_mariokart.jpg" alt="fishblender" width="100%">
+        <img id="loadedImage" alt="fishblender" width="100%">
        
         <h2 style="color:black; text-shadow: 3px 3px 10px red">HE WONT SHUT THE FUCK UP</h2>
         
     </center>
-
+    <script>
+        // Use JavaScript to set the image source dynamically
+        document.getElementById('loadedImage').src = STATIC_URL + 'jpg/annoying_orange_mariokart.jpg';
+    </script>
 </body>
 </html>

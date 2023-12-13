@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../style.css">
+    <meta charset="utf-8" />
+    <title></title>
+<style>
+    .vertical-center {
+    border: none !important;
+    margin: 0;
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  
+}
+</style>
+</head>
+<body>
+<div class="vertical-center">
+    <center>
+        <img style="width:100%;" id="loadedImage1" alt="im sorry brough">
+        <img style="width:100%;" id="loadedImage2" alt="that link dont work doe">
+    </center>
+
+    <script>
+        // Use JavaScript to set the image source dynamically
+        // id="loadedImage"
+        document.getElementById('loadedImage1').src = STATIC_URL + 'gif/shuffle-error1.gif'
+        document.getElementById('loadedImage2').src = STATIC_URL + 'gif/shuffle-error-2.gif'
+    </script>
+</div>
+</body>
+</html>

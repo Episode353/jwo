@@ -11,10 +11,14 @@
 
         <center>
             <p>i stay up at night digging with my four paws</p>
-            <img src="static/png/builder-dog.png" width="50%" height="50%" />
+            <img id="loadedImage" width="50%" height="50%" />
             <p>chewing, fetching, eating wawa sandwhich on break</p>
             but i leave the paperwork to them <em>human folk</em> 
         </center>
 
+        <script>
+            // Use JavaScript to set the image source dynamically
+            document.getElementById('loadedImage').src = STATIC_URL + 'png/builder-dog.png';
+        </script>
 </body>
 </html>

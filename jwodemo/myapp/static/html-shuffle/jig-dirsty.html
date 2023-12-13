@@ -10,8 +10,12 @@
 <body>
 
         <center>
-            <img src="../../media/png/jig-dirsty.png" width="150%" height="150%">
+            <img id="loadedImage" width="150%" height="150%">
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'png/jig-dirsty.png';
+        </script>
 </body>
 </html>

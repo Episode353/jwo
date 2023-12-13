@@ -21,7 +21,7 @@
             <br>
 
             <p id="musicStatus">I am the Wizard of Acidity, ask me a quesstion</p>
-            <img src="static/png/lemon.png" alt="Wizard" id="wizardImage">
+            <img alt="Wizard" id="wizardImage">
 
             <form>
                 <label for="musicText">Ask the Wizard:</label>
@@ -30,9 +30,15 @@
             </form>
 
             <audio id="myAudio" preload="auto">
-                <source src="static/ogg/claw_music.ogg" type="audio/mpeg">
+                <source id="music" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
+
+            <script>
+                // Use JavaScript to set the image source dynamically
+                document.getElementById('wizardImage').src = STATIC_URL + 'png/lemon.png';
+                document.getElementById('music').src = STATIC_URL + 'ogg/claw_music.ogg';
+            </script>
 
             <script>
                 var text = document.getElementById('musicStatus');
@@ -45,7 +51,7 @@
                 function setMusicText() {
                     var result = Math.random() < 0.5 ? "Hell Yea!!!" : "uhhmmm no";
                     text.textContent = "huh?  " + input.value + "? Are you crazy? " + result;
-                    image.src = "static/gif/wizard-dance.gif";
+                    image.src = STATIC_URL + "gif/wizard-dance.gif";
                 }
 
                 button.addEventListener('click', function () {

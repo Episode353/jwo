@@ -10,8 +10,11 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/avgndk.jpg"  width="100%" height="100%">
+            <img id="loadedImage"  width="100%" height="100%">
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/avgndk.jpg';
+        </script>
 </body>
 </html>

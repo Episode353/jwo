@@ -10,8 +10,12 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/jig-711-banned.jpg" alt="the sky is cheese" width="90%" height="90%">
+            <img id="loadedImage" width="90%" height="90%">
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/jig-711-banned.jpg';
+        </script>
 </body>
 </html>

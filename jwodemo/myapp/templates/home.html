@@ -5,7 +5,10 @@
    
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'scripts/shufflebox.js' %}"></script>
+
+<script>
+    var STATIC_URL = "{% static '' %}";
+</script>
 
 <div class="content-large">
 
@@ -83,5 +86,157 @@
 </div>
 
 <div id="htmlshufflebox" style="max-width: 30vw;"></div>
+<script>
+    $(function () {
+        var basePath = "{% static 'html-shuffle' %}"; // Customize the base path here
+                // Check if the shuffle parameter is present in the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const shufflePage = urlParams.get('shuffle');
+            
+                if (shufflePage) {
+                    // Use plain JavaScript concatenation to build the filePath
+                    const filePath = STATIC_URL + 'html-shuffle/' + shufflePage;
+                    // Load the specified page indicated by the shuffle parameter
+                    $("#htmlshufflebox").load(filePath, function (response, status, xhr) {
+                        if (status === "error") {
+                            // Display an error message when the file does not exist
+                            $("#htmlshufflebox").load(`${basePath}/error.html`); // Load the random file into the div
+                        }
+                    });
+                } else {
+            
+            var files = [
+                'gunt-fish.html', // Updated 12-13-23
+                'builder-dog.html',// Updated 12-13-23
+                'blender-fish.html',// Updated 12-13-23
+                'rat-night.html',// Updated 12-13-23
+                '4chan_idiot.html',// Updated 12-13-23
+                'wizard-ask.html',// Updated 12-13-23
+                'seep-rule.html',// Updated 12-13-23
+                'guiseppe.html',// Updated 12-13-23
+                'feesh-brain.html',// Updated 12-13-23
+                'fish-plan.html',// Updated 12-13-23
+                'stolen.html',// Updated 12-13-23
+                'david_death.html',// Updated 12-13-23
+                'fly_edible.html',// Updated 12-13-23
+                'dorito-time.html',// Updated 12-13-23
+                'loud-ward.html',// Updated 12-13-23
+                'twinks.html',// Updated 12-13-23
+                'drake-trash.html',// Updated 12-13-23
+                'arizona.html',// Updated 12-13-23
+                'doyoumissher.html',// Updated 12-13-23
+                'snoopy-rave.html',// Updated 12-13-23
+                'garfield.html',// Updated 12-13-23
+                'crying_on_floor.html',// Updated 12-13-23
+                'sigma-grintset.html',// Updated 12-13-23
+                'stole-inch.html',// Updated 12-13-23
+                'man-eat-fish.html',// Updated 12-13-23
+                'brough.html',// Updated 12-13-23
+                'tornado_courage.html',// Updated 12-13-23
+                'link_burn.html',// Updated 12-13-23
+                'sky_error.html',// Updated 12-13-23
+                'jig-dirsty.html',// Updated 12-13-23
+                'wheatley_power.html',// Updated 12-13-23
+                'mort_russia.html',// Updated 12-13-23
+                'Ender4Mod_agust7_2013.html',// Updated 12-13-23
+                'whats_jiggy_thinking_about.html',// Updated 12-13-23
+                'missing_couch.html',// Updated 12-13-23
+                'LETMEOUT.html',// Updated 12-13-23
+                'me_when_mango.html',// Updated 12-13-23
+                'blood_test.html',// Updated 12-13-23
+                'sus_nug.html',// Updated 12-13-23
+                'mordecai_smooth_head.html',// Updated 12-13-23
+                'how_to_say_hi_in_mandarin.html',// Updated 12-13-23
+                'chad-geenie.html',// Updated 12-13-23
+                'gang_bob.html',// Updated 12-13-23
+                'scan_forehead.html',// Updated 12-13-23
+                'jig-711-banned.html',// Updated 12-13-23
+                'seep-coin.html',// Updated 12-13-23
+                'muppets_get_real.html',// Updated 12-13-23
+                'pizza_tower_description.html',// Updated 12-13-23
+                'funny_turtle.html',// Updated 12-13-23
+                'annoying_orange_mariokart.html',// Updated 12-13-23
+                'sponge_gun.html',
+                'joe_biden_flying.html',
+                'wojack_overgrown.html',
+                'sep_language.html',
+                'fldsmdfr.html',
+                'shitsnotgoingsowell.html',
+                'spongebob_amongus_bottle.html',
+                'your_formula_sir.html',
+                'cole-slaw.html',
+                'simple_dog.html',
+                'kill_seppe.html',
+                'ash_ketchup.html',// Updated 12-13-23
+                'claw_hands.html',
+                'heavy-mcqueen.html',
+                'listenman.html',
+                'eepys.html',
+                'package_death.html',
+                'dog_dance.html',
+                'among_chicken.html',// Updated 12-13-23
+                'apple-store-mong.html',// Updated 12-13-23
+                'berryboy.html',// Updated 12-13-23
+                'red-door.html',
+                'ramen_crazy.html',
+                'door_monster.html',
+                'defeat.html',
+                'springtrap.html',
+                'chic_webcam.html',
+                'squarebob.html',
+                'talabanroblox.html',
+                'wario-hung.html',
+                'garfield-breast-reduction.html',
+                'i-found-fish.html',
+                'cyotee-divit.html',
+                'avgndk.html',// Updated 12-13-23
+                'Return_of_Soup.html',
+                'evidence.html',
+                'paddington.html',
+                'doorway.html',
+                'cat_money.html',
+                'dollar_bob.html',
+                'simpson_video.html',
+                'squidman.html',
+                'oreotako.html',
+                'pimpbob.html',
+                'patrickurinal.html',
+                'fandeath.html',
+                'ratatouierp.html',
+                'goku-door.html',
+                'clay-delivery.html',
+                'poolsclosed.html',
+                'no-gooning.html',
+                'dontpickmeup-hissss.html',
+                'mewhenwhenme.html',
+                'mcrib.html',
+                'idkifmonkeyisai.html',
+                'livewetreaction.html',
+                'murrchips.html',
+                'bb_rot.html',// Updated 12-13-23
+                'sadgoober.html',
+                'whateverthisbigredthingiscalled.html',
+                'rainbow-creature.html',
+                'goo-goo-za-za.html',
+                'mister-white.html',
+                'its-just-a-room.html',
+                'mortified_rugby.html',
+                'bad-even-worse.html',// Updated 12-13-23
+       
+        
+            ];
+            // Use the current time in milliseconds as a seed for the random number generator
+            var seed = new Date().getTime();
+            var random = function () {
+                var x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            };
+    
+            var randomFile = files[Math.floor(random() * files.length)]; // Pick a random file
+            $("#htmlshufflebox").load(`${basePath}/${randomFile}`); // Load the random file into the div
+        }
+    });
+    
+</script>
 
 {% endblock %}
