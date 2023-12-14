@@ -103,10 +103,15 @@
 
 
             <div class="footer">
+                <style>
+                    .footer p{
+                        font-size: 10px;
+                    }
+                </style>
 
                     <center>
                         <img src="{% static 'ico/favicon-32x32.png' %}" />
-                        <p>Copyright &copy; 2023 Joseph Toscano.</p>
+                        <p>Copyright &copy; {% now 'Y' %} Joseph Toscano.</p>
                         <p>Contact: <a href="mailto:joe@joesworld.online">joe@joesworld.online</a></p>
                     </center>
             </div>

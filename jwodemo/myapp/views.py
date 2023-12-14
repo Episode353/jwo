@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from .models import account
+from .models import account, foodreview
 
 
 # Create your views here.
@@ -17,5 +17,6 @@ def board(request):
 def blog(request):
     return render(request, "blog.html")
     
-def foodreview(request):
-    return render(request, "foodreview.html")
+def foodreviewpage(request):
+    food_review_list = foodreview.objects.all().order_by('reviewDate')
+    return render(request, "foodreview.html", {'food_review_list': food_review_list})

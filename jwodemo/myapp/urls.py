@@ -6,5 +6,5 @@ urlpatterns=[
     path("seepcoin", views.seepcoin, name="seepcoin"),
     path("board", views.board, name="board"),
     path("blog", views.blog, name="blog"),
-    path("foodreview", views.foodreview, name="foodreview")
+    path("foodreview", views.foodreviewpage, name="foodreviewpage")
 ]
