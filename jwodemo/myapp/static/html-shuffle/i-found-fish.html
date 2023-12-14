@@ -10,8 +10,12 @@
 <body>
 
         <center>
-            <img src="../../media/png/i-found-fish.png"  width="100%" height="100%">
+            <img id="loadedImage" width="100%" height="100%">
         </center>
 
-</body>
+</body>    <script>
+    // Use JavaScript to set the image source dynamically
+    // id="loadedImage"
+    document.getElementById('loadedImage').src = STATIC_URL + 'png/i-found-fish.png';
+</script>
 </html>

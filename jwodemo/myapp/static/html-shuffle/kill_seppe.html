@@ -10,10 +10,14 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/kill_seppe.jpg"  width="100%" height="100%">
+            <img id="loadedImage"  width="100%" height="100%">
             <p>This Guy's got a point.</p>
           
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/kill_seppe.jpg';
+        </script>
 </body>
 </html>

@@ -11,11 +11,15 @@
     <center>
 
 
-        <img src="../../media/jpg/sponge_gun.jpg" alt="fishblender" >
+        <img id="loadedImage" alt="fishblender" >
        
         <h2 style="color:black; text-shadow: 3px 3px 10px red">sick of this lolly-gagging.</h2>
         
     </center>
-
+    <script>
+        // Use JavaScript to set the image source dynamically
+        // id="loadedImage"
+        document.getElementById('loadedImage').src = STATIC_URL + 'jpg/sponge_gun.jpg';
+    </script>
 </body>
 </html>

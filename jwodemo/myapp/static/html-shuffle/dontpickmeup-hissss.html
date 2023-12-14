@@ -10,9 +10,13 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/dontpickmeup-hissss.jpg"  width="100%" height="100%">
+            <img id="loadedImage"  width="100%" height="100%">
           
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/dontpickmeup-hissss.jpg';
+        </script>
 </body>
 </html>

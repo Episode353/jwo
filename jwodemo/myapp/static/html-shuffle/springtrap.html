@@ -10,8 +10,12 @@
 <body>
 
         <center>
-            <img src="../../media/jpg/springtrap.jpg"  width="100%"">
+            <img id="loadedImage"  width="100%"">
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/springtrap.jpg';
+        </script>
 </body>
 </html>

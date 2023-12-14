@@ -32,9 +32,13 @@
         <div class="chat-bubble" style=" border-color: black black black black;">
             <p>Man… listen.. man.. man listen……. listen man ……….</p>
         </div>
-        <img src="../../media/jpg/listenman.jpg" width="100%" height="100%" style="margin-top:1rem;">
+        <img id="loadedImage" width="100%" height="100%" style="margin-top:1rem;">
 
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/listenman.jpg';
+        </script>
     </center>
 
 </body>

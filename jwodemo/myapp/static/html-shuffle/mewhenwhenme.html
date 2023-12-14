@@ -11,9 +11,13 @@
 
         <center>
             <p>fuck i spilt my cherry kool aid all over my The Glock 17C</p>
-            <img src="../../media/jpg/mewhenwhenme.jpg"  width="100%" height="100%">
+            <img id="loadedImage"  width="100%" height="100%">
           
         </center>
-
+        <script>
+            // Use JavaScript to set the image source dynamically
+            // id="loadedImage"
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/mewhenwhenme.jpg';
+        </script>
 </body>
 </html>

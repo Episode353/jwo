@@ -32,10 +32,14 @@
         <div class="chat-bubble" style=" border-color: black black black black;">
             <p>MR.MC-QUEEN??? <br /><br />FLIES ACROSS THE SCREEN???</p>
         </div>
-        <img src="../../media/jpg/heavy-mcqueen.jpg" width="100%" height="100%" style="margin-top:1rem;">
+        <img id="loadedImage" width="100%" height="100%" style="margin-top:1rem;">
 
 
     </center>
-
+    <script>
+        // Use JavaScript to set the image source dynamically
+        // id="loadedImage"
+        document.getElementById('loadedImage').src = STATIC_URL + 'jpg/heavy-mcqueen.jpg';
+    </script>
 </body>
 </html>

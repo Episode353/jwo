@@ -65,12 +65,18 @@
         <input type="checkbox" id="dogSwitch">
         <label class="switch-label" for="dogSwitch"></label>
     </div>
-    <img id="image" src="../../media/jpg/dog_dance_1.jpg" alt="Image 1">
+    <img id="image"  alt="Image 1">
     <audio id="audio" preload="auto">
-        <source src="../../media/ogg/rockandroll-radio-2.ogg" type="audio/ogg">
+        <source id="music" type="audio/ogg">
     </audio>
     <script>
-        const images = ['../../media/jpg/dog_dance_1.jpg', '../../media/jpg/dog_dance_2.jpg'];
+        // Use JavaScript to set the image source dynamically
+        // id="loadedImage"
+        document.getElementById('music').src = STATIC_URL + 'ogg/rockandroll-radio-2.ogg';
+        document.getElementById('image').src = STATIC_URL + 'jpg/dog_dance_1.jpg';
+    </script>
+    <script>
+        const images = [STATIC_URL + 'jpg/dog_dance_1.jpg', STATIC_URL + 'jpg/dog_dance_2.jpg'];
         let currentImageIndex = 0;
         const imageElement = document.getElementById('image');
         const dogSwitch = document.getElementById('dogSwitch');
