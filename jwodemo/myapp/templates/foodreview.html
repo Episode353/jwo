@@ -4,8 +4,8 @@
 {% for review in food_review_list %}
     <div id="food-review-headerlinks-box">
         <p>
-            <a href="{% static review.reviewlink %}" target="_top"><img class="food-review-picture" src="{% static review.reviewPhotoLink %}"></a>
-            <a href="{% static review.reviewlink %}" target="_top"><p>{{ review.name }}</p></a>
+            <a href="{% url 'food_ar' slug=review.slug %}" target="_top"><img class="food-review-picture" src="{% static review.PhotoLink %}"></a>
+            <a href="{% url 'food_ar' slug=review.slug %}" target="_top"><p>{{ review.name }}</p></a>
         </p>
     </div>
 {% endfor %}

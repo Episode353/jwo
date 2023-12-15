@@ -18,12 +18,14 @@ class foodreview(models.Model):
     # Name of the Food Review
     name = models.CharField(max_length=100)
     # Link to Food Review
-    reviewlink = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100)
     # Food Review Image
-    reviewPhotoLink = models.CharField(max_length=100)
+    PhotoLink = models.CharField(max_length=100)
     # The Order in which to Display the Food Reviews
     # 0 being the first, and 9999 being the last
-    reviewDate = models.DateTimeField()
+    Date = models.DateTimeField()
+    # The HTML Body of the Food Review
+    linkhtml = models.TextField(default='Empty') 
 
     def __str__(self):
         return self.name

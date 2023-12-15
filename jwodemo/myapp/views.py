@@ -41,6 +41,10 @@ def board(request):
 def blog(request):
     return render(request, "blog.html")
     
-def foodreviewpage(request):
-    food_review_list = foodreview.objects.all().order_by('reviewDate')
+def foodpage(request):
+    food_review_list = foodreview.objects.all().order_by('Date')
     return render(request, "foodreview.html", {'food_review_list': food_review_list})
+
+def food_ar(request, slug):
+    food_review = foodreview.objects.get(slug=slug)
+    return render(request, "food_template.html", {'food_review': food_review})

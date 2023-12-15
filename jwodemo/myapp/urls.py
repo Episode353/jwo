@@ -6,5 +6,6 @@ urlpatterns=[
     path("seepcoin", views.seepcoin, name="seepcoin"),
     path("board", views.board, name="board"),
     path("blog", views.blog, name="blog"),
-    path("foodreview", views.foodreviewpage, name="foodreviewpage")
+    path("food", views.foodpage, name="foodpage"),
+    path("food/<slug:slug>/", views.food_ar, name="food_ar"),
 ]
