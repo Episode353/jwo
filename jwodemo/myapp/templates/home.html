@@ -90,36 +90,13 @@
 <div id="htmlshufflebox" style="max-width: 30vw;"></div>
 <script>
     $(function () {
-        var basePath = "{% static 'html-shuffle' %}"; // Customize the base path here
-                // Check if the shuffle parameter is present in the URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const shufflePage = urlParams.get('shuffle');
-            
-                if (shufflePage) {
-                    // Use plain JavaScript concatenation to build the filePath
-                    const filePath = STATIC_URL + 'html-shuffle/' + shufflePage;
-                    // Load the specified page indicated by the shuffle parameter
-                    $("#htmlshufflebox").load(filePath, function (response, status, xhr) {
-                        if (status === "error") {
-                            // Display an error message when the file does not exist
-                            $("#htmlshufflebox").load(`${basePath}/error.html`); // Load the random file into the div
-                        }
-                    });
-                } else {
-            
-            
-            // Use the current time in milliseconds as a seed for the random number generator
-            var seed = new Date().getTime();
-            var random = function () {
-                var x = Math.sin(seed++) * 10000;
-                return x - Math.floor(x);
-            };
-    
-            var randomFile = files[Math.floor(random() * files.length)]; // Pick a random file
-            $("#htmlshufflebox").load(`${basePath}/${randomFile}`); // Load the random file into the div
-        }
+        var templateName = "{{ template_name }}";
+        $("#htmlshufflebox").load(templateName, function (response, status, xhr) {
+            if (status === "error") {
+                // Display an error message when the file does not exist
+                $("#htmlshufflebox").load("{% static 'html-shuffle/error.html' %}");
+            }
+        });
     });
-    
 </script>
-
 {% endblock %}
