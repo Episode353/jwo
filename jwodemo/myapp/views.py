@@ -47,4 +47,14 @@ def foodpage(request):
 
 def food_ar(request, slug):
     food_review = foodreview.objects.get(slug=slug)
-    return render(request, "food_template.html", {'food_review': food_review})
+    html_file_path = os.path.join('myapp', 'static', 'food-review-posts', food_review.slug +  '.html')
+    print(html_file_path)
+
+    try:
+        with open(html_file_path, 'r', encoding='utf-8-sig') as html_file:  # Use 'utf-8-sig' to handle BOM
+            html_content = html_file.read()
+    except FileNotFoundError:
+        # Handle file not found error
+        html_content = None
+
+    return render(request, "food_template.html", {'food_review': food_review, 'html_content': html_content})

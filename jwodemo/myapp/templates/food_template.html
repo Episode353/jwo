@@ -1,7 +1,32 @@
-{% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% extends "template.html" %}
+{% block title %} {{ food_review.name }} {% endblock %}
 {% load static %}
+
 {% block content %}
-<div>
-    {{ food_review.slug }}
-</div>
+    {% if html_content %}
+        {{ html_content|safe }}
+    {% else %}
+        <p>No content available for this food review.</p>
+    {% endif %}
+
+<script>
+    var STATIC_URL = "{% static '' %}";
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get all image elements in the document
+        var images = document.querySelectorAll('img');
+
+        // Iterate through each image element and update the src attribute
+        images.forEach(function(image) {
+            // Get the original src value
+            var originalSrc = image.getAttribute('src');
+
+            // Check if the src attribute starts with "../" (relative path)
+            if (originalSrc.startsWith('####')) {
+                // Update the src attribute with the static URL
+                image.setAttribute('src', STATIC_URL + originalSrc.substring(5)); // Remove the "../.." from the original path
+            }
+        });
+    });
+</script>
 {% endblock %}

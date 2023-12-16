@@ -24,8 +24,6 @@ class foodreview(models.Model):
     # The Order in which to Display the Food Reviews
     # 0 being the first, and 9999 being the last
     Date = models.DateTimeField()
-    # The HTML Body of the Food Review
-    linkhtml = models.TextField(default='Empty') 
 
     def __str__(self):
         return self.name
