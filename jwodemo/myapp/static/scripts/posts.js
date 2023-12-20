@@ -3,7 +3,14 @@ const postContent = document.getElementById('postContent');
 const prevButton = document.getElementById('prevButton');
 const nextButton = document.getElementById('nextButton');
 
-
+const posts = [
+    
+    { title: 'Man takes Mug into Car.', file: 'drinking-out-of-a-coffe-mug-while-driving' },
+    { title: 'Covid Pepsi', file: 'covid-pepsi' },
+    //{ title: 'Schmabe Nicknames', file: 'schmabe-nicknames' }
+   // { title: 'Post 2', file: 'post-test-2' }
+    // Add more posts as needed
+];
 let currentIndex = -1;
 
 function loadPost(index) {
@@ -12,7 +19,7 @@ function loadPost(index) {
         currentIndex = index;
         const selectedFile = selectedPost.file;
         window.history.replaceState({}, '', `?post=${selectedFile}`);
-        fetch(`blog/${selectedFile}.html`)
+        fetch(`static/blog/${selectedFile}.html`)
             .then(response => response.text())
             .then(html => {
                 postContent.innerHTML = html;

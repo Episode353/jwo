@@ -843,9 +843,10 @@
 
     #logoutBtn {
         width: 100%;
-        background-color: #f44336;
+        background-color: rgb(172, 65, 65);
         color: white;
-        padding: 10px;
+        padding: 5px;
+        margin: 10px;
         border: none;
         cursor: pointer;
     }

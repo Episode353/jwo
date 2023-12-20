@@ -1,6 +1,87 @@
 {% extends "template.html" %} {% block title %} Home Page {% endblock %}
 {% block content %}
-<p style="color:red">This is a Test Page for Blog</p>
+{% load static %}
+
+<style>
+    .content-large-fill {
+        /* Create a two-color border using linear-gradient */
+        border: .8rem solid transparent !important;
+        border-image: linear-gradient(45deg, #0D47A1, #fec652) !important;
+        border-image-slice: 1 !important;
+    }
+
+    #postContent {
+        border: none !important;
+        text-align: center;
+    }
+
+    .post {
+        border: none !important;
+    }
+
+    .blog-date {
+        color: red;
+    }
+
+    .blog-text {
+        color: black;
+        text-shadow: .2rem .2rem 1rem grey;
+    }
+
+    .question-text {
+        text-align: left;
+        color: #A9CCE3;
+        margin: 0px;
+    }
+
+    .fourchangreentext {
+        text-align: left;
+        color: #789922;
+        margin: 0px;
+    }
+
+    .baffle {
+        color: grey;
+        margin: 0rem;
+    }
+
+    <style >
+    .chat-bubble {
+        background-color: #007bff;
+        color: black;
+        border-radius: 10px;
+        padding: 10px 20px;
+        max-width: 70%;
+        position: relative;
+    }
+
+    .chat-bubble::before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 10px 10px 0;
+        border-color: black transparent transparent transparent;
+        bottom: -10px;
+        left: 30%; /*Change Position of speech bubble arrow here*/
+    }
+</style>
+<div class="content-large-fill">
+    <select id="postSelector">
+        <option value="" disabled selected>Select a post...</option>
+    </select>
+    <button id="prevButton" disabled>&lt;</button>
+    <button id="nextButton" disabled>&gt;</button>
+    <div id="postContent"></div>
+    <script>
+        var STATIC_URL = "{% static '' %}";
+    </script>
+    <script src="{% static 'scripts/posts.js' %}"></script>
+    <script>
+
+    </script>
+
+</div>
+
 {% endblock %}
 
 </html>
