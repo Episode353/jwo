@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.utils import timezone
+from datetime import datetime
 from .models import Profile
 from .models import foodreview, SeepCoinTransaction
 from .forms import CoinMessageForm 
@@ -33,10 +33,10 @@ def home(request):
         template_name = f"static/html-shuffle/{random_file}"
         print(f"SHUFFLE_FILE: ", template_name)
 
-    # Get the current day's timestamp
-    current_day_timestamp = int(timezone.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+    # Get the current timestamp including the hour
+    current_timestamp = int(datetime.now().timestamp())
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_day_timestamp': current_day_timestamp})
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp})
 
 @login_required
 def edit_coin_message(request):
