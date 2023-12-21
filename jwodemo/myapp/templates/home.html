@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody id="scoreboard-body">
-                    {% for account in seep_coin_list|slice:":3" %}
+                    {% for user in seep_coin_list %}
                         <tr>
                             <td>
                                 {% if forloop.first %}
@@ -60,10 +60,10 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <p>{{ account.name }}</p>
-                                <p class="user-message">{{ account.coin_message }}</p>
+                                <p>{{ user.username }}</p>
+                                <p class="user-message">{{ auser.profile.coin_message }}</p>
                             </td>
-                            <td>{{ account.coin_count }}</td>
+                            <td>{{ user.profile.coin_count }}</td>
                         </tr>
                     {% endfor %}
 

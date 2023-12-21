@@ -13,6 +13,7 @@ import time
 # Create your views here.
 def home(request):
     seep_coin_list = User.objects.all().order_by('-profile__coin_count')
+    users = User.objects.exclude(pk=request.user.id)
 
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
@@ -34,7 +35,7 @@ def home(request):
         random_file = random.choice(shuffle_files)
         template_name = f"static/html-shuffle/{random_file}"
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'template_name': template_name})
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users})
 
 @login_required
 def edit_coin_message(request):
