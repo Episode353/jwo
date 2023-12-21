@@ -36,10 +36,10 @@ def register_user(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, "Registration Succsessful")
+            messages.success(request, "Registration Successful")
             return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'authenticate/register_user.html', {
-        'form':form,
+        'form': form,
     })
