@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.utils import timezone
 from .models import Profile
 from .models import foodreview, SeepCoinTransaction
 from .forms import CoinMessageForm 
@@ -14,6 +15,8 @@ import time
 def home(request):
     seep_coin_list = User.objects.all().order_by('-profile__coin_count')
     users = User.objects.exclude(pk=request.user.id)
+
+    
 
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
@@ -35,7 +38,10 @@ def home(request):
         random_file = random.choice(shuffle_files)
         template_name = f"static/html-shuffle/{random_file}"
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name,})
+    # Get the current day's timestamp
+    current_day_timestamp = int(timezone.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_day_timestamp': current_day_timestamp})
 
 @login_required
 def edit_coin_message(request):
