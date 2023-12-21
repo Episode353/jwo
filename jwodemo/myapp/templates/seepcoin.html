@@ -51,11 +51,36 @@
             color: #555;
             margin-top: 5px; /* Adjust as needed */
         }
+
+        /* Apply the styles for the Seep Coin message box */
+        .seep-coin-message {
+            width: 70%;
+            border: 3px dotted #92AAFC;
+            padding: 1vw;
+            font-family: daydream;
+            color: #0D47A1;
+            font-size: 2em;
+            text-shadow: 5px 5px 0px #1adb31;
+            -webkit-mask-image: linear-gradient(-75deg, rgba(255,255,255,.2) 30%, #fff 50%, rgba(255,255,255,.2) 70%);
+            -webkit-mask-size: 1%;
+            animation: animate 20s infinite;
+            border: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem !important;
+        }
+
+        /* Style for the Seep Coin message heading */
+        .seep-coin-message h2 {
+            font-size: 2em !important;
+        }
+
     </style>
 
     <div style=" display: flex; align-items: center; justify-content: center; border:none;">
-        <div class="seep-coin-text">
-            <h2>Seep Coin</h2>
+        <div class="seep-coin-text" >
+            <h2 style="font-size: 2em !important;">Seep Coin</h2>
         </div>
     </div>
 
@@ -96,40 +121,70 @@
     </div>
 <!-- Trade Seep Coins Form -->
 {% if user.is_authenticated %}
-<div>
-    <h3>Trade Seep Coins</h3>
+<p class="word-seppe" style="margin: 2rem !important;">Enjoy and Utalize the following perks of beign a Joesworld.online Member:</p>
+<div style="width: 70%; border: 3px dotted #92AAFC; padding: 1vw;">
+    <div style=" display: flex; align-items: center; justify-content: center; border:none;">
+        <div style="
+        font-family: daydream;
+        color: #0D47A1;
+        font-size: 2em;
+        text-shadow: 5px 5px 0px #1adb31;
+        -webkit-mask-image: linear-gradient(-75deg, rgba(255,255,255,.2) 30%, #fff 50%, rgba(255,255,255,.2) 70%);
+        -webkit-mask-size: 1%;
+        animation: animate 20s infinite;
+        border: none !important;
+    }">
+            <h2>Trade Seep Coins</h2>
+        </div>
+    </div>
+
     <form method="post" action="{% url 'trade_seep_coins' %}">
         {% csrf_token %}
-        <label for="receiver">Receiver:</label>
-        <select name="receiver" required>
-            {% if users %}
-                {% for user in users %}
-                    <option value="{{ user.id }}">{{ user.username }}</option>
-                {% endfor %}
-            {% else %}
-                <option value="" disabled>No users available</option>
-            {% endif %}
-        </select>
         
-        
-        <br>
-        <label for="amount">Amount:</label>
-        <input type="number" name="amount" min="1" required>
-        <br>
-        <button type="submit">Trade Coins</button>
+        <div class="mb-3" style="border: none !important;">
+            <label class="word-seppe" for="receiver" class="form-label">Send to:</label>
+            <select name="receiver" required class="form-select form-select-lg" aria-label="Large select example">
+                {% if users %}
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" disabled>No users available</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <div class="mb-3" style="border: none !important;">
+            <label class="word-seppe" for="amount" class="form-label">Amount:</label>
+            <div class="input-group" style="border: none !important;">
+                <span class="input-group-text">🪙</span>
+                <input type="number" name="amount" min="1" required class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+            </div>
+        </div>
+
+        <button style="font-family: daydream;"type="submit">Send Coins</button>
     </form>
 </div>
 {% endif %}
 
+
 <!-- Add a form to edit the Seep Coin message -->
 {% if user.is_authenticated and user == request.user %}
+<div style="width: 70%; border: 3px dotted #92AAFC; padding: 1vw;">
 <form method="post" action="{% url 'edit_coin_message' %}">
     {% csrf_token %}
     <input type="hidden" name="user_id" value="{{ user.id }}">
-    <label for="coin_message">Edit Message:</label>
-    <input type="text" name="coin_message" value="{{ user.profile.coin_message }}">
-    <button type="submit">Save</button>
+    <p class="word-seppe" style="margin: 2rem !important;">Edit your custom message displayed next to your seep coins.</p>
+
+    <div class="mb-3" style="border: none !important;">
+        <label for="coin_message" class="form-label">Edit Message:</label>
+        <div class="input-group" style="border: none !important;">
+            <input  class="form-control" type="text" name="coin_message" value="{{ user.profile.coin_message }}">
+        </div>
+    </div>
+    <button style="font-family: daydream;" type="submit">Save</button>
 </form>
+</div>
 {% endif %}
 
 

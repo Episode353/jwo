@@ -53,10 +53,9 @@ def edit_coin_message(request):
                 user.profile.coin_message = coin_message
                 user.profile.save()
             else:
-                # If the form is not valid, you may want to handle the error, 
-                # for example, by rendering the form errors back to the user.
-                # You can customize this based on your needs.
-                messages.success(request, "The Max lenght is ")
+                # Display a success message including the maximum length
+                max_length = form.fields['coin_message'].max_length
+                messages.success(request, f"Max length is {max_length} charachters")
 
     return redirect('seepcoin')
 
