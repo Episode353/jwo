@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import base64
 from datetime import datetime
 from .models import Profile
 from .models import foodreview, SeepCoinTransaction
@@ -38,6 +41,34 @@ def home(request):
 
     return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp})
 
+
+@csrf_exempt
+def save_drawing(request):
+    if request.method == 'POST':
+        try:
+            # Get the image data from the form data
+            image_data = request.POST.get('imageData', '').replace('data:image/png;base64,', '')
+
+            # Decode the base64 image data
+            decoded_image_data = base64.b64decode(image_data)
+
+            # Create a unique filename
+            filename = f'image_{int(time.time())}.png'
+            filepath = os.path.join('media', 'drawings', filename)
+
+            # Create the 'media/drawings' directory if it doesn't exist
+            os.makedirs(os.path.dirname(filepath), exist_ok=True)
+
+            # Save the image to the media folder
+            with open(filepath, 'wb') as f:
+                f.write(decoded_image_data)
+
+            return JsonResponse({'success': True, 'filename': filename})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
 @login_required
 def edit_coin_message(request):
     if request.method == 'POST':
@@ -60,6 +91,15 @@ def edit_coin_message(request):
                 messages.success(request, f"Max length is {max_length} charachters")
 
     return redirect('seepcoin')
+
+
+def get_drawings(request):
+    drawings_folder = os.path.join('media', 'drawings')
+    os.makedirs(drawings_folder, exist_ok=True)
+    drawings = [filename for filename in os.listdir(drawings_folder) if filename.endswith('.png')]
+    return JsonResponse({'drawings': drawings})
+
+
 
 @login_required
 def trade_seep_coins(request):

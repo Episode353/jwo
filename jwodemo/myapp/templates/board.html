@@ -64,7 +64,7 @@
 
 
         ">
-        <canvas id="canvas" width="200" ; height="150" ;"></canvas>
+        <canvas id="canvas" width="200" ; height="150" ;></canvas>
     </div>
         <div style="position: relative; " id="board-controls">
 
@@ -92,25 +92,54 @@
         <button id="save">Upload Post</button>
 
 
-        </div>
+    </div>
 
 
-        <br><br>
-        <h2>Gallery</h2>
+    <!-- ... Your existing code ... -->
 
-        <div id="gallery" style="
-            border-bottom: none;
-            border-left: none;
-            border-right: none;
-            ">
+<h2>Gallery</h2>
 
-        <iframe id="gallery-iframe" frameborder="0" src="gallery.html"></iframe>
+<div id="gallery">
+    <iframe id="gallery-iframe" frameborder="0" src=""></iframe>
+</div>
 
-
-
-        </div>
+{% for filename in data.drawings %}
+    <img src="{{ settings.MEDIA_URL }}drawings/{{ filename }}" alt="Drawing">
+{% endfor %}
 
 
+
+
+
+<script>
+    window.addEventListener("load", () => {
+        displayGallery();
+    });
+
+    function displayGallery() {
+        const galleryIframe = document.getElementById('gallery-iframe');
+
+        // Fetch and display drawings here
+        fetch('/get_drawings/')
+            .then(response => response.json())
+            .then(data => {
+                const drawings = data.drawings;
+
+                // Create an HTML string for the gallery content
+                let galleryHTML = '<div>';
+                drawings.forEach(filename => {
+                    galleryHTML += `<img src="/media/drawings/${filename}" alt="${filename}">`;
+                });
+                galleryHTML += '</div>';
+
+                // Set the HTML content of the iframe
+                galleryIframe.contentDocument.body.innerHTML = galleryHTML;
+            })
+            .catch(error => {
+                console.error('Error fetching drawings:', error);
+            });
+    }
+</script>
 
 
 

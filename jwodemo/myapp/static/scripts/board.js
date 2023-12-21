@@ -217,15 +217,38 @@ document.body.addEventListener('touchmove', (event) => {
     }
 }, { passive: false });
 
-// image upload
 const saveButton = document.getElementById('save');
 saveButton.addEventListener('click', () => {
     const canvas = document.getElementById("canvas");
     const imageData = canvas.toDataURL("image/png");
-    const fileName = `image-${Date.now()}.png`;
 
-    
+    const formData = new FormData();
+    formData.append('imageData', imageData);
+
+    // Send the image data to Django backend
+    fetch('/save_drawing/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token for security
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Drawing saved:', data);
+        // You can handle the response as needed (e.g., show a success message)
+    })
+    .catch(error => {
+        console.error('Error saving drawing:', error);
+    });
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 
 
 
