@@ -9,24 +9,34 @@
         <p>No content available for this food review.</p>
     {% endif %}
 
-<script>
-    var STATIC_URL = "{% static '' %}";
+    <script>
+        var STATIC_URL = "{% static '' %}";
 
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get all image elements in the document
-        var images = document.querySelectorAll('img');
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get all image and link elements in the document
+            var elements = document.querySelectorAll('img, a');
 
-        // Iterate through each image element and update the src attribute
-        images.forEach(function(image) {
-            // Get the original src value
-            var originalSrc = image.getAttribute('src');
+            // Iterate through each element and update the src or href attribute
+            elements.forEach(function(element) {
+                if (element.tagName.toLowerCase() === 'img') {
+                    // For images
+                    updateAttribute(element, 'src');
+                } else if (element.tagName.toLowerCase() === 'a') {
+                    // For links
+                    updateAttribute(element, 'href');
+                }
+            });
 
-            // Check if the src attribute starts with "../" (relative path)
-            if (originalSrc.startsWith('####')) {
-                // Update the src attribute with the static URL
-                image.setAttribute('src', STATIC_URL + originalSrc.substring(5)); // Remove the "../.." from the original path
+            function updateAttribute(element, attribute) {
+                // Get the original attribute value
+                var originalValue = element.getAttribute(attribute);
+
+                // Check if the attribute value starts with "####" (indicating a relative path)
+                if (originalValue && originalValue.startsWith('####')) {
+                    // Update the attribute value with the static URL
+                    element.setAttribute(attribute, STATIC_URL + originalValue.substring(5)); // Remove the "####" from the original path
+                }
             }
         });
-    });
-</script>
+    </script>
 {% endblock %}

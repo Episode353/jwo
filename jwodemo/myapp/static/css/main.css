@@ -188,6 +188,25 @@
         }
     }
 
+            .seep-coin-font{
+            font-family: daydream;
+            font-weight: bold;
+            font-size: 1rem;
+            background-image: linear-gradient(
+             to right,
+             #735f1f 0,
+             #cb9b51 22%, 
+             #f6e27a 45%,
+             #f9ef5a 50%,
+             #f6e27a 55%,
+             #cb9b51 78%,
+             #735f1f 100%
+             );
+            color:transparent;
+            text-align: center;
+            -webkit-background-clip:text;
+
+        }
 
     .word-seppe {
         font-family: daydream;

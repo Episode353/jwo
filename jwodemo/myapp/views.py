@@ -12,8 +12,8 @@ import random
 import time
 
 def home(request):
-    seep_coin_list = User.objects.all().order_by('-profile__coin_count')
-    users = User.objects.exclude(pk=request.user.id)
+    seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')
+    users = User.objects.exclude(pk=request.user.id).filter(profile__coin_count__gt=0)
 
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
@@ -85,10 +85,15 @@ def trade_seep_coins(request):
     return redirect('seepcoin')
 
 def seepcoin(request):
-    seep_coin_list = User.objects.all().order_by('-profile__coin_count')
-    users = User.objects.exclude(pk=request.user.id)
+    # Exclude users with zero seep coins
+    seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')
+    
+    # Exclude the logged-in user
+    users = User.objects.exclude(pk=request.user.id).filter(profile__coin_count__gt=0)
+    
     print(users)  # Add this line to check the users in the console
     return render(request, "seepcoin.html", {'seep_coin_list': seep_coin_list, 'users': users})
+
 
     
 def board(request):
