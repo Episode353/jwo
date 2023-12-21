@@ -35,7 +35,7 @@ def home(request):
         random_file = random.choice(shuffle_files)
         template_name = f"static/html-shuffle/{random_file}"
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users})
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name,})
 
 @login_required
 def edit_coin_message(request):

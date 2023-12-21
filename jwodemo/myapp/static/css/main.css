@@ -94,12 +94,13 @@
 
         
 
-    .content-large {
-        grid-row-start: 2;
-        grid-row-end: span 2;
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
+        .content-large {
+            grid-row-start: 2;
+            grid-row-end: span 1;
+            grid-column-start: 1;
+            grid-column-end: 3; /* Adjust the column span to 3 */
+        }
+        
 
     .footer {
         grid-column: 1 / span 3;
