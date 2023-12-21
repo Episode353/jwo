@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody id="scoreboard-body">
-                {% for account in seep_coin_list %}
+                {% for user in seep_coin_list %}
                     <tr>
                         <td>
                             {% if forloop.first %}
@@ -84,14 +84,54 @@
                             {% endif %}
                         </td>
                         <td>
-                            <p>{{ account.name }}</p>
-                            <p class="user-message">{{ account.coin_message }}</p>
+                            <p>{{ user.username }}</p>
+                            <p class="user-message">{{ user.profile.coin_message }}</p>
                         </td>
-                        <td>{{ account.coin_count }}</td>
+                        <td>{{ user.profile.coin_count }}</td>
                     </tr>
                 {% endfor %}
+
             </tbody>
         </table>
     </div>
+<!-- Trade Seep Coins Form -->
+{% if user.is_authenticated %}
+<div>
+    <h3>Trade Seep Coins</h3>
+    <form method="post" action="{% url 'trade_seep_coins' %}">
+        {% csrf_token %}
+        <label for="receiver">Receiver:</label>
+        <select name="receiver" required>
+            {% if users %}
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="" disabled>No users available</option>
+            {% endif %}
+        </select>
+        
+        
+        <br>
+        <label for="amount">Amount:</label>
+        <input type="number" name="amount" min="1" required>
+        <br>
+        <button type="submit">Trade Coins</button>
+    </form>
+</div>
+{% endif %}
+
+<!-- Add a form to edit the Seep Coin message -->
+{% if user.is_authenticated and user == request.user %}
+<form method="post" action="{% url 'edit_coin_message' %}">
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ user.id }}">
+    <label for="coin_message">Edit Message:</label>
+    <input type="text" name="coin_message" value="{{ user.profile.coin_message }}">
+    <button type="submit">Save</button>
+</form>
+{% endif %}
+
+
 </div>
 {% endblock %}

@@ -1,12 +1,18 @@
-from django.shortcuts import render, HttpResponse
-from .models import account, foodreview
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+from .models import Profile
+from .models import foodreview, SeepCoinTransaction
+from .forms import CoinMessageForm 
 import os
 import random
 import time
 
 # Create your views here.
 def home(request):
-    seep_coin_list = account.objects.all().order_by('-coin_count')
+    seep_coin_list = User.objects.all().order_by('-profile__coin_count')
 
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
@@ -30,10 +36,59 @@ def home(request):
 
     return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'template_name': template_name})
 
+@login_required
+def edit_coin_message(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+
+        # Get the user instance
+        user = get_object_or_404(User, pk=user_id)
+
+        # Check if the user making the request is the owner of the profile
+        if request.user == user:
+            form = CoinMessageForm(request.POST)  # Create an instance of the form with the POST data
+
+            if form.is_valid():  # Check if the form is valid
+                coin_message = form.cleaned_data['coin_message']
+                user.profile.coin_message = coin_message
+                user.profile.save()
+            else:
+                # If the form is not valid, you may want to handle the error, 
+                # for example, by rendering the form errors back to the user.
+                # You can customize this based on your needs.
+                messages.success(request, "The Max lenght is ")
+
+    return redirect('seepcoin')
+
+@login_required
+def trade_seep_coins(request):
+    user_profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        receiver_id = request.POST.get('receiver')
+        amount = int(request.POST.get('amount', 0))
+
+        # Check if the sender has enough coins
+        if amount > 0 and amount <= request.user.profile.coin_count:
+            receiver = User.objects.get(pk=receiver_id)
+
+            # Create a new SeepCoinTransaction
+            SeepCoinTransaction.objects.create(sender=request.user, receiver=receiver, amount=amount)
+
+            # Update sender and receiver coin counts
+            request.user.profile.coin_count -= amount
+            request.user.profile.save()
+
+            receiver.profile.coin_count += amount
+            receiver.profile.save()
+
+    return redirect('seepcoin')
 
 def seepcoin(request):
-    seep_coin_list = account.objects.all().order_by('-coin_count')
-    return render(request, "seepcoin.html", {'seep_coin_list': seep_coin_list})
+    seep_coin_list = User.objects.all().order_by('-profile__coin_count')
+    users = User.objects.exclude(pk=request.user.id)
+    print(users)  # Add this line to check the users in the console
+    return render(request, "seepcoin.html", {'seep_coin_list': seep_coin_list, 'users': users})
+
     
 def board(request):
     return render(request, "board.html")
