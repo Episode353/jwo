@@ -11,12 +11,9 @@ import os
 import random
 import time
 
-# Create your views here.
 def home(request):
     seep_coin_list = User.objects.all().order_by('-profile__coin_count')
     users = User.objects.exclude(pk=request.user.id)
-
-    
 
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
@@ -24,19 +21,17 @@ def home(request):
         # Load the specified page indicated by the shuffle parameter
         template_name = f"static/html-shuffle/{shuffle_page}"
         if not os.path.exists(os.path.join('myapp', template_name)):
+            print(f"SHUFFLE_FILE DOES NOT EXIST: ", shuffle_page)
             # Display an error message when the file does not exist
             template_name = "static/html-shuffle/error.html"
     else:
-        # Use the current time in milliseconds as a seed for the random number generator
-        seed = int(time.time() * 1000)
-        random.seed(seed)
-
-        # List all files in the 'html-shuffle' directory
-        shuffle_files = os.listdir(os.path.join('myapp', 'static', 'html-shuffle'))
+        # List all files in the 'html-shuffle' directory excluding "error.html"
+        shuffle_files = [file for file in os.listdir(os.path.join('myapp', 'static', 'html-shuffle')) if file != 'error.html']
 
         # Pick a random file
         random_file = random.choice(shuffle_files)
         template_name = f"static/html-shuffle/{random_file}"
+        print(f"SHUFFLE_FILE: ", template_name)
 
     # Get the current day's timestamp
     current_day_timestamp = int(timezone.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())

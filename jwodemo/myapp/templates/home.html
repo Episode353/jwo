@@ -74,9 +74,11 @@
 
 
 <div id="htmlshufflebox" style="max-width: 30vw;"></div>
+
 <script>
     $(function () {
         var templateName = "{{ template_name }}";
+        console.log("Template Name:", templateName); // Add this line to print template name to console
         $("#htmlshufflebox").load(templateName, function (response, status, xhr) {
             if (status === "error") {
                 // Display an error message when the file does not exist
@@ -85,4 +87,5 @@
         });
     });
 </script>
+
 {% endblock %}
