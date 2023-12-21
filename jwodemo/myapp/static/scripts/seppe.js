@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         // Only proceed if the "data-preserve" attribute is not present or is set to "false"
         if (preserveWord !== "true") {
-            // Replace instances of "seep coin", "seep", "seppe", "guiseppe", "soup", and "soupy" with the formatted version
-            var newText = text.replace(/\b(seep coin|seep|seppe|guiseppe|soup|soupy)\b/gi, function(match) {
-                if (match.toLowerCase() === 'seep coin') {
+            // Replace instances of "seep coin", "seep", "seppe", "guiseppe", "soup", "soupy", and "seep coins" with the formatted version
+            var newText = text.replace(/\b(seep coins?|seep|seppe|guiseppe|soup|soupy)\b/gi, function(match) {
+                if (match.toLowerCase() === 'seep coin' || match.toLowerCase() === 'seep coins') {
                     return '<span class="seep-coin-font">' + match + '</span>';
                 } else {
                     return '<span class="word-seppe">' + match + '</span>';
@@ -26,3 +26,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     }
 });
+
+/*
+
+                <p>Here is a normal sentence with the word "seppe".</p>
+                <p data-preserve="true">This sentence contains "seppe" and should not be changed.</p>
+                <p>Another sentence with the word "seppe".</p>
+
+*/
+

@@ -85,7 +85,7 @@
             <h2>Seep Coin</h2>
         </div>
     </div>
-
+    
     <!-- Display Seep Coins on a single scoreboard -->
     <div class="scoreboard-data">
         <table>
@@ -108,7 +108,7 @@
                                 3rd🥉
                             {% else %}
                                 {{ forloop.counter }}th
-                            {% endif %}
+                            {% endif %}s
                         </td>
                         <td>
                             <p>{{ user.username }}</p>
@@ -120,18 +120,12 @@
 
             </tbody>
         </table>
+        <p data-preserve="true" style="font-size: .7rem;">*Users with zero <span class="seep-coin-font">Seep Coins</span> are not shown on scoreboard</p>
     </div>
 
-    <p>Seep Coin is the most embarrasing thing a person can own.</p>
-    <p>Seep Coin has no value, meaning, or purpouse whatsoever and is a waste of time.</p>
-    <p>Seep Coin are rationed to people who complete one of the following.</p>
-    <div style="width:20rem; border:dotted;">
-        <ul style="text-align:left;">
-            <li>Impress Seep</li>
-            <li>Make Seep Laugh</li>
-            <li>Make guiseppe's life eazier</li>
-        </ul>
-    </div>
+
+
+
 
 <!-- Trade Seep Coins Form -->
 {% if user.is_authenticated %}

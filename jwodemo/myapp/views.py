@@ -89,7 +89,7 @@ def seepcoin(request):
     seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')
     
     # Exclude the logged-in user
-    users = User.objects.exclude(pk=request.user.id).filter(profile__coin_count__gt=0)
+    users = User.objects.exclude(pk=request.user.id)
     
     print(users)  # Add this line to check the users in the console
     return render(request, "seepcoin.html", {'seep_coin_list': seep_coin_list, 'users': users})
