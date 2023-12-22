@@ -106,23 +106,26 @@
         window.addEventListener("load", () => {
             displayGallery();
         });
-
+    
         function displayGallery() {
             const galleryContainer = document.getElementById('gallery');
-
+    
             // Fetch and display drawings here
             fetch('/get_drawings/')
                 .then(response => response.json())
                 .then(data => {
-                    const drawings = data.drawings;
-
+                    let drawings = data.drawings;
+    
+                    // Sort drawings alphabetically
+                    drawings = drawings.sort();
+    
                     // Create an HTML string for the gallery content
                     let galleryHTML = '<div class="gallery">';
                     drawings.forEach(filename => {
                         galleryHTML += `<img class="gallery-img" src="media/drawings/${filename}" alt="${filename}">`;
                     });
                     galleryHTML += '</div>';
-
+    
                     // Set the HTML content of the gallery container
                     galleryContainer.innerHTML = galleryHTML;
                 })
@@ -131,6 +134,7 @@
                 });
         }
     </script>
+    
 </div>
 
 {% endblock %}
