@@ -236,7 +236,7 @@ saveButton.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
         console.log('Drawing saved:', data);
-        // You can handle the response as needed (e.g., show a success message)
+        location.reload();
     })
     .catch(error => {
         console.error('Error saving drawing:', error);

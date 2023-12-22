@@ -1,4 +1,5 @@
-{% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% extends "template.html" %}
+{% block title %} Home Page {% endblock %}
 {% load static %}
 {% block content %}
 
@@ -9,12 +10,6 @@
 
         z-index: 9999; /* Set a higher z-index value */
 
-    }
-
-    #gallery-iframe {
-        width: 100%;
-        height: 100vh;
-        overflow: auto;
     }
 
     #canvas {
@@ -46,27 +41,33 @@
         #board-controls input[type="number"] {
             width: 100%;
         }
+
+        .gallery img {
+            max-width: 10vw;
+            max-height: 10vh;
+            margin: 10px;
+        }
+
+        .gallery{
+            border-bottom: none !important; 
+            border-left: none !important; 
+            border-right: none !important;
+        }
 </style>
-<script src="{% static 'scripts/board.js' %}"></script>
+
+<script src="{% static 'scripts/board.js' %}?v=2"></script>
 <script>
     window.addEventListener("load", () => {
         displayGallery();
     });
 </script>
-
 <div class="content-large-fill">
     
                
-    <div id="canvas-container" style="
-    border-top: none;
-    border-left: none;
-    border-right: none;
-
-
-        ">
+    <div id="canvas-container" style="border-top: none; border-left: none; border-right: none;">
         <canvas id="canvas" width="200" ; height="150" ;></canvas>
     </div>
-        <div style="position: relative; " id="board-controls">
+        <div style="position: relative; border-bottom: none; border-left: none; border-right: none;"; " id="board-controls">
 
         <button id="undo">Undo</button>
 
@@ -94,57 +95,43 @@
 
     </div>
 
+    <h2>Gallery</h2>
+    <div id="gallery" style="border: none;"></div>
 
-    <!-- ... Your existing code ... -->
+    {% for filename in data.drawings %}
+        <img class="gallery-img" src="{{ settings.MEDIA_URL }}drawings/{{ filename }}" alt="Drawing">
+    {% endfor %}
 
-<h2>Gallery</h2>
+    <script>
+        window.addEventListener("load", () => {
+            displayGallery();
+        });
 
-<div id="gallery">
-    <iframe id="gallery-iframe" frameborder="0" src=""></iframe>
+        function displayGallery() {
+            const galleryContainer = document.getElementById('gallery');
+
+            // Fetch and display drawings here
+            fetch('/get_drawings/')
+                .then(response => response.json())
+                .then(data => {
+                    const drawings = data.drawings;
+
+                    // Create an HTML string for the gallery content
+                    let galleryHTML = '<div class="gallery">';
+                    drawings.forEach(filename => {
+                        galleryHTML += `<img class="gallery-img" src="media/drawings/${filename}" alt="${filename}">`;
+                    });
+                    galleryHTML += '</div>';
+
+                    // Set the HTML content of the gallery container
+                    galleryContainer.innerHTML = galleryHTML;
+                })
+                .catch(error => {
+                    console.error('Error fetching drawings:', error);
+                });
+        }
+    </script>
 </div>
 
-{% for filename in data.drawings %}
-    <img src="{{ settings.MEDIA_URL }}drawings/{{ filename }}" alt="Drawing">
-{% endfor %}
-
-
-
-
-
-<script>
-    window.addEventListener("load", () => {
-        displayGallery();
-    });
-
-    function displayGallery() {
-        const galleryIframe = document.getElementById('gallery-iframe');
-
-        // Fetch and display drawings here
-        fetch('/get_drawings/')
-            .then(response => response.json())
-            .then(data => {
-                const drawings = data.drawings;
-
-                // Create an HTML string for the gallery content
-                let galleryHTML = '<div>';
-                drawings.forEach(filename => {
-                    galleryHTML += `<img src="/media/drawings/${filename}" alt="${filename}">`;
-                });
-                galleryHTML += '</div>';
-
-                // Set the HTML content of the iframe
-                galleryIframe.contentDocument.body.innerHTML = galleryHTML;
-            })
-            .catch(error => {
-                console.error('Error fetching drawings:', error);
-            });
-    }
-</script>
-
-
-
-
-        </div>
 {% endblock %}
-
 </html>
