@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 
@@ -43,3 +45,21 @@ def register_user(request):
     return render(request, 'authenticate/register_user.html', {
         'form': form,
     })
+
+@login_required
+def account(request):
+    profile = request.user.profile
+    return render(request, "account.html", {'profile': profile})
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        new_name = request.POST.get('name')
+        request.user.profile.name = new_name
+        request.user.profile.save()
+        return redirect('account')
+
+    return render(request, 'edit_profile.html')
+
+def coin_coint(request):
+    return render(request, "coin_count.html")

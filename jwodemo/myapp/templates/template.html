@@ -41,6 +41,7 @@
             {% if user.is_authenticated %}
             <a style="color:green;">Logged in as: [ {{ request.user }} ] </a>
             <a href="{% url 'logout' %}" style="color: white;" id="logoutBtn">Logout</a>
+            <a href="{% url 'account' %}" style="color: white;">My Account</a>
             {% else %}
             <a href="{% url 'login' %}" style="color: white;">Login</a>
             
