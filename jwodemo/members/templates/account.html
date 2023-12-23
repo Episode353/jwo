@@ -155,50 +155,51 @@
         const tilts = ['l', 'r', 'none'];
         const columns = [];
         const coins = [];
-  
+
         // Create column
         for (let c = 0; c < columnsCount; c++) {
             let col = document.createElement('div');
             col.classList.add('column');
             columns.push(col);
         }
-  
+
         // Create coins
         for (let i = 0; i < amount; i++) {
             let coin = document.createElement('div');
             const tilt = Math.floor(Math.random() * 3);
             coin.classList.add('stacking', 'fall', `stacking--tilt-${tilts[tilt]}`);
             coin.innerHTML = '<svg class="coin"><use xlink:href="#icon-coin"></use></svg>';
-  
+
             coins.push(coin);
         }
-  
-        for (let c in coins) {
-            let coin = coins[c];
-            let col = (c > (columnsCount - 1)) ? columns[Math.floor(Math.random() * 3)] : columns[c];
-            col.appendChild(coin);
-        }
-  
-        // Add columns to stage with delay
+
+        // Add columns to stage
         const stage = document.createElement('div');
         stage.classList.add('stage');
-  
+
         columns.forEach((col, index) => {
-            setTimeout(() => {
-                stage.appendChild(col);
-            }, index * 300); // Adjust the delay (300 milliseconds) as needed
+            stage.appendChild(col);
         });
-  
+
+        // Add coins to columns with delay
+        coins.forEach((coin, index) => {
+            const colIndex = index % columnsCount;
+            columns[colIndex].appendChild(coin);
+            coin.style.animationDelay = `${index * 0.05}s`; // Adjust the delay as needed
+        });
+
         // Put on screen
         container.innerHTML = '';
         container.appendChild(stage);
     }
-  
+
     // Set initial coin count
-    window.onload = function() {
+    window.onload = function () {
         moneyPile(parseInt('{{ user.profile.coin_count }}'), document.getElementById('stage-coins'));
     };
 </script>
+
+
 
 <a class="seep-coin-font" data-preserve="true" style="font-size: 2rem; top: 50px;">You have {{ user.profile.coin_count }} Seep Coin's!!</a>
 
