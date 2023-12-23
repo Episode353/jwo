@@ -60,7 +60,12 @@
                                 <p>{{ user.username }}</p>
                                 <p class="user-message">{{ auser.profile.coin_message }}</p>
                             </td>
-                            <td>{{ user.profile.coin_count }}</td>
+                            <td>
+                                <div class="wrapper">
+                                    <div style="font-size: clamp( .1em, 3vw, 2rem);" class="bg">{{user.profile.coin_count}}</div>
+                                    <div style="font-size: clamp( .1em, 3vw, 2rem);"  class="fg">{{user.profile.coin_count}}</div>
+                                  </div>
+                            </td>
                         </tr>
                     {% endfor %}
 

@@ -82,7 +82,7 @@
 
     <div style=" display: flex; align-items: center; justify-content: center; border:none;">
         <div class="seep-coin-text" >
-            <h2>Seep Coin</h2>
+            <h1>Seep Coin</h1>
         </div>
     </div>
     
@@ -99,7 +99,7 @@
             <tbody id="scoreboard-body">
                 {% for user in seep_coin_list %}
                     <tr>
-                        <td>
+                        <td style="font-size: clamp( .3em, 3vw, 2rem);">
                             {% if forloop.first %}
                                 1st🥇
                             {% elif forloop.counter == 2 %}
@@ -108,13 +108,18 @@
                                 3rd🥉
                             {% else %}
                                 {{ forloop.counter }}th
-                            {% endif %}s
+                            {% endif %}
                         </td>
                         <td>
-                            <p>{{ user.username }}</p>
+                            <p style="font-size: clamp( .7em, 3vw, 2rem);">{{ user.profile.user|title }}</p>
                             <p class="user-message">{{ user.profile.coin_message }}</p>
                         </td>
-                        <td>{{ user.profile.coin_count }}</td>
+                        <td>
+                            <div class="wrapper">
+                                <div class="bg">{{user.profile.coin_count}}</div>
+                                <div class="fg">{{user.profile.coin_count}}</div>
+                              </div>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -182,7 +187,7 @@
 <form method="post" action="{% url 'edit_coin_message' %}">
     {% csrf_token %}
     <input type="hidden" name="user_id" value="{{ user.id }}">
-    <p class="word-seppe" style="margin: 2rem !important;">Edit your custom message displayed next to your seep coins.</p>
+    <p class="word-seppe" style="margin: 2rem !important;" data-preserve="true">Edit your custom message displayed next to your seep coins.</p>
 
     <div class="mb-3" style="border: none !important;">
         <label for="coin_message" class="form-label">Edit Message:</label>

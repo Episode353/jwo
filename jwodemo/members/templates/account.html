@@ -124,29 +124,6 @@
         }
     }
 
-    .chat-bubble {
-        background-color: #007bff;
-        color: black;
-        border-radius: 10px;
-        padding: 5px 5px;
-        width: auto; /* Set width to auto */
-        max-width: 40%; /* Set a max-width to limit the width */
-        position: relative;
-        padding: 2rem;
-        top: 20px;
-        font-size: .5rem;
-        left: 30%;
-    }
-    
-    .chat-bubble::before {
-        content: '';
-        position: absolute;
-        border-style: solid;
-        border-width: 10px 10px 0;
-        border-color: black transparent transparent transparent;
-        bottom: -10px;
-        left: 10%; /* Change Position of speech bubble arrow here */
-    }
     
   </style>
   <script>
@@ -201,13 +178,13 @@
 
 
 
-<a class="seep-coin-font" data-preserve="true" style="font-size: 2rem; top: 50px;">You have {{ user.profile.coin_count }} Seep Coin's!!</a>
 
- {% if user.profile.coin_message %}
-<div class="chat-bubble" style=" border-color: black black black black;">
-    <p>{{ user.profile.coin_message }}</p>
-</div>
-{% endif %}
+
+<div class="wrapper">
+    <div style="font-size: clamp( .1em, 3vw, 2rem);" class="bg">{{user.profile.coin_count}}</div>
+    <div style="font-size: clamp( .1em, 3vw, 2rem);"  class="fg">{{user.profile.coin_count}}</div>
+  </div>
+
   
   <div style="display:flex;flex-basis:45%; justify-content: space-between; border: none !important; background-color: transparent !important;">
         <div id="stage-coins"></div>

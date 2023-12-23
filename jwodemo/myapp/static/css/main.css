@@ -123,6 +123,8 @@
     }
 
 
+    
+
     /* CSS for the header */
     /* THIS CONTROLLS THE GRID; TO CHANGE GRID*/
     .header-content {
@@ -219,6 +221,57 @@
     }
 
 
+
+
+    /* Seep Coin Message Start*/
+    .wrapper {
+        background: radial-gradient(#272727, #1b1b1b);
+        display: grid;
+        grid-template-areas: 'overlap';
+        place-content: center;
+        text-transform: uppercase;
+        border: none !important;
+        padding: 0px !important;
+      }
+      .wrapper > div {
+        background-clip: text;  
+        -webkit-background-clip: text;
+        color: #3b3a36;
+        font-family: daydream;
+        font-weight: 900;
+        font-size: clamp( .7em, 7vw, 4rem);
+        grid-area: overlap;
+        letter-spacing: 1px;
+        -webkit-text-stroke: 4px transparent;
+        border: none !important;
+        padding: 0px !important;
+      }
+      div.bg {
+        background-image: repeating-linear-gradient( 105deg, 
+          var(--gold) 0% , 
+          var(--dark-shadow) 5%,
+          var(--gold) 12%);
+        color: transparent;
+        filter: drop-shadow(1px 1px 10px black);
+        transform: scaleY(1.05);
+        transform-origin: top;
+      }
+      div.fg{
+        background-image: repeating-linear-gradient( 5deg,  
+          var(--gold) 0% , 
+          var(--light-shadow) 23%, 
+          var(--gold) 31%);
+        color: #1e2127;
+        transform: scale(1);
+      }
+
+    
+      :root {
+        --gold: #ffb338;
+        --light-shadow: #77571d;
+        --dark-shadow: #3e2904;
+      }
+    /* Seep Coin Message End*/
 
     /*Angry Text*/
     .angry-text {
