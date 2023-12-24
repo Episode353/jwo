@@ -470,7 +470,6 @@
         text-shadow: 10px 10px 0px #fec652;
         grid-row-start: 1;
         grid-row-end: 2;
-        padding: 2rem !important;
         
     }
 
@@ -478,18 +477,28 @@
         font-family: daydream;
         color: #0D47A1;
         text-shadow: 10px 10px 0px #fec652;
-        font-size: 200%;
+        font-size: clamp( .8em, 2vw, 1.5rem);
         text-decoration: none;
         width: 120px;
         will-change: transform;
         border: none;
         margin-right: auto; /* Align to the left */
     }
+    
+    #header-logo a {
+        display: inline-block;
+        text-decoration: none;
+    }
+    
+    #header-logo a:visited {
+        color: #0D47A1;
+        border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
+    }
 
-        #header-logo a:visited {
-            color: #0D47A1;
-            border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
-        }
+    .header-link{
+        font-size: clamp( .8em, 1.2vw, 1.5rem);
+    }
+    
 
     @keyframes headerlogohover {
         0%, 100% {
@@ -518,13 +527,13 @@
             background-color: purple;
 
         }
-        */
+       
 
         #header-logo {
-            font-size: 140%;
+            font-size: 100% !important;
             top: 5px;
         }
-
+ */
 
 
 
@@ -562,13 +571,13 @@
             background-image: none;
             background-color: blue;
         }
-        */
+       
 
         #header-logo {
             font-size: 150%;
             top: 5px;
         }
-
+ */
         .footer {
             display: unset;
         }
@@ -707,14 +716,14 @@
         .footer{
             display: unset;
         }
-
+   /*
         #header-logo {
             font-size: 100%;
             top: 5%;
             text-align: center;
         }
 
-
+        */
 
 
 
