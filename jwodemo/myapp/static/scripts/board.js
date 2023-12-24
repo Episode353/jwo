@@ -1,12 +1,21 @@
 // DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", () => {
 
-
+  // Add event listener for beforeunload
+  window.onbeforeunload = function (e) {
+    if (isDrawingWindow) {
+      const confirmationMessage =
+        'Are you sure you want to leave? You are in the middle of something.';
+      e.returnValue = confirmationMessage; // Standard for most browsers
+      return confirmationMessage; // For some older browsers
+    }
+  };
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 let isDrawing = false;
+let isDrawingWindow = false;
 let lastX = 0;
 let lastY = 0;
 let currentColor = 'black';
@@ -136,6 +145,7 @@ canvasHeightInput.addEventListener('change', () => {
 // Add the mouse event listeners
 canvas.addEventListener('mousedown', (event) => {
     isDrawing = true;
+    isDrawingWindow = true;
     lastX = event.offsetX;
     lastY = event.offsetY;
 });

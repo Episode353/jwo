@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import base64
 from datetime import datetime
@@ -160,3 +161,5 @@ def food_ar(request, slug):
         html_content = None
 
     return render(request, "food_template.html", {'food_review': food_review, 'html_content': html_content})
+
+
