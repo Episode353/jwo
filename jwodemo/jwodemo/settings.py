@@ -122,6 +122,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+WSGI_APPLICATION = 'jwo.wsgl.application'
 
 
 # Default primary key field type
