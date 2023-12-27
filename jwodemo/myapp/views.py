@@ -141,6 +141,10 @@ def seepcoin(request):
 def board(request):
     return render(request, "board.html")
 
+def gallery(request):
+    return render(request, "gallery.html")
+
+
 def blog(request):
     return render(request, "blog.html")
     
