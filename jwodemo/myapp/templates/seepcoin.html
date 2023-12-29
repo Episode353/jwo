@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="content-large-fill">
-    <link rel="stylesheet" href="../style.css?v=6">
+
 
     <style>
         /* Add the styles from your original HTML file here */
@@ -15,7 +15,7 @@
 
         .scoreboard-data th,
         .scoreboard-data td {
-            padding: 10px;
+            padding: 0px;
             border-bottom: 1px solid #ccc;
         }
 
@@ -82,7 +82,7 @@
 
     <div style=" display: flex; align-items: center; justify-content: center; border:none;">
         <div class="seep-coin-text" >
-            <h1>Seep Coin</h1>
+            <h1 style="font-size: 4rem;">Seep Coin</h1>
         </div>
     </div>
     
@@ -99,7 +99,7 @@
             <tbody id="scoreboard-body">
                 {% for user in seep_coin_list %}
                     <tr>
-                        <td style="font-size: clamp( .3em, 3vw, 2rem);">
+                        <td style="font-size: clamp( .3em, 2vw, 1rem);">
                             {% if forloop.first %}
                                 1st🥇
                             {% elif forloop.counter == 2 %}
@@ -111,7 +111,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <p style="font-size: clamp( .7em, 3vw, 2rem);">{{ user.profile.user|title }}</p>
+                            <p style="font-size: clamp( .3em, 2vw, 1rem);">{{ user.profile.user|title }}</p>
                             <p class="user-message">{{ user.profile.coin_message }}</p>
                         </td>
                         <td>
