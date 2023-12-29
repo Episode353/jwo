@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = 'django-insecure-r4_&do#y2_dyf3!m@pn_*3t+g!w7b6yd9c*vcobnbw9-x+&4z$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 LOGIN_URL = 'home'
 
@@ -120,7 +120,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static'
+STATIC_ROOT = '/home/joetoscani/jwo/jwodemo/static'
+
+MEDIA_URL = 'media'
+MEDIA_ROOT = '/home/joetoscani/jwo/jwodemo/media'
+
 
 WSGI_APPLICATION = 'jwo.wsgl.application'
 

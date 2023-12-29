@@ -10,7 +10,12 @@ import base64
 from datetime import datetime
 from .models import Profile
 from .models import foodreview, SeepCoinTransaction
-from .forms import CoinMessageForm 
+from django.conf import settings
+
+
+
+BASE_DIR = settings.BASE_DIR
+from .forms import CoinMessageForm
 import os
 import random
 import time
@@ -30,7 +35,7 @@ def home(request):
             template_name = "static/html-shuffle/error.html"
     else:
         # List all files in the 'html-shuffle' directory excluding "error.html"
-        shuffle_files = [file for file in os.listdir(os.path.join('myapp', 'static', 'html-shuffle')) if file != 'error.html']
+        shuffle_files = [file for file in os.listdir(os.path.join(settings.BASE_DIR, 'myapp', 'static', 'html-shuffle')) if file != 'error.html']
 
         # Pick a random file
         random_file = random.choice(shuffle_files)
@@ -70,7 +75,7 @@ def edit_coin_message(request):
 
 
 def get_drawings(request):
-    drawings_folder = os.path.join('media', 'drawings')
+    drawings_folder = os.path.join('jwo/jwodemo/media/drawings')
     os.makedirs(drawings_folder, exist_ok=True)
     drawings = [filename for filename in os.listdir(drawings_folder) if filename.endswith('.png')]
     return JsonResponse({'drawings': drawings})
@@ -87,7 +92,7 @@ def save_drawing(request):
 
             # Create a unique filename
             filename = f'board_drawing_no_{int(time.time())}.png'
-            filepath = os.path.join('media', 'drawings', filename)
+            filepath = os.path.join('jwo/jwodemo/media/drawings', filename)
 
             # Create the 'media/drawings' directory if it doesn't exist
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
@@ -129,15 +134,15 @@ def trade_seep_coins(request):
 def seepcoin(request):
     # Exclude users with zero seep coins
     seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')
-    
+
     # Exclude the logged-in user
     users = User.objects.exclude(pk=request.user.id)
-    
+
     print(users)  # Add this line to check the users in the console
     return render(request, "seepcoin.html", {'seep_coin_list': seep_coin_list, 'users': users})
 
 
-    
+
 def board(request):
     return render(request, "board.html")
 
@@ -147,14 +152,14 @@ def gallery(request):
 
 def blog(request):
     return render(request, "blog.html")
-    
+
 def foodpage(request):
     food_review_list = foodreview.objects.all().order_by('Date')
     return render(request, "foodreview.html", {'food_review_list': food_review_list})
 
 def food_ar(request, slug):
     food_review = foodreview.objects.get(slug=slug)
-    html_file_path = os.path.join('myapp', 'static', 'food-review-posts', food_review.slug +  '.html')
+    html_file_path = os.path.join('jwo/jwodemo/static/food-review-posts/', food_review.slug +  '.html')
     print(html_file_path)
 
     try:
