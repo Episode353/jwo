@@ -9,8 +9,8 @@
 <div class="content-large-fill">
     
     {% if profile %}
-        <p>{{ user.profile.user|title }}'s Super Secret Information</p>
-{% endif %}
+        <h1 style="padding: 1rem">{{ user.profile.user|title }}'s Account</h1>
+    {% endif %}
 
 
 
@@ -212,6 +212,20 @@
      
     </svg>
     </div>
+    {% if user.profile.coin_count < 0 %}
+    <h1 class="angry-text">YOU ARE IN SEEP COIN DEBT</h1>
+    <p>(⌯˃̶᷄ ﹏ ˂̶᷄⌯)</p>
+    {% endif %}
+
+    {% if user.profile.coin_count == 0 %}
+    <p>You don't have any seep coins!</p>
+    <p>(ㆆ _ ㆆ)</p>
+    {% endif %}
+
+
+
 
 </div>
+
+
 {% endblock %}
