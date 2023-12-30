@@ -156,6 +156,9 @@ def gallery(request):
 def blog(request):
     return render(request, "blog.html")
 
+def tool(request):
+    return render(request, "tool.html")
+
 def foodpage(request):
     food_review_list = foodreview.objects.all().order_by('Date')
     return render(request, "foodreview.html", {'food_review_list': food_review_list})
