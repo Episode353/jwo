@@ -10,7 +10,7 @@
   }
 
   .content-large-fill {
-    max-width: 80%;
+    max-width: 90%;
     margin: 20px auto;
     background-color: #fff;
     padding: 20px;
@@ -99,53 +99,79 @@
   font-size: 1rem;
 }
   
+.copied-text {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white !important;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 2rem;
+  font-family: daydream;
+  border: 3px black dotted !important;
+  z-index: 999;
+  transition: opacity 0.5s ease-in-out;
+  animation: fadeOut 1.5s;
+}
 
-  /* Media query for screens larger than 600px */
-  @media screen and (min-width: 600px) {
-    .content-large-fill {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
+@keyframes fadeOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
-    label,
-    textarea,
-    select {
-      width: calc(50% - 10px);
-    }
-
-    label {
-      margin-bottom: 5px;
-    }
-
-    textarea,
-    select {
-      margin-bottom: 10px;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 10px;
-    }
+/* Media query for screens larger than 600px */
+@media screen and (min-width: 600px) {
+  .content-large-fill {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
+
+  label {
+    width: 30%; /* Adjust label width */
+    box-sizing: border-box;
+  }
+
+  textarea,
+  select {
+    width: 70%; /* Adjust text input width */
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%; /* Adjust button width */
+    margin-top: 10px;
+  }
+}
+  
 </style>
 
 <div class="content-large-fill">
   <div class="seep-translate-header"> 
   <h1>Seppe Translator</h1>
   </div>
-  <label for="textToConvert">Enter text to convert:</label>
-  <textarea id="textToConvert" rows="4" cols="50"></textarea>
 
-  <label for="conversionType">Select conversion type:</label>
-  <select id="conversionType">
+  <label for="conversionType">Translation Direction:</label>
+  <select id="conversionType" onchange="updateLabels()">
     <option value="englishToSeep">English ➡️ Seep</option>
     <option value="seepToEnglish">Seep ➡️ English</option>
   </select>
+  
+
+  
+  <label for="textToConvert">Input (English):</label>
+  <textarea id="textToConvert" rows="4" cols="50"></textarea>
 
 
 
-  <label for="convertedText">Converted text:</label>
+
+
+  <label for="convertedText">Converted (Seep):</label>
   <textarea id="convertedText" rows="4" cols="50" readonly></textarea>
 
 
@@ -157,6 +183,9 @@
   <button id="readAloudButton" onclick="readAloud()">Read Aloud</button>
     <!-- Dropdown for voice selection -->
     <select id="voiceSelection" style="text-align: center;"></select>
+
+    <div class="copied-text" id="copiedText">Copied!</div>
+    
 
   <script>
     const seepMap = {
@@ -220,6 +249,19 @@
       '}': 'NO'
     };
     
+    function updateLabels() {
+      const conversionType = document.getElementById('conversionType').value;
+      const inputLabel = document.querySelector('label[for="textToConvert"]');
+      const outputLabel = document.querySelector('label[for="convertedText"]');
+  
+      if (conversionType === 'englishToSeep') {
+        inputLabel.textContent = 'Input (English):';
+        outputLabel.textContent = 'Converted (Seep):';
+      } else if (conversionType === 'seepToEnglish') {
+        inputLabel.textContent = 'Input (Seep):';
+        outputLabel.textContent = 'Converted (English):';
+      }
+    }
     
 
     function convertText() {
@@ -234,6 +276,9 @@
       }
 
       document.getElementById('convertedText').value = convertedText;
+      // Add click event listener to the converted text div
+    const convertedTextDiv = document.getElementById('convertedText');
+    convertedTextDiv.addEventListener('click', handleCopyText);
     }
 
     function convertTextToSeep(text) {
@@ -290,6 +335,23 @@
     speech.voice = selectedVoice;
 
     window.speechSynthesis.speak(speech);
+  }
+
+  function handleCopyText() {
+    const convertedTextDiv = document.getElementById('convertedText');
+    const copiedText = document.getElementById('copiedText');
+
+    // Copy the text to the clipboard
+    convertedTextDiv.select();
+    document.execCommand('copy');
+
+    // Display the "copied" text
+    copiedText.style.display = 'block';
+
+    // Hide the "copied" text after a short delay
+    setTimeout(() => {
+      copiedText.style.display = 'none';
+    }, 1500);
   }
   </script>
 </div>
