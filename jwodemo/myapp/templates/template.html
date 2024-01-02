@@ -21,6 +21,9 @@
     <meta property="og:description" content="The Home for everything Seppe" />
     <meta name="theme-color" content="#fbefcc">
 
+    <!--Google MetaData-->
+    <meta name="description" content="The Home for Everything Seppe.">
+
 
     <style>
         .header-login {
@@ -137,19 +140,70 @@
 
 
 
-            <div class="footer">
-                <style>
-                    .footer p{
-                        font-size: 10px;
-                    }
-                </style>
-
+                <div class="footer">
+                    <style>
+                        .footer {
+                            text-align: center;
+                        }
+                    
+                        .footer-links {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
+                            gap: 5px;
+                            text-align: center;
+                            border: none !important;
+                        }
+                    
+                        .footer a {
+                            border: .3rem white groove;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-decoration: none;
+                            height: 100%; /* Ensure buttons take full height of the grid cell */
+                            transition: background-color 0.3s ease; /* Add transition for smooth effect */
+                            font-size: 1rem;
+                        }
+                    
+                        .footer a:hover {
+                            background-color: white; /* Change background color on hover */
+                        }
+                    
+                        .footer p {
+                            font-size: 10px;
+                        }
+                    
+                        .footer a p {
+                            font-size: 10px;
+                            margin: 0; /* Reset default margin for paragraphs inside anchors */
+                        }
+                    
+                        .email-link {
+                            border: none !important;
+                        }
+                    </style>
+                    
+                
                     <center>
                         <img src="{% static 'ico/favicon-32x32.png' %}" />
                         <p>Copyright &copy; {% now 'Y' %} Joseph Toscano.</p>
-                        <p>Contact: <a href="mailto:joe@joesworld.online">joe@joesworld.online</a></p>
-                    </center>
-            </div>
+                        <p>Contact: <a href="mailto:joe@joesworld.online" class="email-link">joe@joesworld.online</a></p>
+                    
+                    <div class="footer-links"> 
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'home' %}">Home</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'seepcoin' %}">Seep Coin</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'board' %}">Board</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'foodpage' %}">Food</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'blog' %}">Blog</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="https://beeg.fish">Beegfish</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'seeplanguage' %}">Translator</a>
+                        
+                        
+                    </div>
+                </center>
+                </div>
+                
+                
 
 
 
