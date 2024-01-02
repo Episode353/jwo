@@ -76,6 +76,28 @@
     font-size: 1rem;
 }
 
+/* Additional style for the read-aloud button */
+#readAloudButton {
+  background-color: #28a745;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+#readAloudButton:hover {
+  background-color: #218838;
+}
+
+/* Style for the voice selection dropdown */
+#voiceSelection {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
   
 
   /* Media query for screens larger than 600px */
@@ -126,16 +148,79 @@
   <label for="convertedText">Converted text:</label>
   <textarea id="convertedText" rows="4" cols="50" readonly></textarea>
 
+
+
+
   <button onclick="convertText()">Translate</button>
+
+  <!-- Button for reading aloud -->
+  <button id="readAloudButton" onclick="readAloud()">Read Aloud</button>
+    <!-- Dropdown for voice selection -->
+    <select id="voiceSelection" style="text-align: center;"></select>
 
   <script>
     const seepMap = {
-      'a': 'wa', 'b': 'wah', 'c': 'wäh', 'd': 'wààh', 'e': 'wat', 'f': 'wata',
-      'g': 'wàtà', 'h': 'woh', 'i': 'wöh', 'j': 'wooh', 'k': 'wööh', 'l': 'ta',
-      'm': 'tà', 'n': 'wae', 'o': 'wäe', 'p': 'wäé', 'q': 'we', 'r': 'wë',
-      's': 'wee', 't': 'weh', 'u': 'tata', 'v': 'toh-toh', 'w': 'tötö', 'x': 'bwo',
-      'y': 'dwo', 'z': 'moe', ' ': 'woah'
+      'a': 'waah',
+      'b': 'wah',
+      'c': 'takis',
+      'd': 'wààh',
+      'e': 'the',
+      'f': 'wata..',
+      'g': 'wàtà',
+      'h': 'bro!',
+      'i': 'though',
+      'j': 'mahdoob',
+      'k': 'wööh',
+      'l': 'ta',
+      'm': 'tà',
+      'n': 'wae',
+      'o': 'wäe',
+      'p': 'wäé?',
+      'q': 'peebza',
+      'r': 'wë',
+      's': 'wee',
+      't': 'weh',
+      'u': 'tata',
+      'v': 'toh-toh',
+      'w': 'soup',
+      'x': 'bwough',
+      'y': 'dough',
+      'z': 'moe',
+      ' ': 'woah',
+      '.': 'shambi',
+      ',': 'whoa',
+      '!': 'wahoo',
+      '?': 'woahh',
+      '1': 'wun',
+      '2': 'tooh',
+      '3': 'plawn',
+      '4': 'got four',
+      '5': 'fivvy',
+      '6': 'wahmen',
+      '7': 'blurpe',
+      '8': 'peebzaroll',
+      '9': 'weirdman',
+      '0': 'zee brough',
+      '@': 'ta',
+      '#': 'hash',
+      '$': 'wolla',
+      '%': 'ota',
+      '&': 'and',
+      '+': 'seriously',
+      '=': 'about',
+      '-': 'take',
+      '/': 'sham',
+      ':': 'wala',
+      ';': 'mumbey',
+      '(': 'aibo',
+      ')': 'daweed',
+      '[': 'jug',
+      ']': 'kev',
+      '{': 'STOP',
+      '}': 'NO'
     };
+    
+    
 
     function convertText() {
       const textToConvert = document.getElementById('textToConvert').value.toLowerCase();
@@ -175,6 +260,37 @@
     function getKeyByValue(object, value) {
       return Object.keys(object).find(key => object[key] === value);
     }
+
+   
+  // Function to populate the voice selection dropdown
+  function populateVoiceSelection() {
+    const voices = window.speechSynthesis.getVoices();
+    const voiceSelection = document.getElementById('voiceSelection');
+
+    voices.forEach((voice, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = voice.name;
+      voiceSelection.appendChild(option);
+    });
+  }
+
+  // Event listener to populate the voice selection dropdown when voices are loaded
+  window.speechSynthesis.onvoiceschanged = populateVoiceSelection;
+  
+  // Function to read the converted text aloud using the selected voice
+  function readAloud() {
+    convertText()
+    const convertedText = document.getElementById('convertedText').value;
+    const voiceIndex = document.getElementById('voiceSelection').value;
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices[voiceIndex];
+
+    const speech = new SpeechSynthesisUtterance(convertedText);
+    speech.voice = selectedVoice;
+
+    window.speechSynthesis.speak(speech);
+  }
   </script>
 </div>
 {% endblock %}
