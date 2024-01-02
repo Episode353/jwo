@@ -1,4 +1,5 @@
-{% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% extends "template.html" %} 
+{% block title %} Home Page {% endblock %}
 {% block content %}
 <style>
   body {
@@ -9,12 +10,13 @@
   }
 
   .content-large-fill {
-    max-width: 90% !important; 
+    max-width: 80%;
     margin: 20px auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.4rem;
   }
 
   label {
@@ -33,12 +35,14 @@
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 1rem;
+    
   }
 
   button {
     background-color: #007BFF;
     color: #fff;
     cursor: pointer;
+    font-size: 2rem;
   }
 
   button:hover {
@@ -49,22 +53,78 @@
     background-color: #f8f8f8;
     cursor: not-allowed;
   }
+
+  .seep-translate-header {
+    text-align: center;
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.seep-translate-header h1 {
+    display: inline-block;
+    font-family: daydream;
+    max-width: 80%;
+    text-shadow: 2px 2px 4px rgb(158 255 0 / 70%);
+    color: #0656bd;
+}
+
+  
+
+  /* Media query for screens larger than 600px */
+  @media screen and (min-width: 600px) {
+    .content-large-fill {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    label,
+    textarea,
+    select {
+      width: calc(50% - 10px);
+    }
+
+    label {
+      margin-bottom: 5px;
+    }
+
+    textarea,
+    select {
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
 </style>
 
 <div class="content-large-fill">
+  <div class="seep-translate-header"> 
+  <h1>Seppe Translator</h1>
+  </div>
   <label for="textToConvert">Enter text to convert:</label>
   <textarea id="textToConvert" rows="4" cols="50"></textarea>
 
   <label for="conversionType">Select conversion type:</label>
   <select id="conversionType">
-    <option value="englishToSeep">English to Seep</option>
-    <option value="seepToEnglish">Seep to English</option>
+    <option value="englishToSeep">English 🡒 Seep</option>
+    <option value="seepToEnglish">Seep 🡒 English</option>
   </select>
 
-  <button onclick="convertText()">Convert</button>
+
 
   <label for="convertedText">Converted text:</label>
   <textarea id="convertedText" rows="4" cols="50" readonly></textarea>
+
+  <button onclick="convertText()">Translate</button>
 
   <script>
     const seepMap = {
