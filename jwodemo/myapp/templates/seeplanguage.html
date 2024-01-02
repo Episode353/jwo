@@ -1,0 +1,120 @@
+{% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% block content %}
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+  }
+
+  .content-large-fill {
+    max-width: 90% !important; 
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  textarea,
+  select,
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+
+  button {
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  textarea[readonly] {
+    background-color: #f8f8f8;
+    cursor: not-allowed;
+  }
+</style>
+
+<div class="content-large-fill">
+  <label for="textToConvert">Enter text to convert:</label>
+  <textarea id="textToConvert" rows="4" cols="50"></textarea>
+
+  <label for="conversionType">Select conversion type:</label>
+  <select id="conversionType">
+    <option value="englishToSeep">English to Seep</option>
+    <option value="seepToEnglish">Seep to English</option>
+  </select>
+
+  <button onclick="convertText()">Convert</button>
+
+  <label for="convertedText">Converted text:</label>
+  <textarea id="convertedText" rows="4" cols="50" readonly></textarea>
+
+  <script>
+    const seepMap = {
+      'a': 'wa', 'b': 'wah', 'c': 'wäh', 'd': 'wààh', 'e': 'wat', 'f': 'wata',
+      'g': 'wàtà', 'h': 'woh', 'i': 'wöh', 'j': 'wooh', 'k': 'wööh', 'l': 'ta',
+      'm': 'tà', 'n': 'wae', 'o': 'wäe', 'p': 'wäé', 'q': 'we', 'r': 'wë',
+      's': 'wee', 't': 'weh', 'u': 'tata', 'v': 'toh-toh', 'w': 'tötö', 'x': 'bwo',
+      'y': 'dwo', 'z': 'moe', ' ': 'woah'
+    };
+
+    function convertText() {
+      const textToConvert = document.getElementById('textToConvert').value.toLowerCase();
+      const conversionType = document.getElementById('conversionType').value;
+      let convertedText = '';
+
+      if (conversionType === 'englishToSeep') {
+        convertedText = convertTextToSeep(textToConvert);
+      } else if (conversionType === 'seepToEnglish') {
+        convertedText = convertTextFromSeep(textToConvert);
+      }
+
+      document.getElementById('convertedText').value = convertedText;
+    }
+
+    function convertTextToSeep(text) {
+      let converted = '';
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const seepChar = seepMap[char] || char;
+        converted += seepChar + ' ';
+      }
+      return converted.trim();
+    }
+
+    function convertTextFromSeep(text) {
+      let converted = '';
+      const words = text.split(' ');
+      for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        const englishChar = getKeyByValue(seepMap, word) || word;
+        converted += englishChar;
+      }
+      return converted;
+    }
+
+    function getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
+    }
+  </script>
+</div>
+{% endblock %}
+
+</html>

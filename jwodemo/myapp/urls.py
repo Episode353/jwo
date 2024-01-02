@@ -19,6 +19,7 @@ urlpatterns = [
     path('save_drawing/', save_drawing, name='save_drawing'),
     path('get_drawings/', get_drawings, name='get_drawings'),
     path("tool", views.tool, name="tool"),
+    path("seeplanguage", views.seeplanguage, name="seeplanguage"),
 ]
 
 # Serve media files during development
