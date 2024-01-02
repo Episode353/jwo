@@ -179,4 +179,4 @@ def food_ar(request, slug):
 
 
 def translator(request):
-    return render(request, "seeplanguage.html")
+    return render(request, "translator.html")
