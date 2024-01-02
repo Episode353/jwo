@@ -178,5 +178,5 @@ def food_ar(request, slug):
     return render(request, "food_template.html", {'food_review': food_review, 'html_content': html_content})
 
 
-def seeplanguage(request):
+def translator(request):
     return render(request, "seeplanguage.html")
