@@ -36,3 +36,10 @@ def get_entry(title):
     except FileNotFoundError:
         return None
 
+def delete_entry(title):
+    """
+    Deletes an encyclopedia entry given its title.
+    """
+    filename = f"entries/{title}.md"
+    if default_storage.exists(filename):
+        default_storage.delete(filename)

@@ -7,14 +7,19 @@
         border: none !important;
     }
     
-    .edit-form {
+    .bottom-left-forms {
         position: absolute;
-        bottom: 0px; /* Adjust this value to your preference */
+        bottom: 0;
         right: 10px; /* Adjust this value to your preference */
+        display: flex;
+        gap: 10px; /* Adjust this value to your preference */
+        border: none !important;
+        padding: 0px !important;
     }
-    
-    .edit-button {
-        /* Add any additional styling you need for your edit button */
+
+    .edit-form,
+    .delete-form {
+        /* You can add any additional styling for the forms here */
     }
 </style>
 <div class="page-content">
@@ -24,12 +29,18 @@
 
     {{ content | safe }}
 
-    <form action="{% url 'edit' %}" method="POST" class="edit-form">
-        {% csrf_token %}
-        <input type="hidden" name="entry_title" value="{{ title }}">
-        <input type="submit" value="Edit" class="btn btn-danger edit-button">
-    </form>
-
-
+    <div class="bottom-left-forms">
+        <form action="{% url 'edit' %}" method="POST" class="edit-form">
+            {% csrf_token %}
+            <input type="hidden" name="entry_title" value="{{ title }}">
+            <input type="submit" value="Edit" class="btn btn-danger edit-button">
+        </form>
+    
+        <form action="{% url 'delete' %}" method="POST" class="delete-form">
+            {% csrf_token %}
+            <input type="hidden" name="entry_title" value="{{ title }}">
+            <input type="submit" value="Delete" class="btn btn-danger delete-button">
+        </form>
+    </div>
 </div>
 {% endblock %}

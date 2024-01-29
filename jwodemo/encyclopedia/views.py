@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import random
 import markdown
-
+from django.shortcuts import redirect
 from . import util
 
 def convert_md_to_html(title):
@@ -92,10 +92,20 @@ def save_edit(request):
               
 
 def rand(request):
-       allEntries = util.list_entries()
-       rand_entry = random.choice(allEntries)
-       html_content = convert_md_to_html(rand_entry)
-       return render(request, "encyclopedia/entry.html", {
-              "title": rand_entry,
-              "content": html_content,
-       })
+    allEntries = util.list_entries()
+    if not allEntries:
+        return redirect('encyclopedia')  # Assuming 'index' is the name of your encyclopedia index URL
+    rand_entry = random.choice(allEntries)
+    html_content = convert_md_to_html(rand_entry)
+    return render(request, "encyclopedia/entry.html", {
+        "title": rand_entry,
+        "content": html_content,
+    })
+
+def delete(request):
+    if request.method == "POST":
+        title = request.POST['entry_title']
+        util.delete_entry(title)
+        return render(request, "encyclopedia/deleted.html", {
+            "title": title
+        })
