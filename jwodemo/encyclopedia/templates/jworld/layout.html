@@ -71,12 +71,8 @@
 
     {% if display_image %}
         <!-- Display the image -->
-            <img id="loadedImage" alt="Image" style="width: 50%; padding: 2rem;">
+            <img src="{{% static "png/markdown.png" %} %}}" alt="Image" style="width: 50%; padding: 2rem;">
         
-            <script>
-                // Use JavaScript to set the image source dynamically
-                document.getElementById('loadedImage').src = STATIC_URL + 'png/markdown.png';
-            </script>
 
     {% endif %}
 
