@@ -100,23 +100,15 @@ def edit(request):
 
        
 def save_edit(request):
-    if request.method == "POST":
-        title = request.POST['title']
-        content = request.POST['content']
-        
-        # Check if title or content is blank
-        if not title.strip() or not content.strip():
-            return render(request, "jworld/error.html", {
-                "message": "Title or content cannot be blank."
-            })
-
-        util.save_entry(title, content)
-        html_content = convert_md_to_html(title)
-        return render(request, "jworld/entry.html", {
-            "title": title,
-            "content": html_content
-        })
-
+       if request.method == "POST":
+              title = request.POST['title']
+              content = request.POST['content']
+              util.save_entry(title, content)
+              html_content = convert_md_to_html(title)
+              return render(request, "jworld/entry.html", {
+                              "title": title,
+                              "content": html_content
+                       })
               
 
 def rand(request):
