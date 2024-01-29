@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+
+<p style="font-family: daydream; font-size: 75%;">
+    Welcome to the Public Encyclopedia of Joe's World
+    <br>
+    Create or Edit any Article as you see fit.
+</p>
+
+    <ul>
+        {% for entry in entries %}
+            <li><a href="{% url 'entry' title=entry %}">{{ entry }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block body %}
+<style>
+    .page-content {
+        position: relative;
+        border: none !important;
+    }
+    
+    .edit-form {
+        position: absolute;
+        bottom: 0px; /* Adjust this value to your preference */
+        right: 10px; /* Adjust this value to your preference */
+    }
+    
+    .edit-button {
+        /* Add any additional styling you need for your edit button */
+    }
+</style>
+<div class="page-content">
+    <div style="border: 3px ridge #92AAFC !important; border-radius: 2px; padding: 0px !important; border-top: none !important; border-left: none !important; border-right: none !important;">
+        <a>{{ title }}</a>
+    </div>
+
+    {{ content | safe }}
+
+    <form action="{% url 'edit' %}" method="POST" class="edit-form">
+        {% csrf_token %}
+        <input type="hidden" name="entry_title" value="{{ title }}">
+        <input type="submit" value="Edit" class="btn btn-danger edit-button">
+    </form>
+
+
+</div>
+{% endblock %}
