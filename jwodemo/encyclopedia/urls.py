@@ -3,12 +3,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("encyclopedia/", views.index, name="encyclopedia"),
-    path("wiki/<str:title>", views.entry, name="entry"),
-    path("search/", views.search, name="search"),
-    path("new/", views.new_page, name="new_page"),
-    path("edit/", views.edit, name="edit"),
-    path("save_edit/", views.save_edit, name="save_edit"),
-    path("rand/", views.rand, name="rand"),
-    path('delete/', views.delete, name='delete'),
+    path("jworld/", views.index, name="jworld"),
+    path("jworld/wiki/<str:title>", views.entry, name="entry"),
+    path("jworld/search/", views.search, name="search"),
+    path("jworld/new/", views.new_page, name="new_page"),
+    path("jworld/edit/", views.edit, name="edit"),
+    path("jworld/save_edit/", views.save_edit, name="save_edit"),
+    path("jworld/rand/", views.rand, name="rand"),
+    path('jworld/delete/', views.delete, name='delete'),
 ]

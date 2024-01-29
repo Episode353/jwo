@@ -1,4 +1,4 @@
-{% extends "encyclopedia/layout.html" %}
+{% extends "jworld/layout.html" %}
 
 {% block title %}
     Encyclopedia
@@ -26,7 +26,7 @@
                 setTimeout(countdown, 1000); // Call the function after 1 second
             } else {
                 // Redirect to the desired page after countdown ends
-                window.location.href = '{% url 'encyclopedia' %}';
+                window.location.href = '{% url 'jworld' %}';
             }
         }
 
