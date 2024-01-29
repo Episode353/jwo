@@ -1,0 +1,29 @@
+{% extends "jworld/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+
+
+{% block body %}
+<style>
+    .contentarea{
+        width: 100%;
+    }
+</style>
+
+    <h1>Create a New Page.</h1>
+
+    <form action="{% url 'new_page' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Enter a Title">
+        <br>
+        <textarea name="content" class="contentarea" placeholder="Enter Content"></textarea>
+        <br>
+        <input type="submit" value="New Page" class="btn btn-primary">
+    </form>
+
+    
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "jworld/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>The Page has been deleted.</h1>
+    <a>You will be redirected in <span id="countdown">5</span> seconds.</a>
+
+    <script>
+        // Set the initial countdown value
+        let countdownValue = 5;
+
+        // Function to update the countdown element
+        function updateCountdown() {
+            document.getElementById('countdown').innerText = countdownValue;
+        }
+
+        // Function to handle countdown and redirect
+        function countdown() {
+            updateCountdown();
+
+            if (countdownValue > 0) {
+                countdownValue--;
+                setTimeout(countdown, 1000); // Call the function after 1 second
+            } else {
+                // Redirect to the desired page after countdown ends
+                window.location.href = '{% url 'jworld' %}';
+            }
+        }
+
+        // Start the countdown
+        countdown();
+    </script>
+{% endblock %}
