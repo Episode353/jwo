@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../style.css">
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        /* Added CSS to initially hide the 'after' content */
+        #after {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+    <center>
+        <img id="loadedImage" style="cursor: pointer;" width="100%" height="100%" onclick="changeImage()">
+        <div id="before" style="border: none !important; ">
+            <p>NO STOP DONT CLICK ON IT</p>
+        </div>
+
+        <div id="after" style="border: none !important; ">
+            <p>noooo</p>
+        </div>
+    </center>
+
+    <script>
+        // Set the initial image source
+        document.getElementById('loadedImage').src = STATIC_URL + 'jpg/bkbag1.jpg';
+
+        // Function to change the image source permanently
+        function changeImage() {
+            // Change the image source to the second image
+            document.getElementById('loadedImage').src = STATIC_URL + 'jpg/bkbag2.jpg';
+
+            // Remove the hover style by changing the cursor style to default
+            document.getElementById('loadedImage').style.cursor = 'default';
+
+            // Hide the 'before' content
+            document.getElementById('before').style.display = 'none';
+
+            // Show the 'after' content
+            document.getElementById('after').style.display = 'block';
+
+            // You can also disable the click event listener after the first click
+            document.getElementById('loadedImage').onclick = null;
+        }
+    </script>
+</body>
+</html>

@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-r4_&do#y2_dyf3!m@pn_*3t+g!w7b6yd9c*vcobnbw9-x+&4z$'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# When Pushing to PythonAnywhere: Debug = False ; WSGI_APPLICATION Enabled
+# When Offline Testing: Debug = True; WSGI_APPLICATION Disabled
 DEBUG = False
 WSGI_APPLICATION = 'jwo.wsgl.application'
 

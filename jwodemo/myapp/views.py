@@ -160,7 +160,7 @@ def tool(request):
     return render(request, "tool.html")
 
 def foodpage(request):
-    food_review_list = foodreview.objects.all().order_by('Date')
+    food_review_list = foodreview.objects.all().order_by('-Date')
     return render(request, "foodreview.html", {'food_review_list': food_review_list})
 
 def food_ar(request, slug):

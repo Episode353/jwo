@@ -6,37 +6,16 @@
 
 
     <style>
-        /* Add the styles from your original HTML file here */
-        .scoreboard-data table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
 
-        .scoreboard-data th,
-        .scoreboard-data td {
-            padding: 0px;
-            border-bottom: 1px solid #ccc;
-        }
 
-        .scoreboard-data th {
-            background-color: #4CAF50;
-            color: #fff;
-            font-size: 18px;
-        }
+
+
 
         .scoreboard-data td {
             font-size: 16px;
         }
 
-        /* Additional styles for the scoreboard */
-        .scoreboard-data tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
 
-        .scoreboard-data tr:hover {
-            background-color: #ddd;
-        }
 
         .seep-coin-text {
             margin-bottom: 10px;
@@ -45,12 +24,7 @@
             font-weight: bold;
         }
 
-        /* Style for the message */
-        .scoreboard-data .user-message {
-            font-size: 14px;
-            color: #555;
-            margin-top: 5px; /* Adjust as needed */
-        }
+
 
         /* Apply the styles for the Seep Coin message box */
         .seep-coin-message {
@@ -99,7 +73,7 @@
             <tbody id="scoreboard-body">
                 {% for user in seep_coin_list %}
                     <tr>
-                        <td style="font-size: clamp( .3em, 2vw, 1rem);">
+                        <td>
                             {% if forloop.first %}
                                 1st🥇
                             {% elif forloop.counter == 2 %}
@@ -111,7 +85,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <p style="font-size: clamp( .3em, 2vw, 1rem);">{{ user.profile.user|title }}</p>
+                            <p>{{ user.profile.user|title }}</p>
                             <p class="user-message">{{ user.profile.coin_message }}</p>
                         </td>
                         <td>

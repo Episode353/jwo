@@ -44,7 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0%) 0%, rgba(0,0,0,0%) 80%, rgba(0,0,0,100%) 100%);
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0%) 80%, rgba(0,0,0,0%) 88%, rgba(0,0,0,100%) 100%);
             pointer-events: none;
             background-size: auto;
             image-rendering: pixelated;
@@ -241,7 +241,7 @@
         color: #3b3a36;
         font-family: daydream;
         font-weight: 900;
-        font-size: clamp( .3em, 4vw, 2rem);
+        font-size: clamp( .3em, 3vw, 2rem);
         grid-area: overlap;
         letter-spacing: 1px;
         -webkit-text-stroke: 4px transparent;
@@ -820,10 +820,27 @@
 
         .scoreboard-data th,
         .scoreboard-data td {
-            padding: 5px;
+            padding: 0px;
+            margin: 0px;
             border-bottom: 1px solid #ccc;
             
         }
+
+        .scoreboard-data td p {
+            margin: 0px 0px 0px;
+            font-size: clamp( .7rem, 3vw, 1.5rem) !important;
+
+        }
+
+        .scoreboard-data td p.user-message {
+            margin: 0px 0px 0px;
+            font-size: clamp( .6em, 1.8vw, 1rem) !important;
+
+
+            margin-top: 5px; /* Adjust as needed */
+
+        }
+
 
         .scoreboard-data th {
             background-color: #4CAF50;
@@ -832,9 +849,6 @@
             background-color: #bababa !important;
         }
 
-    .scoreboard-data td {
-        font-size: 16px;
-    }
 
     .scoreboard-data tr:nth-child(even) {
         background-color: #f2f2f2;

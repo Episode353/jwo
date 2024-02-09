@@ -49,23 +49,23 @@
                         <tr>
                             <td>
                                 {% if forloop.first %}
-                                    1st🥇
+                                    <p>1st🥇</p>
                                 {% elif forloop.counter == 2 %}
-                                    2nd🥈
+                                    <p>2nd🥈</p>
                                 {% elif forloop.counter == 3 %}
-                                    3rd🥉
+                                    <p>3rd🥉</p>
                                 {% else %}
                                     {{ forloop.counter }}th
                                 {% endif %}
                             </td>
-                            <td>
-                                <p>{{ user.username }}</p>
-                                <p class="user-message">{{ auser.profile.coin_message }}</p>
+                            <td style="font-size: clamp( .1em, .5vw, 1rem);">
+                                <p>{{ user.profile.user|title }}</p>
+                                <p  class="user-message">{{ user.profile.coin_message }}</p>
                             </td>
                             <td>
                                 <div class="wrapper">
-                                    <div style="font-size: clamp( .1em, 3vw, 2rem);" class="bg">{{user.profile.coin_count}}</div>
-                                    <div style="font-size: clamp( .1em, 3vw, 2rem);"  class="fg">{{user.profile.coin_count}}</div>
+                                    <div class="bg">{{user.profile.coin_count}}</div>
+                                    <div class="fg">{{user.profile.coin_count}}</div>
                                   </div>
                             </td>
                         </tr>
