@@ -34,7 +34,51 @@
             border: outset;
             border-color: #b2b5c7;
         }
+
+            .fish {
+                position: relative;
+              font-size: 3rem !important;
+               height: 4rem;
+               width: 100%;
+              display: block;
+              font-weight: 900 !important;
+              cursor: pointer;
+              user-select: none;
+              color: #92AAFC;
+              text-shadow: 1px 1px 1px white !important;
+            }
+          
+
+
     </style>
+
+    <script>
+        function animateFish() {
+            const fishElement = document.querySelector('.fish');
+            const frames = [
+            "𓆝 𓆟 𓆞 𓆝",
+            "𓆟 𓆞 𓆝 𓆝",
+            "𓆞 𓆝 𓆝 𓆟",
+            "𓆝 𓆝 𓆟 𓆞",
+            
+                
+                
+                
+            ];
+
+            let frameIndex = 0;
+            const animationInterval = setInterval(() => {
+                fishElement.textContent = frames[frameIndex];
+                frameIndex = (frameIndex + 1) % frames.length;
+            }, 100); // Change the interval as needed
+
+            // Stop the animation after 4 frames
+            setTimeout(() => {
+                clearInterval(animationInterval);
+                fishElement.textContent = frames[0]; // Reset to the initial frame
+            }, 2000); // Adjust the duration based on the frame change interval and the number of frames
+        }
+    </script>
 </head>
 <body>
     <!--Firebase Authenticaion Information-->
@@ -92,6 +136,10 @@
                         <span>Joes World .Online</span>
                     </a>
                 </div>
+                
+                
+               
+                
                 
                 <div class="header-content">
                     <a href="/" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #fec652;" target="_top">Home🏠</a>
@@ -186,9 +234,7 @@
                     
                 
                     <center>
-                        <img src="{% static 'ico/favicon-32x32.png' %}" />
-                        <p>Copyright &copy; {% now 'Y' %} Joseph Toscano.</p>
-                        <p>Contact: <a href="mailto:joe@joesworld.online" class="email-link">joe@joesworld.online</a></p>
+
                     
                     <div class="footer-links"> 
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'home' %}">Home</a>
@@ -199,9 +245,11 @@
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="https://beeg.fish">Beegfish</a>
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'translator' %}">Translator</a>
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'jworld' %}">Jworld</a>
-                        
-                        
                     </div>
+                    <p class="fish" onclick="animateFish()">𓆝 𓆟 𓆞 𓆝</p>
+                    <p>Contact: <a href="mailto:joe@joesworld.online" class="email-link" style="width: 15rem;">joe@joesworld.online</a></p>
+                    <p>Copyright &copy; {% now 'Y' %} Joseph Toscano.</p>
+                    
                 </center>
                 </div>
                 
