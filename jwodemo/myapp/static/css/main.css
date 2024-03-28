@@ -58,7 +58,7 @@
         }
 
 
-        /* Disable vignette effect on specific page */
+        /* Disable vignette effect on specific  page */
         .no-vignette::before {
             background: none;
         }
