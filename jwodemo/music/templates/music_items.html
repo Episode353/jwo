@@ -1,0 +1,71 @@
+{% extends "template.html" %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+{% load static %}
+
+<style>
+    .content-large-fill {
+        background-color: #2a2a2a !important;
+        padding: 5rem !important;
+
+    }
+
+    .album-review-photo {
+        transition: transform .3s; /* Animation */
+        margin: 1rem;
+        max-width: 10rem;
+    }
+
+        .album-review-photo:hover {
+            transform: scale(1.2);
+        }
+
+    #recommendation-form {
+        position: relative;
+        bottom: -5rem;
+        width: 20vw;
+        min-width: 20rem;
+        
+        
+    }
+
+    input[type="text"] {
+        font-size: 1rem;
+    }
+
+    #recommendation {
+        background-color: #a7a7a7 !important;
+        border: 3px outset #6c757d !important;
+        border-right: none !important;
+    }
+
+    .input-group-append {
+        background-color: white !important;
+        border: 3px outset #6c757d !important;
+    }
+
+
+
+</style>
+
+<div class="content-large-fill">
+    {% for review in music_review_list %}
+
+
+    <a href="{% url 'album' slug=review.slug %}" target="_top"><img class="album-review-photo" src="{% static review.album_art %}"></a>
+    <!--<a href="{% url 'album' slug=review.slug %}" target="_top"><p>{{ review.name }}</p></a>-->
+    {% endfor %}
+   
+
+    <form id="recommendation-form" method="POST" action="{% url 'submit_recommendation' %}" class="input-group mb-3">
+        {% csrf_token %}
+        <input type="text" id="recommendation" name="recommendation" class="form-control" placeholder="Recommend an Album" aria-label="Recommend an Album" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+        </div>
+    </form>
+
+
+
+</div>
+{% endblock %}

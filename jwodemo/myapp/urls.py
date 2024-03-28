@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", views.home, name="home"),
     path('', include("encyclopedia.urls")),
+    path('', include("music.urls")),
     path("seepcoin", views.seepcoin, name="seepcoin"),
     path("board", views.board, name="board"),
     path("gallery", views.gallery, name="gallery"),
