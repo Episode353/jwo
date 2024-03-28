@@ -25,6 +25,11 @@
         src: url(../fonts/Overt.ttf);
     }
 
+    @font-face {
+        font-family: Spotify;
+        src: url(../fonts/Spotify.ttf);
+    }
+
 
 
     body {
@@ -69,6 +74,7 @@
             display: grid;
             grid-template-columns: repeat(3, 2fr);
             box-sizing: border-box;
+            padding-top: 5rem !important;
         }
 
 
@@ -540,7 +546,6 @@
 
         .container {
             width: 100%;
-            padding: 0px;
             grid-template-rows: 0.05fr 1fr 1fr 0.5fr;
             grid-column-gap: 1%;
             grid-row-gap: 1%;
@@ -589,7 +594,6 @@
 
         .container {
             width: 100%;
-            padding: 0px;
             grid-template-rows: 0.2fr 1fr 1fr 0fr;
             grid-column-gap: 3%;
             grid-row-gap: 3%;
