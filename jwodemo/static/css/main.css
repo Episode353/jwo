@@ -25,6 +25,11 @@
         src: url(../fonts/Overt.ttf);
     }
 
+        @font-face {
+        font-family: Spotify;
+        src: url(../fonts/Spotify.ttf);
+    }
+
 
 
     body {
