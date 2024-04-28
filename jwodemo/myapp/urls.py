@@ -22,6 +22,7 @@ urlpatterns = [
     path('get_drawings/', get_drawings, name='get_drawings'),
     path("tool", views.tool, name="tool"),
     path("translator", views.translator, name="translator"),
+    path("map", views.mapdirect, name="mapdirect"),
 ]
 
 # Serve media files during development
