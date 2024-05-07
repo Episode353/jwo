@@ -3,6 +3,7 @@ from . import views
 from .views import save_drawing, get_drawings
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import todo_view, move_up, move_down
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -23,6 +24,10 @@ urlpatterns = [
     path("tool", views.tool, name="tool"),
     path("translator", views.translator, name="translator"),
     path("map", views.mapdirect, name="mapdirect"),
+    path("todo", views.todo_view, name="todo"),
+    path('move-up/<int:id>/', move_up, name='move_up'),
+    path('move-down/<int:id>/', move_down, name='move_down'),
+    
 ]
 
 # Serve media files during development

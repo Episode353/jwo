@@ -1,0 +1,156 @@
+{% extends "template.html" %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+{% load static %}
+
+<style>
+
+    .todo-object, .todo-header, .todo-description, .todo-position, .todo-name, .todo-button-container{
+        background: #DCD1B3 !important;
+    }
+
+    .todo-object {
+        max-width: 60rem;
+        border: 3px black groove !important;
+        display: flex;  /* Use Flexbox */
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Align children vertically in the center */
+        margin-bottom: 1rem; /* Space between todo objects */
+        
+    }
+
+    .progress-bar {
+        width: 100%; /* Full width of the todo-object */
+        height: 3rem; /* Height of the progress bar */
+        background-color: black !important; /* Background of the progress bar */
+        border-radius: 2rem !important; /* Rounded corners */
+        overflow: hidden; /* Ensures content doesn't spill out */
+        position: relative; /* To position the filled part absolutely */
+        padding: 0px !important;
+        border: .2rem black groove !important;
+    }
+
+    .progress-bar p {
+        z-index: 99;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;  // Ensure there's no default margin applied
+        color: black !important; // Keep your color styling if needed
+    }
+    
+
+    .progress-bar-fill {
+        height: 100%;
+        
+        border-radius: 25px;
+         /* this will do the magic */
+        -webkit-mask:linear-gradient(#fff 0 0);
+                mask:linear-gradient(#fff 0 0);
+    }
+
+    .progress-bar-fill:before {
+        content:"";
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background-image: linear-gradient(to right, red, yellow, green); /* your gradient here */
+    }
+
+    .todo-header {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        border: none !important;
+        
+    }
+
+    .todo-position  {
+        width: 10%;
+        border: none !important;
+        
+    }
+
+    .todo-name{
+        width: 70%;
+        border: none !important;
+    }
+
+
+    .todo-button-container {
+        border: none !important;
+        margin-left: auto; /* Pushes the container to the right */
+        flex-direction: column; /* Stack children vertically */
+        justify-content: space-around; /* Distribute space around the buttons */
+        padding: 1rem;
+        width: 20%;
+        float: right;
+    }
+
+    .todo-buttons {
+        border: 3px solid black;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        width: 3rem;
+        height: 2.5rem;  /* Adjusted for clarity */
+        display: inline-block; /* Makes sure the anchor behaves like a button */
+        text-align: center; /* Centers text in the button */
+        line-height: 2.5rem; /* Centers text vertically */
+        text-decoration: none; /* Removes underline from links */
+        color: black; /* Text color */
+        background-color: #ECE1C2; /* Background color */
+    }
+    
+    .todo-buttons:hover, .todo-buttons:active, .todo-buttons:focus {
+        border: 3px solid black; /* Consistent border */
+        color: black; /* Text color doesn't change */
+        text-decoration: none; /* No underline on hover */
+        background-color: white; /* Background doesn't change */
+        outline: none; /* Removes the focus outline */
+    }
+    
+
+    .todo-description {
+        width: 100%; /* Full width */
+        text-align: center; /* Center the text */
+        padding: 1rem; /* Padding for better spacing */
+        border: none !important;
+    }
+</style>
+
+<div class="content-large-fill">
+    {% for todo in todo_list %}
+        <div class="todo-object">
+            <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: {{ todo.progress }}%;">
+                    <p style="color: black !important;">{{ todo.progress }}%</p>
+                </div>
+            </div>
+
+            <div class="todo-header">
+                <div class="todo-position">
+                    <p>{{todo.position}}</p>
+                </div>
+
+                <div class="todo-name">
+                    <h1>{{ todo.name }}</h1>
+                </div>
+                
+                <div class="todo-button-container">
+                    <a href="{% url 'move_up' todo.id %}" class="todo-buttons">⇧</a>
+                    <a href="{% url 'move_down' todo.id %}" class="todo-buttons">⇩</a>
+                </div>
+            </div>
+
+            {% if todo.description %}
+                <div class="todo-description">
+                    <strong>{{todo.description}}</strong>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
