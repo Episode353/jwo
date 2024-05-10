@@ -159,5 +159,16 @@
             </div>
         </div>
     {% endfor %}
+
+
+    <!---If there are no todo items, display a message -->
+    {%if not todo_list %}
+        <div>
+            <a>No current tasks</a></br>
+            <a>There's nothing to do! Grab yourself a drink!</a>
+        </div>
+    {% endif %}
+
+
 </div>
 {% endblock %}
