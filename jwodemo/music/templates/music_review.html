@@ -69,13 +69,7 @@
         width: 100% !important;
     }
 
-    .tier {
-        display: inline-block;
-        padding: 3px 8px;
-        border-radius: 5px;
-        color: white;
-        float: left;
-    }
+
 
     .review-body {
         float: left;
@@ -100,6 +94,74 @@
 
 
     }
+
+        .tier {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 5px;
+        color: white;
+        float: left;
+    }
+
+        #tier-S {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+            float: left;
+            background-color:red;
+        }
+        #tier-A {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+            float: left;
+            background-color:orange;
+        }
+        #tier-B {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: black;
+            text-outline: 2px 2px white;
+            float: left;
+            background-color:yellow;
+        }
+        #tier-C {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+            float: left;
+            background-color:green;
+        }
+        #tier-D {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: black;
+            float: left;
+            background-color:cyan;
+        }
+        #tier-E {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+            float: left;
+            background-color:violet;
+        }
+        #tier-F {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: white;
+            float: left;
+            background-color:pink;
+        }
+
+
 </style>
 
 <div class="content-large-fill">
@@ -126,7 +188,7 @@
         <div class="song-grid">
             {% for song in album_review.songs.all %}
             <div class="song">
-                <span class="tier" style="background-color: {% if song.tier == 'S' %}red{% elif song.tier == 'A' %}orange{% elif song.tier == 'B' %}yellow{% elif song.tier == 'C' %}green{% elif song.tier == 'D' %}blue{% elif song.tier == 'E' %}violet{% elif song.tier == 'F' %}purple{% endif %};">{{ song.tier }}</span>
+                <span class="tier" id="tier-{{song.tier}}">{{ song.tier }}</span>
                 <strong>{{ song.name }}</strong>
             </div>
             {% endfor %}
