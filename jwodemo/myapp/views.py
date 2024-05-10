@@ -189,23 +189,3 @@ def todo_view(request):  # Renamed to avoid conflict with model name
     todo_list = todo.objects.all().order_by('position')
     return render(request, "todo.html", {'todo_list': todo_list})
 
-from django.shortcuts import redirect
-from .models import todo
-
-def move_up(request, id):
-    current_todo = todo.objects.get(id=id)
-    previous_todo = todo.objects.filter(position__lt=current_todo.position).order_by('-position').first()
-    if previous_todo:
-        current_todo.position, previous_todo.position = previous_todo.position, current_todo.position
-        current_todo.save()
-        previous_todo.save()
-    return redirect('todo')
-
-def move_down(request, id):
-    current_todo = todo.objects.get(id=id)
-    next_todo = todo.objects.filter(position__gt=current_todo.position).order_by('position').first()
-    if next_todo:
-        current_todo.position, next_todo.position = next_todo.position, current_todo.position
-        current_todo.save()
-        next_todo.save()
-    return redirect('todo')
