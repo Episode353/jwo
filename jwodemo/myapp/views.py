@@ -182,7 +182,7 @@ def translator(request):
     return render(request, "translator.html")
 
 def mapdirect(request):
-    return redirect("http://c-municipality.gl.at.ply.gg:45118/")
+    return redirect("http://kit-transaction.gl.at.ply.gg:41949/")
 
 
 def todo_view(request):  # Renamed to avoid conflict with model name
