@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import base64
 from datetime import datetime
 from .models import Profile
-from .models import foodreview, SeepCoinTransaction
+from .models import foodreview, SeepCoinTransaction, todo
 from django.conf import settings
 
 
@@ -183,3 +183,9 @@ def translator(request):
 
 def mapdirect(request):
     return redirect("http://c-municipality.gl.at.ply.gg:45118/")
+
+
+def todo_view(request):  # Renamed to avoid conflict with model name
+    todo_list = todo.objects.all().order_by('position')
+    return render(request, "todo.html", {'todo_list': todo_list})
+

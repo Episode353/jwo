@@ -43,7 +43,13 @@ class foodreview(models.Model):
 
     def __str__(self):
         return self.name
+    
+class todo(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    position = models.PositiveIntegerField()
+    description = models.TextField(blank=True)  # Changed to TextField
+    progress = models.IntegerField(default=0, blank=True)
 
-# python manage.py makemigrations
-# python manage.py migrate
-
+    def __str__(self):
+        return self.name

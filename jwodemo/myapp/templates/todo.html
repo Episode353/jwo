@@ -1,0 +1,163 @@
+{% extends "template.html" %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+{% load static %}
+
+<style>
+    .todo-object, .todo-header, .todo-description, .todo-position, .todo-name, .todo-button-container {
+        background: #DCD1B3 !important;
+    }
+
+    .todo-object {
+        max-width: 60rem;
+        border: 3px black groove !important;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        margin-bottom: 1rem;
+    }
+
+    .todo-header {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        border: none !important;
+    }
+
+    .todo-position {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        border: none !important;
+        background: #DCD1B3 !important;
+    }
+
+    .todo-name {
+        flex: 1;
+        text-align: center;
+        border: none !important;
+        font-size: 2rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .todo-description {
+        text-align: left; /* Align the text to the left */
+        max-width: 100%;
+        margin: auto;
+        border: none !important;
+        padding: 1rem; /* Add padding for better readability */
+        white-space: pre-wrap; /* Preserve line breaks */
+        overflow-wrap: break-word; /* Wrap long lines */
+        background: #DCD1B3 !important;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 3rem;
+        background-color: black !important;
+        border-radius: 2rem !important;
+        overflow: hidden;
+        position: relative;
+        padding: 0px !important;
+        border: .2rem black groove !important;
+    }
+
+    .progress-bar p {
+        z-index: 99;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        color: black !important;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        border-radius: 25px;
+        -webkit-mask: linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0);
+    }
+
+    .progress-bar-fill:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(to right, red, yellow, green);
+    }
+
+    .todo-button-container {
+        border: none !important;
+        margin-left: auto;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 1rem;
+        width: 20%;
+        flex-shrink: 0;
+    }
+
+    .todo-buttons {
+        border: 3px solid black;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        width: 3rem;
+        height: 2.5rem;
+        display: inline-block;
+        text-align: center;
+        line-height: 2.5rem;
+        text-decoration: none;
+        color: black;
+        background-color: #ECE1C2;
+    }
+
+    .todo-buttons:hover, .todo-buttons:active, .todo-buttons:focus {
+        border: 3px solid black;
+        color: black;
+        text-decoration: none;
+        background-color: white;
+        outline: none;
+    }
+
+    .content-large-fill {
+        background: transparent !important;
+        border: none !important;
+    }
+</style>
+
+<div class="content-large-fill">
+    {% for todo in todo_list %}
+        <div class="todo-object">
+            <div class="todo-header">
+                <div class="todo-name">
+                    <strong><a>{{ todo.name }}</a></strong>
+                </div>
+
+                <div class="todo-position">
+                    <p>{{ todo.position }}</p>
+                </div>
+            </div>
+
+{% if todo.description %}
+<div class="alert alert-dark todo-description" role="alert">
+{{ todo.description }}
+</div>
+
+{% endif %}
+
+            <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: {{ todo.progress }}%;">
+                    <p style="color: black !important; position: relative;">{{ todo.progress }}%</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
