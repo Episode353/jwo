@@ -1,4 +1,4 @@
-﻿{% load static %}
+{% load static %}
 
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
     <script src="{% static 'scripts/seppe.js' %}"></script>
     <link rel="icon" type="image/x-icon" href="{% static 'ico/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}?v=3">
-    
+
 
 
     <meta property="og:title" content="Joe's World Online" />
@@ -51,7 +51,7 @@
               color: #92AAFC;
               text-shadow: 1px 1px 1px white !important;
             }
-          
+
 
 
     </style>
@@ -64,10 +64,10 @@
             "𓆟 𓆞 𓆝 𓆝",
             "𓆞 𓆝 𓆝 𓆟",
             "𓆝 𓆝 𓆟 𓆞",
-            
-                
-                
-                
+
+
+
+
             ];
 
             let frameIndex = 0;
@@ -88,14 +88,14 @@
     <!--Firebase Authenticaion Information-->
     <div class="header-login">
 
-            
+
             {% if user.is_authenticated %}
             <a style="color:green;">Logged in as: [ {{ request.user }} ] </a>
             <a href="{% url 'logout' %}" style="color: white;" id="logoutBtn">Logout</a>
             <a href="{% url 'account' %}" style="color: white;">My Account</a>
             {% else %}
             <a href="{% url 'login' %}" style="color: white;">Login</a>
-            
+
             <a href="{% url 'register_user' %}" style="color: white;">Register</a>
             {% endif%}
 
@@ -105,7 +105,7 @@
                 <a style="color:red;">
                     {{ message }}
                   </a>
-                    
+
                 {% endfor %}
             {% endif %}
 
@@ -118,7 +118,7 @@
         <div id="loginStatus" style="display: none; align-items: center;">
             <div style="width: 10px; height: 10px; background-color: green; border-radius: 50%; margin-right: 5px;"></div>
             <div id="loginStatusText" style="color: green;">Logged in</div>
-            
+
         </div>
     </div>
     <div id="loginFormContainer" class="login-form-container draggable">
@@ -134,17 +134,17 @@
         <div class="container">
 
             <div class="header">
-                
+
                 <div id="header-logo">
                     <a href="/" target="_top">
                         <span>Joes World .Online</span>
                     </a>
                 </div>
-                
-                
-               
-                
-                
+
+
+
+
+
                 <div class="header-content">
                     <a href="/" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #fec652;" target="_top">Home🏠</a>
                     <a href="/board" class="header-link" style="color: black; text-shadow: 5px 5px 0px #BABABA;" target="_top">Board📰</a>
@@ -157,24 +157,24 @@
                 <script>
                     const headerLinks = document.querySelectorAll(".header-link");
                     const logoLink = document.querySelector("#header-logo a");
-            
+
                     headerLinks.forEach(link => {
                         link.addEventListener("mouseover", playHeaderAnimation);
                     });
-            
+
                     logoLink.addEventListener("mouseover", playLogoAnimation);
-            
+
                     function playHeaderAnimation(event) {
                         const link = event.target;
                         link.style.animation = "headerlinkhover 1s cubic-bezier(0.42, 0, 0.58, 1)";
                         link.addEventListener("animationend", onAnimationEnd);
                     }
-            
+
                     function playLogoAnimation() {
                         logoLink.style.animation = "headerlogohover 1s cubic-bezier(0.42, 0, 0.58, 1)";
                         logoLink.addEventListener("animationend", onAnimationEnd);
                     }
-            
+
                     function onAnimationEnd(event) {
                         const element = event.target;
                         element.style.animation = "none";
@@ -184,9 +184,9 @@
                     }
                 </script>
             </div>
-            
 
-            
+
+
                 {% block content %}
                 {% endblock %}
 
@@ -198,7 +198,7 @@
                         .footer {
                             text-align: center;
                         }
-                    
+
                         .footer-links {
                             display: grid;
                             grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
@@ -206,7 +206,7 @@
                             text-align: center;
                             border: none !important;
                         }
-                    
+
                         .footer a {
                             border: .3rem white groove;
                             display: flex;
@@ -217,30 +217,30 @@
                             transition: background-color 0.3s ease; /* Add transition for smooth effect */
                             font-size: 1rem;
                         }
-                    
+
                         .footer a:hover {
                             background-color: white; /* Change background color on hover */
                         }
-                    
+
                         .footer p {
                             font-size: 10px;
                         }
-                    
+
                         .footer a p {
                             font-size: 10px;
                             margin: 0; /* Reset default margin for paragraphs inside anchors */
                         }
-                    
+
                         .email-link {
                             border: none !important;
                         }
                     </style>
-                    
-                
+
+
                     <center>
 
-                    
-                    <div class="footer-links"> 
+
+                    <div class="footer-links">
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'home' %}">Home</a>
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'seepcoin' %}">Seep Coin</a>
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'board' %}">Board</a>
@@ -251,15 +251,16 @@
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'jworld' %}">Jworld</a>
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'music' %}">Music</a>
                         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'todo' %}">TODO</a>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'mapdirect' %}">Map</a>
                     </div>
-                    
+
                     <p>Contact: <a href="mailto:joe@joesworld.online" class="email-link" style="width: 15rem;">joe@joesworld.online</a></p>
                     <p>Copyright &copy; {% now 'Y' %} Joseph Toscano.</p>
                     <p class="fish" onclick="animateFish()">𓆝 𓆟 𓆞 𓆝</p>
                 </center>
                 </div>
-                
-                
+
+
 
 
 
