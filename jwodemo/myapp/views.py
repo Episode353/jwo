@@ -185,7 +185,26 @@ def mapdirect(request):
     return redirect("http://manual-requiring.gl.at.ply.gg:46231")
 
 
-def todo_view(request):  # Renamed to avoid conflict with model name
-    todo_list = todo.objects.all().order_by('position')
-    return render(request, "todo.html", {'todo_list': todo_list})
+from django.shortcuts import render
+from django.http import HttpResponseNotFound
+
+def custom_404_view(request, message):
+    return render(request, "404.html", {'message': message})
+
+from django.shortcuts import render
+from django.http import HttpResponseNotFound
+from django.conf import settings
+from django.urls import resolve
+
+def todo_view(request):
+    if request.user.is_authenticated:
+        if request.user.username == 'joe':
+            todo_list = todo.objects.all().order_by('position')
+            return render(request, "todo.html", {'todo_list': todo_list})
+        else:
+            message = "Only Joe can see this"
+            return custom_404_view(request, message)
+    else:
+        message = "You must be logged in to view this page"
+        return custom_404_view(request, message)
 
