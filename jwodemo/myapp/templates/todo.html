@@ -43,7 +43,6 @@
         text-align: center;
         border: none !important;
         font-size: 2rem;
-        padding: 0.5rem 1rem;
     }
 
     .todo-description {
@@ -134,20 +133,70 @@
         background: transparent !important;
         border: none !important;
     }
+
+    .todo-button {
+        height: 3rem;
+        width: 3rem;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        background-color: black;
+        text-decoration: none;
+        float: right;
+    }
+
+    .todo-delete {
+        height: 3rem;
+        width: 3rem;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: red;
+        background-color: black;
+        text-decoration: none;
+        float: right;
+    }
+
+    .todo-change {
+        height: 3rem;
+        width: 3rem;
+        margin-left: 1rem;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: lightblue;
+        background-color: black;
+        text-decoration: none;
+        float: right;
+    }
+
+    .todo-top-button{
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: white;
+        background-color: black;
+        text-decoration: none;
+    }
 </style>
 
 <div class="content-large-fill">
+    <a href="admin/myapp/todo/add" class="todo-top-button">New</a>
+    <a href="admin/myapp/todo" class="todo-top-button">Edit</a>
     {% for todo in todo_list %}
         <div class="todo-object">
+            
             <div class="todo-header">
+                
+                
                 <div class="todo-name">
                     <strong><a>{{ todo.name }}</a></strong>
+                    <a href="admin/myapp/todo/{{todo.id}}/change" class="todo-change">C</a>
+                    <a href="admin/myapp/todo/{{todo.id}}/delete"  class="todo-delete">X</a>
                 </div>
-
+                
                 <div class="todo-position">
                     <p>{{ todo.position }}</p>
                 </div>
+
             </div>
+            
 
 {% if todo.description %}
 <div class="alert alert-dark todo-description" role="alert">
@@ -161,7 +210,10 @@
                     <p style="color: black !important; position: relative;">{{ todo.progress }}%</p>
                 </div>
             </div>
+
         </div>
+
+        
     {% endfor %}
 
 
