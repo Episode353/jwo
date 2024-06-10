@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+{% load static %}
+<div class="content-large-fill">
+    {% if living_worm %}
+        <!-- If there is a living worm, display it -->
+        <p>Currently living worm:</p>
+        <ul>
+            <li>{{ living_worm.name }}</li>
+        </ul>
+    {% else %}
+        <!-- If there are no worms alive, show a message and a form to create a new one -->
+        <p>No worms are alive!</p>
+        <p>Create a new worm?</p>
+        <form method="post" action="{% url 'create_worm' %}">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Enter worm name" required>
+            <button type="submit">Create Worm</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

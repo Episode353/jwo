@@ -29,7 +29,8 @@ urlpatterns = [
     path("tool", views.tool, name="tool"),
     path("translator", views.translator, name="translator"),
     path("map", views.mapdirect, name="mapdirect"),
-    path("todo", views.todo_view, name="todo")
+    path("todo", views.todo_view, name="todo"),
+    path('worm/', include('worm.urls')),
     
 ]
 
