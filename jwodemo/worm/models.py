@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 
 class Worm(models.Model):
     # Automatically created unique identifier for each Worm
@@ -12,19 +13,23 @@ class Worm(models.Model):
     # Setting up fields with max 10 and min 0 constraints
     health = models.PositiveIntegerField(
         default=5,
-        validators=[MaxValueValidator(10), MinValueValidator(0)])
+        validators=[MaxValueValidator(10), MinValueValidator(0)]
+    )
     
     sleep = models.PositiveIntegerField(
         default=5,
-        validators=[MaxValueValidator(10), MinValueValidator(0)])
+        validators=[MaxValueValidator(10), MinValueValidator(0)]
+    )
     
     hunger = models.PositiveIntegerField(
         default=5,
-        validators=[MaxValueValidator(10), MinValueValidator(0)])
+        validators=[MaxValueValidator(10), MinValueValidator(0)]
+    )
     
     happiness = models.PositiveIntegerField(
         default=5,
-        validators=[MaxValueValidator(10), MinValueValidator(0)])
+        validators=[MaxValueValidator(10), MinValueValidator(0)]
+    )
     
     # Timestamps for various activities
     last_fed = models.DateTimeField(null=True, blank=True)
@@ -35,6 +40,8 @@ class Worm(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # Updated at timestamp
     updated_at = models.DateTimeField(auto_now=True)
+    # Time of death timestamp
+    time_of_death = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Worm {self.id} - {self.name or 'Unnamed'}"

@@ -5,9 +5,13 @@
 <div class="content-large-fill">
     {% if living_worm %}
         <!-- If there is a living worm, display it -->
-        <p>Currently living worm:</p>
         <ul>
-            <li>{{ living_worm.name }}</li>
+            <li>Name: {{ living_worm.name }}</li>
+            <li>Sleep: {{ living_worm.sleep }}</li>
+            <li>Hunger: {{ living_worm.hunger }}</li>
+            <li>Happiness: {{ living_worm.happiness }}</li>
+            <li>Health: {{ living_worm.health }}</li>
+            <li>Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</li>
         </ul>
     {% else %}
         <!-- If there are no worms alive, show a message and a form to create a new one -->
