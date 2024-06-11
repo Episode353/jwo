@@ -49,6 +49,12 @@ def main(request):
 
     
 
+from django.shortcuts import render, redirect
+from worm.models import Worm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from django.utils import timezone
+
 @csrf_exempt  # Temporary, use with caution in production.
 def create_worm(request):
     if request.method == 'POST':
@@ -62,7 +68,17 @@ def create_worm(request):
         if name:
             # Capitalize the first letter and make the rest lowercase
             formatted_name = name.capitalize()
-            Worm.objects.create(name=formatted_name)
+            
+            # Get the current time
+            now = timezone.now()
+            
+            # Create the worm with the current time for sleep, fed, and played times
+            Worm.objects.create(
+                name=formatted_name,
+                last_slept=now,
+                last_fed=now,
+                last_played=now
+            )
             return redirect('worm/main')
     
     # In case of GET request or no name provided, redirect to main page

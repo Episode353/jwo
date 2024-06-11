@@ -2,26 +2,171 @@
 {% block title %} Home Page {% endblock %}
 {% block content %}
 {% load static %}
+
+<style>
+    .content-large-fill {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .top-section {
+        padding: 10px;
+        border-bottom: 1px solid #000;
+        background-color: lightgray;
+    }
+
+    .worm-container {
+        display: flex;
+        flex: 1;
+        border-top: 1px solid #000;
+    }
+
+    .box {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #000;
+        box-sizing: border-box;
+    }
+
+    #box1 {
+        background-color: lightblue;
+    }
+
+    #box2 {
+        background-color: lightgreen;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .progress-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .progress-label {
+        margin-bottom: 0px;
+        font-weight: bold;
+        border: none !important;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 25px;
+        background-color: #f3f3f3;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: none !important
+    }
+
+    .progress-bar-fill span {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+        color: white;
+    }
+
+    .progress-bar.sleep {
+        background-color: #FFD700; /* Gold */
+    }
+
+    .progress-bar.sleep .progress-bar-fill {
+        background-color: #FFA500; /* Orange */
+    }
+
+    .progress-bar.hunger {
+        background-color: #FF6347; /* Tomato */
+    }
+
+    .progress-bar.hunger .progress-bar-fill {
+        background-color: #FF4500; /* OrangeRed */
+    }
+
+    .progress-bar.happiness {
+        background-color: #32CD32; /* LimeGreen */
+    }
+
+    .progress-bar.happiness .progress-bar-fill {
+        background-color: #228B22; /* ForestGreen */
+    }
+
+    .progress-bar.health {
+        background-color: #1E90FF; /* DodgerBlue */
+    }
+
+    .progress-bar.health .progress-bar-fill {
+        background-color: #0000FF; /* Blue */
+    }
+</style>
+
 <div class="content-large-fill">
     {% if living_worm %}
-        <!-- If there is a living worm, display it -->
-        <ul>
-            <li>Name: {{ living_worm.name }}</li>
-            <li>Sleep: {{ living_worm.sleep }}</li>
-            <li>Hunger: {{ living_worm.hunger }}</li>
-            <li>Happiness: {{ living_worm.happiness }}</li>
-            <li>Health: {{ living_worm.health }}</li>
-            <li>Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</li>
-        </ul>
+        <div class="top-section">
+            <p>Name: {{ living_worm.name }}</p>
+        </div>
+        
+        <div class="worm-container">
+            <div class="box" id="box1">Box 1</div>
+            <div class="box" id="box2">
+                <div class="progress-container">
+                    <div class="progress-label">Sleep: {{ living_worm.sleep }}</div>
+                    <div class="progress-bar sleep">
+                        <div class="progress-bar-fill" style="width: {{ living_worm.sleep|floatformat:"0" }}0%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">Hunger: {{ living_worm.hunger }}</div>
+                    <div class="progress-bar hunger">
+                        <div class="progress-bar-fill" style="width: {{ living_worm.hunger|floatformat:"0" }}0%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">Happiness: {{ living_worm.happiness }}</div>
+                    <div class="progress-bar happiness">
+                        <div class="progress-bar-fill" style="width: {{ living_worm.happiness|floatformat:"0" }}0%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">Health: {{ living_worm.health }}</div>
+                    <div class="progress-bar health">
+                        <div class="progress-bar-fill" style="width: {{ living_worm.health|floatformat:"0" }}0%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
+                </div>
+            </div>
+        </div>
     {% else %}
-        <!-- If there are no worms alive, show a message and a form to create a new one -->
-        <p>No worms are alive!</p>
-        <p>Create a new worm?</p>
-        <form method="post" action="{% url 'create_worm' %}">
-            {% csrf_token %}
-            <input type="text" name="name" placeholder="Enter worm name" required>
-            <button type="submit">Create Worm</button>
-        </form>
+        <div class="top-section">
+            <p>No worms are alive!</p>
+            <p>Create a new worm?</p>
+            <form method="post" action="{% url 'create_worm' %}">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Enter worm name" required>
+                <button type="submit">Create Worm</button>
+            </form>
+        </div>
     {% endif %}
 </div>
+
 {% endblock %}
