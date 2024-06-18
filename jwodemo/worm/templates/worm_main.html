@@ -144,7 +144,7 @@
                 <img id="wormAnimation" src="" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             <!--Animations that could be used-->
-            <!-- idle.gif worm/mild_hunger.gif sad.gif very-sad.gif -->
+            <!-- idle.gif worm/mild_hunger.gif sad.gif very-sad.gif worm-bored.gif -->
             <!--Determine Worm Animation-->
             <script>
                 var hunger = '{{ living_worm.hunger|floatformat:"0" }}';
@@ -152,7 +152,10 @@
                 var happiness = '{{ living_worm.happiness|floatformat:"0" }}';
             
                 var animationSrc = "{% static 'worm/idle.gif' %}";
-            
+                
+                if (happiness < 8) {
+                    animationSrc = "{% static 'worm/worm-bored.gif' %}";
+                }
                 if (hunger < 6) {
                     animationSrc = "{% static 'worm/mild_hunger.gif' %}";
                 } if (happiness < 5) {
