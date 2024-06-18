@@ -135,6 +135,7 @@
 <div class="content-large-fill">
     {% if living_worm %}
         <div class="top-section">
+            <a>badge: {{ living_worm.badge }}</a>
             <a>Worm's Name: {{ living_worm.name }}</a>
         </div>
         
@@ -155,8 +156,7 @@
                 
                 if (happiness < 8) {
                     animationSrc = "{% static 'worm/worm-bored.gif' %}";
-                }
-                if (hunger < 6) {
+                }if (hunger < 6) {
                     animationSrc = "{% static 'worm/mild_hunger.gif' %}";
                 } if (happiness < 5) {
                     animationSrc = "{% static 'worm/sad.gif' %}";
@@ -203,6 +203,7 @@
                 </div>
                 <div class="progress-container">
                     <div class="progress-label">Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
+                    
                 </div>
             </div>
         </div>

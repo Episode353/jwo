@@ -31,13 +31,19 @@ class Worm(models.Model):
         validators=[MaxValueValidator(10), MinValueValidator(0)]
     )
     
+    # Badge Variable
+    badge = models.PositiveIntegerField(
+        default=0,
+        validators=[MaxValueValidator(10), MinValueValidator(0)]
+    )
+
     # Timestamps for various activities
     last_fed = models.DateTimeField(null=True, blank=True)
     last_slept = models.DateTimeField(null=True, blank=True)
     last_played = models.DateTimeField(null=True, blank=True)
     
     # Created at timestamp
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     # Updated at timestamp
     updated_at = models.DateTimeField(auto_now=True)
     # Time of death timestamp

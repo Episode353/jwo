@@ -1,12 +1,7 @@
 from django.shortcuts import render, redirect
 from worm.models import Worm
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-
-from django.shortcuts import render
 from django.utils import timezone
 from datetime import timedelta
-from .models import Worm
 
 def main(request):
     # Fetch the first worm that is alive
@@ -40,6 +35,30 @@ def main(request):
         if living_worm.health <= 0 and living_worm.is_alive:
             living_worm.is_alive = False
             living_worm.time_of_death = now
+
+        # Calculate the worm's age and update the badge
+        worm_age_days = (now - living_worm.created_at).days
+
+        if worm_age_days < 7:
+            living_worm.badge = 1
+        elif worm_age_days < 14:
+            living_worm.badge = 2
+        elif worm_age_days < 21:
+            living_worm.badge = 3
+        elif worm_age_days < 30:
+            living_worm.badge = 4
+        elif worm_age_days < 60:
+            living_worm.badge = 5
+        elif worm_age_days < 90:
+            living_worm.badge = 6
+        elif worm_age_days < 120:
+            living_worm.badge = 7
+        elif worm_age_days < 150:
+            living_worm.badge = 8
+        elif worm_age_days < 180:
+            living_worm.badge = 9
+        else:
+            living_worm.badge = 10
         
         # Save the updated worm
         living_worm.save()
@@ -47,7 +66,6 @@ def main(request):
     # Pass the living_worm to the template
     return render(request, 'worm_main.html', {'living_worm': living_worm})
 
-    
 
 from django.shortcuts import render, redirect
 from worm.models import Worm
@@ -55,7 +73,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.utils import timezone
 
-@csrf_exempt  # Temporary, use with caution in production.
+#@csrf_exempt  # You may enable for debugging
 def create_worm(request):
     if request.method == 'POST':
         # Check if there are any worms alive
