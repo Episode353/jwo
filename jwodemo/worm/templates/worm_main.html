@@ -8,7 +8,6 @@
     @font-face {
         src: url({% static 'fonts/tomshand.ttf' %});
         font-family: biro;
-        
     }
 
     .content-large-fill {
@@ -21,7 +20,6 @@
         background-image: url({% static 'jpg/background_lines_1.jpg' %}) !important;
         border: .75rem outset black !important;
         letter-spacing: 2px;
-  
     }
 
     .top-section {
@@ -87,19 +85,21 @@
         background-color: transparent !important;
     }
 
-.progress-bar-fill {
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: none !important;
-    mask-image: url({% static 'png/bar-scribble.png' %});
-    mask-size: auto 100%; /* Ensures it tiles horizontally and stretches vertically */
-    mask-position: center;
-    mask-repeat: repeat-x; /* Ensures the mask repeats only horizontally */
-    background-color: inherit; /* Inherit the background color from the parent */
-}
+    .badge-box {
+    }
 
+    .progress-bar-fill {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: none !important;
+        mask-image: url({% static 'png/bar-scribble.png' %});
+        mask-size: auto 100%; /* Ensures it tiles horizontally and stretches vertically */
+        mask-position: center;
+        mask-repeat: repeat-x; /* Ensures the mask repeats only horizontally */
+        background-color: inherit; /* Inherit the background color from the parent */
+    }
 
     .progress-bar-fill span {
         position: absolute;
@@ -108,69 +108,126 @@
         transform: translateY(-50%);
         font-weight: bold;
         color: white;
-        
     }
-
 
     .progress-bar.sleep .progress-bar-fill {
         background-color: #f3c913;
     }
-    
+
     .progress-bar.hunger .progress-bar-fill {
         background-color: #ed2b2b;
     }
-    
+
     .progress-bar.happiness .progress-bar-fill {
         background-color: #5e59c0;
     }
-    
+
     .progress-bar.health .progress-bar-fill {
         background-color: #0b815e;
     }
-    
 </style>
-
-
 
 <div class="content-large-fill">
     {% if living_worm %}
         <div class="top-section">
-            <a>badge: {{ living_worm.badge }}</a>
+            <div class="badge-box" style="display: none;">
+                <img style="cursor: help;"src="" title="" id="badge-image">
+                <a>{{ living_worm.badge|floatformat:"0" }}</a>
+            </div>
             <a>Worm's Name: {{ living_worm.name }}</a>
         </div>
         
         <div class="worm-container">
-
             <div class="box" id="box1">
                 <img id="wormAnimation" src="" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
-            <!--Animations that could be used-->
+            <!-- Animations that could be used -->
             <!-- idle.gif worm/mild_hunger.gif sad.gif very-sad.gif worm-bored.gif -->
-            <!--Determine Worm Animation-->
+            <!-- Determine Worm Animation -->
             <script>
                 var hunger = '{{ living_worm.hunger|floatformat:"0" }}';
                 var sleep = '{{ living_worm.sleep|floatformat:"0" }}';
                 var happiness = '{{ living_worm.happiness|floatformat:"0" }}';
-            
+                var health = '{{ living_worm.health|floatformat:"0" }}';
+                var badge = '{{ living_worm.badge|floatformat:"0" }}';
+
+                // Get the badge-box element
+                var badgeboxPtr = document.getElementsByClassName('badge-box')[0];
+                var badgeImage = badgeboxPtr.getElementsByTagName('img')[0];
+                var badgeTitle = "";
+
+                // Determine if the badge-box should be displayed and set the image source
+                if (badge > 0) {
+                    badgeboxPtr.style.display = 'inherit';
+
+                    // Set the image source and title based on the badge value
+                    switch (parseInt(badge)) {
+                        case 1:
+                            badgeImage.src = "{% static 'images/badge_1.png' %}";
+                            badgeTitle = "Badge 1: Less than 7 days old.";
+                            break;
+                        case 2:
+                            badgeImage.src = "{% static 'images/badge_2.png' %}";
+                            badgeTitle = "Badge 2: Between 7 and 14 days old.";
+                            break;
+                        case 3:
+                            badgeImage.src = "{% static 'images/badge_3.png' %}";
+                            badgeTitle = "Badge 3: Between 14 and 21 days old.";
+                            break;
+                        case 4:
+                            badgeImage.src = "{% static 'images/badge_4.png' %}";
+                            badgeTitle = "Badge 4: Between 21 and 30 days old.";
+                            break;
+                        case 5:
+                            badgeImage.src = "{% static 'images/badge_5.png' %}";
+                            badgeTitle = "Badge 5: Between 30 and 60 days old.";
+                            break;
+                        case 6:
+                            badgeImage.src = "{% static 'images/badge_6.png' %}";
+                            badgeTitle = "Badge 6: Between 60 and 90 days old.";
+                            break;
+                        case 7:
+                            badgeImage.src = "{% static 'images/badge_7.png' %}";
+                            badgeTitle = "Badge 7: Between 90 and 120 days old.";
+                            break;
+                        case 8:
+                            badgeImage.src = "{% static 'images/badge_8.png' %}";
+                            badgeTitle = "Badge 8: Between 120 and 150 days old.";
+                            break;
+                        case 9:
+                            badgeImage.src = "{% static 'images/badge_9.png' %}";
+                            badgeTitle = "Badge 9: Between 150 and 180 days old.";
+                            break;
+                        case 10:
+                            badgeImage.src = "{% static 'images/badge_10.png' %}";
+                            badgeTitle = "Badge 10: More than 180 days old.";
+                            break;
+                        default:
+                            badgeImage.src = "{% static 'images/default_badge.png' %}"; // Fallback image
+                            badgeTitle = "Default Badge.";
+                            break;
+                    }
+                    badgeImage.title = badgeTitle;
+                }
+
                 var animationSrc = "{% static 'worm/idle.gif' %}";
-                
+
                 if (happiness < 8) {
                     animationSrc = "{% static 'worm/worm-bored.gif' %}";
-                }if (hunger < 6) {
+                }
+                if (hunger < 6) {
                     animationSrc = "{% static 'worm/mild_hunger.gif' %}";
-                } if (happiness < 5) {
+                }
+                if (happiness < 5) {
                     animationSrc = "{% static 'worm/sad.gif' %}";
-                } if (happiness < 1) {
+                }
+                if (happiness < 1) {
                     animationSrc = "{% static 'worm/very-sad.gif' %}";
                 }
-            
+
                 // Set the id 'wormAnimation' with animation source from Django static files
                 document.getElementById('wormAnimation').src = animationSrc;
             </script>
-            
-            
-
-            
 
             <div class="box" id="box2">
                 <div class="progress-container">
@@ -203,7 +260,6 @@
                 </div>
                 <div class="progress-container">
                     <div class="progress-label">Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
-                    
                 </div>
             </div>
         </div>
