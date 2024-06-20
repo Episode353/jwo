@@ -102,3 +102,27 @@ def create_worm(request):
     # In case of GET request or no name provided, redirect to main page
     return redirect('worm/main')
 
+from django.shortcuts import render, redirect
+from worm.models import Worm
+from django.utils import timezone
+
+def worm_feed(request):
+    worm = Worm.objects.filter(is_alive=True).first()
+    if worm:
+        worm.last_fed = timezone.now()
+        worm.save()
+    return redirect('worm/main')
+
+def worm_play(request):
+    worm = Worm.objects.filter(is_alive=True).first()
+    if worm:
+        worm.last_played = timezone.now()
+        worm.save()
+    return redirect('worm/main')
+
+def worm_sleep(request):
+    worm = Worm.objects.filter(is_alive=True).first()
+    if worm:
+        worm.last_slept = timezone.now()
+        worm.save()
+    return redirect('worm/main')

@@ -270,8 +270,41 @@
                 <div class="progress-container">
                     <div class="progress-label">Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
                 </div>
+
+                        <!-- New Buttons -->
+                <button onclick="handleWormAction('feed')">Feed</button>
+                <button onclick="handleWormAction('play')">Play</button>
+                <button onclick="handleWormAction('sleep')">Sleep</button>
             </div>
         </div>
+
+        <script>
+            function handleWormAction(action) {
+                // Determine the image to show based on the action
+                var animationSrc;
+                switch(action) {
+                    case 'feed':
+                        animationSrc = "{% static 'worm/eating.gif' %}"; // Change this to the appropriate feed image
+                        break;
+                    case 'play':
+                        animationSrc = "{% static 'worm/playing.gif' %}"; // Change this to the appropriate play image
+                        break;
+                    case 'sleep':
+                        animationSrc = "{% static 'worm/sleeping.gif' %}"; // Change this to the appropriate sleep image
+                        break;
+                }
+        
+                // Set the image
+                document.getElementById('wormAnimation').src = animationSrc;
+        
+                // Wait for a specified duration (e.g., 3 seconds) and then redirect
+                setTimeout(function() {
+                    window.location.href = '/worm/' + action + '/';
+                }, 3000); // 3000ms = 3 seconds
+            }
+        </script>
+        
+
     {% else %}
         <div class="top-section">
             <p>No worms are alive!</p>
