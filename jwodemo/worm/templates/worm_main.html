@@ -151,6 +151,7 @@
                 var health = '{{ living_worm.health|floatformat:"0" }}';
                 var badge = '{{ living_worm.badge|floatformat:"0" }}';
 
+                var is_alive = '{{ living_worm.is_alive }}' === 'True'; // Convert the Django template variable to a boolean
                 // Get the badge-box element
                 var badgeboxPtr = document.getElementsByClassName('badge-box')[0];
                 var badgeImage = badgeboxPtr.getElementsByTagName('img')[0];
@@ -219,7 +220,7 @@
                 if (hunger < 6) {
                     animationSrc = "{% static 'worm/mild_hunger.gif' %}";
                 }if (hunger < 3) {
-                    animationSrc = "{% static 'worm/worm-frazzles.gif' %}";
+                    animationSrc = "{% static 'worm/worm-frazzels.gif' %}";
                 }
                 if (happiness < 5) {
                     animationSrc = "{% static 'worm/sad.gif' %}";
@@ -229,6 +230,11 @@
                 if (happiness < 1) {
                     animationSrc = "{% static 'worm/very-sad.gif' %}";
                 }
+
+                if (!is_alive) { 
+                    animationSrc = "{% static 'worm/worm-death.gif' %}";
+                }
+                
 
                 // Set the id 'wormAnimation' with animation source from Django static files
                 document.getElementById('wormAnimation').src = animationSrc;
