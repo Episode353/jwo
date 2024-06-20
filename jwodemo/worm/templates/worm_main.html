@@ -212,29 +212,27 @@
                 }
 
                 var animationSrc = "{% static 'worm/idle.gif' %}";
-                if (hunger < 9) {
-                    animationSrc = "{% static 'worm/worm-hang.gif' %}";
-                }if (happiness < 8) {
-                    animationSrc = "{% static 'worm/worm-bored.gif' %}";
-                }
-                if (hunger < 6) {
-                    animationSrc = "{% static 'worm/mild_hunger.gif' %}";
-                }if (hunger < 3) {
-                    animationSrc = "{% static 'worm/worm-frazzels.gif' %}";
-                }
-                if (happiness < 5) {
-                    animationSrc = "{% static 'worm/sad.gif' %}";
-                }if (happiness < 3) {
-                    animationSrc = "{% static 'worm/worm-fishstick.gif' %}";
-                }
-                if (happiness < 1) {
-                    animationSrc = "{% static 'worm/very-sad.gif' %}";
-                }
+                // 9
+                if (hunger < 9) {animationSrc = "{% static 'worm/worm-hang.gif' %}";}
+                if (happiness < 9) {animationSrc = "{% static 'worm/worm-stand.gif' %}";}
+                // 8
+                if (happiness < 8) {animationSrc = "{% static 'worm/worm-bored.gif' %}";}
+                // 7
+                // 6
+                if (hunger < 6) {animationSrc = "{% static 'worm/mild_hunger.gif' %}";}
+                // 5
+                if (happiness < 5) {animationSrc = "{% static 'worm/sad.gif' %}";}
+                // 4
+                if (hunger < 4) {animationSrc = "{% static 'worm/worm-frazzels.gif' %}";}
+                // 3
+                if (sleep < 3) {animationSrc = "{% static 'worm/worm-sleep.gif' %}";}
+                if (happiness < 3) {animationSrc = "{% static 'worm/worm-fishstick.gif' %}";}
+                // 2
+                if (happiness < 2) {animationSrc = "{% static 'worm/very-sad.gif' %}";}
+                if (hunger < 2) {animationSrc = "{% static 'worm/worm-help.gif' %}";}
+                // 1
 
-                if (!is_alive) { 
-                    animationSrc = "{% static 'worm/worm-death.gif' %}";
-                }
-                
+                if (!is_alive) { animationSrc = "{% static 'worm/worm-death.gif' %}";}
 
                 // Set the id 'wormAnimation' with animation source from Django static files
                 document.getElementById('wormAnimation').src = animationSrc;
