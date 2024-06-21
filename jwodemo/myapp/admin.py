@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import foodreview, Profile, SeepCoinTransaction, todo
 from music.models import Album, Song, Recommendation
+from worm.models import Worm
 
 # Register your models here.
 admin.site.register(foodreview)
