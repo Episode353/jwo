@@ -23,10 +23,51 @@
     }
 
     .top-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
         border-bottom: 1px solid #000;
         background-color: transparent !important;
         font-size: 150%;
         border: none !important;
+    }
+
+    
+    .top-section-noworms {
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #000;
+        background-color: transparent !important;
+        font-size: 150%;
+        border: none !important;
+    }
+
+    .badge-box {
+        display: flex;
+        align-items: center;
+        border: none !important;
+        background: transparent !important;
+        pointer-events: none; /* Prevents any interaction (click, hover, etc.) */
+        user-select: none;    /* Prevents text selection on image drag */
+    }
+
+    .badge-box img {
+        margin-right: 10px;
+    }
+
+    .worm-name {
+        flex-grow: 1;
+        text-align: center;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    .age-counter {
+        font-size: 1rem;
+        border: none !important;
+        background: transparent !important;
     }
 
     .worm-container {
@@ -44,11 +85,14 @@
         justify-content: center;
         border: 1px solid #000;
         box-sizing: border-box;
+
     }
 
     #box1 {
         background-color: transparent;
         border: none !important;
+        pointer-events: none; /* Prevents any interaction (click, hover, etc.) */
+        user-select: none;    /* Prevents text selection on image drag */
     }
 
     #box2 {
@@ -83,9 +127,6 @@
         position: relative;
         border: none !important;
         background-color: transparent !important;
-    }
-
-    .badge-box {
     }
 
     .progress-bar-fill {
@@ -125,24 +166,54 @@
     .progress-bar.health .progress-bar-fill {
         background-color: #0b815e;
     }
+
+    .button-container {
+        display: flex;
+        justify-content: space-around; /* Evenly space the buttons */
+        align-items: center; /* Center align the buttons vertically */
+        bottom: 0; /* Align to the bottom */
+        padding: 10px; /* Add some padding */
+        border: none !important;
+        width: 100%;
+        background-color: transparent !important;
+    }
+    
+    .button-container button {
+        flex: 1; /* Allow buttons to take equal space */
+        font-size: 2rem; /* Adjust font size as needed */
+        border: 2px solid black; /* Add border for better visibility */
+        background-color: #f0f0f0; /* Light background color for buttons */
+        cursor: pointer; /* Change cursor to pointer on hover */
+    }
+
+    .button-container button:hover {
+        background-color: #dcdcdc; /* Change to desired hover background color */
+    }
+    
 </style>
 
 <div class="content-large-fill">
     {% if living_worm %}
         <div class="top-section">
-            <div class="badge-box" style="display: none;">
-                <img style="cursor: help;"src="" title="" id="badge-image">
-                <a>{{ living_worm.badge|floatformat:"0" }}</a>
+            <!-- Badge Box -->
+            <div class="badge-box">
+                <img src="" title="" id="badge-image">
             </div>
-            <a>Worm's Name: {{ living_worm.name }}</a>
+
+            <!-- Worm's Name -->
+            <div class="worm-name">
+                {{ living_worm.name }}
+            </div>
+
+            <!-- Age Counter -->
+            <div class="age-counter" id="age-counter"></div>
         </div>
         
         <div class="worm-container">
             <div class="box" id="box1">
-                <img id="wormAnimation" src="" style="width: 100%; height: 100%; object-fit: contain;">
+                <img id="wormAnimation" src="" style=" object-fit: contain;">
             </div>
-            <!-- Animations that could be used -->
-            <!-- idle.gif worm/mild_hunger.gif sad.gif very-sad.gif worm-bored.gif -->
+
             <!-- Determine Worm Animation -->
             <script>
                 var hunger = '{{ living_worm.hunger|floatformat:"0" }}';
@@ -152,7 +223,7 @@
                 var badge = '{{ living_worm.badge|floatformat:"0" }}';
 
                 var is_alive = '{{ living_worm.is_alive }}' === 'True'; // Convert the Django template variable to a boolean
-                // Get the badge-box element
+
                 var badgeboxPtr = document.getElementsByClassName('badge-box')[0];
                 var badgeImage = badgeboxPtr.getElementsByTagName('img')[0];
                 var badgeTitle = "";
@@ -164,43 +235,43 @@
                     // Set the image source and title based on the badge value
                     switch (parseInt(badge)) {
                         case 1:
-                            badgeImage.src = "{% static 'images/badge_1.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0001.gif' %}";
                             badgeTitle = "Badge 1: Less than 7 days old.";
                             break;
                         case 2:
-                            badgeImage.src = "{% static 'images/badge_2.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0002.gif' %}";
                             badgeTitle = "Badge 2: Between 7 and 14 days old.";
                             break;
                         case 3:
-                            badgeImage.src = "{% static 'images/badge_3.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0003.gif' %}";
                             badgeTitle = "Badge 3: Between 14 and 21 days old.";
                             break;
                         case 4:
-                            badgeImage.src = "{% static 'images/badge_4.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0004.gif' %}";
                             badgeTitle = "Badge 4: Between 21 and 30 days old.";
                             break;
                         case 5:
-                            badgeImage.src = "{% static 'images/badge_5.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0005.gif' %}";
                             badgeTitle = "Badge 5: Between 30 and 60 days old.";
                             break;
                         case 6:
-                            badgeImage.src = "{% static 'images/badge_6.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0006.gif' %}";
                             badgeTitle = "Badge 6: Between 60 and 90 days old.";
                             break;
                         case 7:
-                            badgeImage.src = "{% static 'images/badge_7.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0007.gif' %}";
                             badgeTitle = "Badge 7: Between 90 and 120 days old.";
                             break;
                         case 8:
-                            badgeImage.src = "{% static 'images/badge_8.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0008.gif' %}";
                             badgeTitle = "Badge 8: Between 120 and 150 days old.";
                             break;
                         case 9:
-                            badgeImage.src = "{% static 'images/badge_9.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0009.gif' %}";
                             badgeTitle = "Badge 9: Between 150 and 180 days old.";
                             break;
                         case 10:
-                            badgeImage.src = "{% static 'images/badge_10.png' %}";
+                            badgeImage.src = "{% static 'worm/badges/badge0010.gif' %}";
                             badgeTitle = "Badge 10: More than 180 days old.";
                             break;
                         default:
@@ -212,31 +283,80 @@
                 }
 
                 var animationSrc = "{% static 'worm/idle.gif' %}";
-                // 9
                 if (hunger < 9) {animationSrc = "{% static 'worm/worm-hang.gif' %}";}
                 if (happiness < 9) {animationSrc = "{% static 'worm/worm-stand.gif' %}";}
-                // 8
                 if (happiness < 8) {animationSrc = "{% static 'worm/worm-bored.gif' %}";}
-                // 7
-                // 6
                 if (hunger < 6) {animationSrc = "{% static 'worm/mild_hunger.gif' %}";}
-                // 5
                 if (happiness < 5) {animationSrc = "{% static 'worm/sad.gif' %}";}
-                // 4
                 if (hunger < 4) {animationSrc = "{% static 'worm/worm-frazzels.gif' %}";}
-                // 3
                 if (sleep < 3) {animationSrc = "{% static 'worm/worm-sleep.gif' %}";}
                 if (happiness < 3) {animationSrc = "{% static 'worm/worm-fishstick.gif' %}";}
-                // 2
                 if (happiness < 2) {animationSrc = "{% static 'worm/very-sad.gif' %}";}
                 if (hunger < 2) {animationSrc = "{% static 'worm/worm-help.gif' %}";}
-                // 1
-
                 if (!is_alive) { animationSrc = "{% static 'worm/worm-death.gif' %}";}
 
-                // Set the id 'wormAnimation' with animation source from Django static files
                 document.getElementById('wormAnimation').src = animationSrc;
+
+
             </script>
+
+            <script>
+                function calculateAge(createdAt) {
+                    const createdDate = new Date(createdAt);
+                    const now = new Date();
+            
+                    // Calculate year and month difference
+                    let yearDifference = now.getFullYear() - createdDate.getFullYear();
+                    let monthDifference = now.getMonth() - createdDate.getMonth();
+            
+                    // Adjust for day of the month
+                    if (now.getDate() < createdDate.getDate()) {
+                        monthDifference -= 1;
+                    }
+            
+                    // Correct month and year calculations if monthDifference is negative
+                    if (monthDifference < 0) {
+                        yearDifference -= 1;
+                        monthDifference += 12;
+                    }
+            
+                    // Total months calculation
+                    let totalMonths = yearDifference * 12 + monthDifference;
+            
+                    // Calculate the difference in days within the current month
+                    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), createdDate.getDate());
+                    let dayDifference;
+                    if (now < startOfThisMonth) {
+                        startOfThisMonth.setMonth(startOfThisMonth.getMonth() - 1);
+                        dayDifference = Math.floor((now - startOfThisMonth) / (1000 * 60 * 60 * 24));
+                    } else {
+                        dayDifference = Math.floor((now - startOfThisMonth) / (1000 * 60 * 60 * 24));
+                    }
+            
+                    // Calculate weeks and remaining days
+                    const weeks = Math.floor(dayDifference / 7);
+                    const days = dayDifference % 7;
+            
+                    return {
+                        months: totalMonths,
+                        weeks: weeks,
+                        days: days
+                    };
+                }
+            
+                function updateAgeCounter() {
+                    const createdAt = '{{ living_worm.created_at|date:"Y-m-d" }}'; // Ensure proper formatting
+                    const age = calculateAge(createdAt);
+            
+                    const ageCounterElement = document.getElementById('age-counter');
+                    ageCounterElement.innerHTML = `Age: ${age.months} months, ${age.weeks} weeks, ${age.days} days`;
+                }
+            
+                setInterval(updateAgeCounter, 1000); // Update every second
+                updateAgeCounter(); // Initial call to set the age immediately
+            </script>
+            
+            
 
             <div class="box" id="box2">
                 <div class="progress-container">
@@ -269,44 +389,55 @@
                 </div>
                 <div class="progress-container">
                     <div class="progress-label">Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
+                    <p id="action-progress"></p>
                 </div>
 
-                        <!-- New Buttons -->
-                <button onclick="handleWormAction('feed')">Feed</button>
-                <button onclick="handleWormAction('play')">Play</button>
-                <button onclick="handleWormAction('sleep')">Sleep</button>
+                <div class="button-container">
+                    <button onclick="handleWormAction('feed')">Feed</button>
+                    <button onclick="handleWormAction('play')">Play</button>
+                    <button onclick="handleWormAction('sleep')">Sleep</button>
+                </div>
             </div>
         </div>
 
         <script>
             function handleWormAction(action) {
-                // Determine the image to show based on the action
                 var animationSrc;
+                var actionname;
                 switch(action) {
                     case 'feed':
-                        animationSrc = "{% static 'worm/eating.gif' %}"; // Change this to the appropriate feed image
+                        animationSrc = "{% static 'worm/worm-feed.gif' %}";
+                        actionname = "Eating"
                         break;
                     case 'play':
-                        animationSrc = "{% static 'worm/playing.gif' %}"; // Change this to the appropriate play image
+                        animationSrc = "{% static 'worm/worm-play.gif' %}";
+                        actionname = "Playing"
                         break;
                     case 'sleep':
-                        animationSrc = "{% static 'worm/sleeping.gif' %}"; // Change this to the appropriate sleep image
+                        animationSrc = "{% static 'worm/worm-sleep-action.gif' %}";
+                        actionname = "Sleeping"
                         break;
                 }
-        
-                // Set the image
+
                 document.getElementById('wormAnimation').src = animationSrc;
-        
-                // Wait for a specified duration (e.g., 3 seconds) and then redirect
-                setTimeout(function() {
-                    window.location.href = '/worm/' + action + '/';
-                }, 3000); // 3000ms = 3 seconds
+
+                var countdown = 7; // Countdown duration in seconds
+                var countdownElement = document.getElementById('action-progress');
+
+                var interval = setInterval(function() {
+                    countdown--;
+                    countdownElement.innerHTML = "{{ living_worm.name }} is " + actionname + " for " + countdown + " seconds...";
+
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        window.location.href = '/worm/' + action + '/';
+                    }
+                }, 1000);
             }
         </script>
-        
 
     {% else %}
-        <div class="top-section">
+        <div class="top-section-noworms">
             <p>No worms are alive!</p>
             <p>Create a new worm?</p>
             <form method="post" action="{% url 'create_worm' %}">
@@ -316,6 +447,135 @@
             </form>
         </div>
     {% endif %}
+
+    <style>
+        .dropdown-container {
+            margin: 20px;
+            font-family: arial;
+            border: none !important;
+            background-color: transparent !important;
+        }
+        .dropdown-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .dropdown-content {
+            display: none;
+            position: relative;
+            margin-top: 10px;
+            top: 0%;
+        }
+        table {
+            width: 75%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .extra-data{
+            border: none !important;
+            background-color: transparent !important;
+        }
+
+        li {
+            list-style-type: disc;
+            text-align: left;
+            font-size: 1.4rem !important;
+        }
+    </style>
+
+<div class="dropdown-container">
+    <button class="dropdown-button" onclick="toggleDropdown()">Information</button>
+    <div class="dropdown-content" id="badgeTable">
+        <table>
+            <tr>
+                <th>Badge</th>
+                <th>Days</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>0 - 6</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>7 - 13</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>14 - 20</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>21 - 29</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>30 - 59</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>60 - 89</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>90 - 119</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>120 - 149</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>150 - 179</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>180 and above</td>
+            </tr>
+        </table>
+
+        <div class="extra-data">
+
+            <ul>
+                <li>Every hour one of the worm's bars is not given attention, it will go down by one.</li>
+                <li>The Worm's health is an average of the three values: <em>Sleep, Hunger, and Happiness</em>.</li>
+                <li>When the health reaches zero, the worm will die.</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+
 </div>
+
+<script>
+    function toggleDropdown() {
+        var content = document.getElementById("badgeTable");
+        if (content.style.display === "none" || content.style.display === "") {
+            content.style.display = "block";
+        } else {
+            content.style.display = "none";
+        }
+    }
+</script>
+
+
+</div>
+
 
 {% endblock %}
