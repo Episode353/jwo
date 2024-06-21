@@ -51,10 +51,12 @@
         background: transparent !important;
         pointer-events: none; /* Prevents any interaction (click, hover, etc.) */
         user-select: none;    /* Prevents text selection on image drag */
+        padding: 0px !important;
+        margin: 0px !important;
     }
 
     .badge-box img {
-        margin-right: 10px;
+
     }
 
     .worm-name {
@@ -62,6 +64,8 @@
         text-align: center;
         border: none !important;
         background: transparent !important;
+        word-wrap: break-word;
+        font-size : 5vw;
     }
 
     .age-counter {
@@ -95,9 +99,12 @@
         user-select: none;    /* Prevents text selection on image drag */
     }
 
+    .box img{
+        max-width: 10rem;
+    }
+
     #box2 {
         background-color: transparent;
-        display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
@@ -190,6 +197,30 @@
         background-color: #dcdcdc; /* Change to desired hover background color */
     }
     
+    @media screen and (max-width: 768px) {
+        .worm-container {
+            flex-direction: column; /* Stack the items vertically */
+            align-items: center;    /* Center the items horizontally */
+        }
+    
+        .box {
+            width: 100%;            /* Make the boxes take full width */
+            max-width: 500px;       /* Optionally set a max width */
+            margin: 10px 0;         /* Add some margin for spacing */
+        }
+    
+        #box1 {
+            position: relative;     /* Position relative to allow z-index */
+            z-index: 10;            /* Place the worm on top */
+        }
+    
+        #box2 {
+            position: relative;     /* Position relative to allow z-index */
+            z-index: 5;             /* Place the bars underneath */
+        }
+    }
+    
+
 </style>
 
 <div class="content-large-fill">
@@ -205,10 +236,10 @@
                 {{ living_worm.name }}
             </div>
 
-            <!-- Age Counter -->
-            <div class="age-counter" id="age-counter"></div>
+
         </div>
-        
+                    <!-- Age Counter -->
+                    <div class="age-counter" id="age-counter"></div>
         <div class="worm-container">
             <div class="box" id="box1">
                 <img id="wormAnimation" src="" style=" object-fit: contain;">
@@ -442,7 +473,7 @@
             <p>Create a new worm?</p>
             <form method="post" action="{% url 'create_worm' %}">
                 {% csrf_token %}
-                <input type="text" name="name" placeholder="Enter worm name" required>
+                <input style="max-width: 70%; font-size: 75%;" type="text" name="name" placeholder="Enter worm name" required>
                 <button type="submit">Create Worm</button>
             </form>
         </div>
