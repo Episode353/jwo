@@ -126,3 +126,8 @@ def worm_sleep(request):
         worm.last_slept = timezone.now()
         worm.save()
     return redirect('worm/main')
+
+
+def graveyard(request):
+    dead_worms = Worm.objects.filter(is_alive=False)
+    return render(request, 'graveyard.html', {'dead_worms': dead_worms})

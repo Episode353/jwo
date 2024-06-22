@@ -9,4 +9,5 @@ urlpatterns = [
     path('feed/', views.worm_feed, name='worm_feed'),
     path('play/', views.worm_play, name='worm_play'),
     path('sleep/', views.worm_sleep, name='worm_sleep'),
+    path('graveyard/', views.graveyard, name='graveyard'),
 ]
