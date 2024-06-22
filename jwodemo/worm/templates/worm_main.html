@@ -33,7 +33,7 @@
         border: none !important;
     }
 
-    
+
     .top-section-noworms {
         justify-content: space-between;
         align-items: center;
@@ -99,9 +99,7 @@
         user-select: none;    /* Prevents text selection on image drag */
     }
 
-    .box img{
-        max-width: 10rem;
-    }
+
 
     #box2 {
         background-color: transparent;
@@ -184,7 +182,7 @@
         width: 100%;
         background-color: transparent !important;
     }
-    
+
     .button-container button {
         flex: 1; /* Allow buttons to take equal space */
         font-size: 2rem; /* Adjust font size as needed */
@@ -196,30 +194,30 @@
     .button-container button:hover {
         background-color: #dcdcdc; /* Change to desired hover background color */
     }
-    
+
     @media screen and (max-width: 768px) {
         .worm-container {
             flex-direction: column; /* Stack the items vertically */
             align-items: center;    /* Center the items horizontally */
         }
-    
+
         .box {
             width: 100%;            /* Make the boxes take full width */
             max-width: 500px;       /* Optionally set a max width */
             margin: 10px 0;         /* Add some margin for spacing */
         }
-    
+
         #box1 {
             position: relative;     /* Position relative to allow z-index */
             z-index: 10;            /* Place the worm on top */
         }
-    
+
         #box2 {
             position: relative;     /* Position relative to allow z-index */
             z-index: 5;             /* Place the bars underneath */
         }
     }
-    
+
 
 </style>
 
@@ -335,25 +333,25 @@
                 function calculateAge(createdAt) {
                     const createdDate = new Date(createdAt);
                     const now = new Date();
-            
+
                     // Calculate year and month difference
                     let yearDifference = now.getFullYear() - createdDate.getFullYear();
                     let monthDifference = now.getMonth() - createdDate.getMonth();
-            
+
                     // Adjust for day of the month
                     if (now.getDate() < createdDate.getDate()) {
                         monthDifference -= 1;
                     }
-            
+
                     // Correct month and year calculations if monthDifference is negative
                     if (monthDifference < 0) {
                         yearDifference -= 1;
                         monthDifference += 12;
                     }
-            
+
                     // Total months calculation
                     let totalMonths = yearDifference * 12 + monthDifference;
-            
+
                     // Calculate the difference in days within the current month
                     const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), createdDate.getDate());
                     let dayDifference;
@@ -363,31 +361,31 @@
                     } else {
                         dayDifference = Math.floor((now - startOfThisMonth) / (1000 * 60 * 60 * 24));
                     }
-            
+
                     // Calculate weeks and remaining days
                     const weeks = Math.floor(dayDifference / 7);
                     const days = dayDifference % 7;
-            
+
                     return {
                         months: totalMonths,
                         weeks: weeks,
                         days: days
                     };
                 }
-            
+
                 function updateAgeCounter() {
                     const createdAt = '{{ living_worm.created_at|date:"Y-m-d" }}'; // Ensure proper formatting
                     const age = calculateAge(createdAt);
-            
+
                     const ageCounterElement = document.getElementById('age-counter');
                     ageCounterElement.innerHTML = `Age: ${age.months} months, ${age.weeks} weeks, ${age.days} days`;
                 }
-            
+
                 setInterval(updateAgeCounter, 1000); // Update every second
                 updateAgeCounter(); // Initial call to set the age immediately
             </script>
-            
-            
+
+
 
             <div class="box" id="box2">
                 <div class="progress-container">
