@@ -9,7 +9,7 @@
         src: url({% static 'fonts/tomshand.ttf' %});
         font-family: biro;
     }
-    
+
     .content-large-fill {
         display: flex;
         flex-direction: column;
@@ -21,15 +21,16 @@
         border: .75rem outset black !important;
         letter-spacing: 2px;
     }
-    
+
     .worm-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
         background: transparent !important;
+        border: none !important;
     }
-    
+
     .worm-item {
         flex: 0 1 calc(25% - 10px);
         box-sizing: border-box;
@@ -38,7 +39,7 @@
         background: transparent !important;
         border: .3rem solid black !important;
     }
-    
+
     @media screen and (max-width: 1000px) {
         .worm-container {
             flex-direction: column;
@@ -49,7 +50,7 @@
             flex: auto;
         }
     }
-    
+
 </style>
 
 <div class="content-large-fill">
