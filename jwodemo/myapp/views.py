@@ -207,4 +207,11 @@ def todo_view(request):
     else:
         message = "You must be logged in to view this page"
         return custom_404_view(request, message)
+    
+from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponse
+from django.utils import timezone
 
+def timenow(request):
+    time = timezone.localtime(timezone.now())
+    return HttpResponse(time, content_type="text/plain")

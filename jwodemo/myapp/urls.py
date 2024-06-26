@@ -31,6 +31,7 @@ urlpatterns = [
     path("map", views.mapdirect, name="mapdirect"),
     path("todo", views.todo_view, name="todo"),
     path('worm/', include('worm.urls')),
+    path("timenow", views.timenow, name="timenow")
     
 ]
 

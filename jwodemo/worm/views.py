@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from worm.models import Worm
 from django.utils import timezone
 from datetime import timedelta
+from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponse
+from django.utils import timezone
 
 def main(request):
     # Fetch the first worm that is alive
@@ -11,7 +14,7 @@ def main(request):
         # Calculate the Current Sleep, Hunger, and Happiness
         
         # Current time
-        now = timezone.now()
+        now = timezone.localtime(timezone.now())
 
         # Calculate hours since last slept
         if living_worm.last_slept:
@@ -88,7 +91,7 @@ def create_worm(request):
             formatted_name = name.capitalize()
             
             # Get the current time
-            now = timezone.now()
+            now = timezone.localtime(timezone.now())
             
             # Create the worm with the current time for sleep, fed, and played times
             Worm.objects.create(
@@ -109,21 +112,21 @@ from django.utils import timezone
 def worm_feed(request):
     worm = Worm.objects.filter(is_alive=True).first()
     if worm:
-        worm.last_fed = timezone.now()
+        worm.last_fed = timezone.localtime(timezone.now())
         worm.save()
     return redirect('worm/main')
 
 def worm_play(request):
     worm = Worm.objects.filter(is_alive=True).first()
     if worm:
-        worm.last_played = timezone.now()
+        worm.last_played = timezone.localtime(timezone.now())
         worm.save()
     return redirect('worm/main')
 
 def worm_sleep(request):
     worm = Worm.objects.filter(is_alive=True).first()
     if worm:
-        worm.last_slept = timezone.now()
+        worm.last_slept = timezone.localtime(timezone.now())
         worm.save()
     return redirect('worm/main')
 
