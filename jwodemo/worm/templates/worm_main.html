@@ -122,6 +122,7 @@
         border: none !important;
         background: transparent !important;
         text-align: left;
+        
     }
 
     .progress-bar {
@@ -132,6 +133,7 @@
         position: relative;
         border: none !important;
         background-color: transparent !important;
+        
     }
 
     .progress-bar-fill {
@@ -218,6 +220,9 @@
         }
     }
 
+    #action-progress-cont{
+        border: 2px groove black !important;
+    }
 
 </style>
 
@@ -416,9 +421,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="progress-container">
-                    <div class="progress-label">Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
+                <div class="progress-container" id="action-progress-cont">
+                    <div class="progress-label" >Status: {{ living_worm.is_alive|yesno:"Alive,Dead" }}</div>
                     <p id="action-progress"></p>
+                    <button id="skip-button" style="display:none;" onclick="skipAction()">Skip</button>
                 </div>
 
                 <div class="button-container">
@@ -430,41 +436,57 @@
         </div>
 
         <script>
-            function handleWormAction(action) {
+            var interval;
+            var countdown;
+            var actionname;
+            var action;
+        
+            function handleWormAction(selectedAction) {
+                action = selectedAction;
                 var animationSrc;
-                var actionname;
                 switch(action) {
                     case 'feed':
                         animationSrc = "{% static 'worm/worm-feed.gif' %}";
-                        actionname = "Eating"
+                        actionname = "Eating";
                         break;
                     case 'play':
                         animationSrc = "{% static 'worm/worm-play.gif' %}";
-                        actionname = "Playing"
+                        actionname = "Playing";
                         break;
                     case 'sleep':
                         animationSrc = "{% static 'worm/worm-sleep-action.gif' %}";
-                        actionname = "Sleeping"
+                        actionname = "Sleeping";
                         break;
                 }
-
+        
                 document.getElementById('wormAnimation').src = animationSrc;
-
-                var countdown = 7; // Countdown duration in seconds
+        
+                countdown = 7; // Countdown duration in seconds
                 var countdownElement = document.getElementById('action-progress');
-
-                var interval = setInterval(function() {
+                var skipButton = document.getElementById('skip-button');
+                skipButton.style.display = 'inline-block'; // Show the skip button
+        
+                interval = setInterval(function() {
                     countdown--;
                     countdownElement.innerHTML = "{{ living_worm.name }} is " + actionname + " for " + countdown + " seconds...";
-
+        
                     if (countdown <= 0) {
                         clearInterval(interval);
+                        skipButton.style.display = 'none'; // Hide the skip button
                         window.location.href = '/worm/' + action + '/';
                     }
                 }, 1000);
             }
+        
+            function skipAction() {
+                clearInterval(interval);
+                countdown = 0;
+                document.getElementById('action-progress').innerHTML = "{{ living_worm.name }} is " + actionname + " for " + countdown + " seconds...";
+                document.getElementById('skip-button').style.display = 'none'; // Hide the skip button
+                window.location.href = '/worm/' + action + '/';
+            }
         </script>
-
+        
     {% else %}
         <div class="top-section-noworms">
             <p>No worms are alive!</p>
