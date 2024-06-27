@@ -3,10 +3,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var elements = document.querySelectorAll("p, li");
 
     // Loop through each element
-    for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
+    elements.forEach(function(element) {
         var preserveWord = element.getAttribute("data-preserve");
-        var text = element.textContent;
+        var text = element.innerHTML; // Use innerHTML to retain existing HTML structure
 
         // Only proceed if the "data-preserve" attribute is not present or is set to "false"
         if (preserveWord !== "true") {
@@ -19,19 +18,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 }
             });
 
-            // Update the element if necessary
+            // Update the element content if necessary
             if (newText !== text) {
                 element.innerHTML = newText;
             }
         }
-    }
+    });
 });
-
-/*
-
-                <p>Here is a normal sentence with the word "seppe".</p>
-                <p data-preserve="true">This sentence contains "seppe" and should not be changed.</p>
-                <p>Another sentence with the word "seppe".</p>
-
-*/
-
