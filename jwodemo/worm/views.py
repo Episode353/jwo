@@ -42,29 +42,30 @@ def main(request):
         # Calculate the worm's age and update the badge
         worm_age_days = (now - living_worm.created_at).days
 
-        if worm_age_days < 7:
+        if 0 <= worm_age_days <= 6:
             living_worm.badge = 1
-        elif worm_age_days < 14:
+        elif 7 <= worm_age_days <= 13:
             living_worm.badge = 2
-        elif worm_age_days < 21:
+        elif 14 <= worm_age_days <= 20:
             living_worm.badge = 3
-        elif worm_age_days < 30:
+        elif 21 <= worm_age_days <= 29:
             living_worm.badge = 4
-        elif worm_age_days < 60:
+        elif 30 <= worm_age_days <= 59:
             living_worm.badge = 5
-        elif worm_age_days < 90:
+        elif 60 <= worm_age_days <= 89:
             living_worm.badge = 6
-        elif worm_age_days < 120:
+        elif 90 <= worm_age_days <= 119:
             living_worm.badge = 7
-        elif worm_age_days < 150:
+        elif 120 <= worm_age_days <= 149:
             living_worm.badge = 8
-        elif worm_age_days < 180:
+        elif 150 <= worm_age_days <= 179:
             living_worm.badge = 9
-        else:
+        else:  # 180 and above
             living_worm.badge = 10
-        
+
         # Save the updated worm
         living_worm.save()
+
 
     # Pass the living_worm to the template
     return render(request, 'worm_main.html', {'living_worm': living_worm})
