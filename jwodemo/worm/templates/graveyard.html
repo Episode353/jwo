@@ -61,6 +61,10 @@
                 <p style="font-size: 80%;">Created: {{ dead_worm.created_at }}</p>
                 <p style="font-size: 80%;">Died: {{ dead_worm.time_of_death }}</p>
                 <img style="width: 8rem;" src="{% static 'worm/worm-death.gif' %}">
+                <form method="post" action="{% url 'revive' dead_worm.name %}">
+                    {% csrf_token %}
+                    <button type="submit" style="font-size: 100%;">Revive</button>
+                </form>
             </div>
         {% endfor %}
     </div>

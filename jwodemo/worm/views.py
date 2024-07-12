@@ -135,3 +135,53 @@ def worm_sleep(request):
 def graveyard(request):
     dead_worms = Worm.objects.filter(is_alive=False)
     return render(request, 'graveyard.html', {'dead_worms': dead_worms})
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Worm
+from myapp.models import Profile, SeepCoinTransaction
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from myapp.views import custom_404_view
+
+
+def revive(request, worm_name):
+    if not request.user.is_authenticated:
+        return custom_404_view(request, "You need to be logged in and have at least one seep coin to revive a worm.")
+    user_profile = request.user.profile
+    joe = User.objects.get(username='joe')
+    
+    # Check if there are no worms currently alive
+    if not Worm.objects.filter(is_alive=True).exists():
+        # Check if the user has more than 0 SeepCoins
+        if user_profile.coin_count > 0:
+            worm = get_object_or_404(Worm, name=worm_name, is_alive=False)
+            
+            # Revive the worm
+            worm.is_alive = True
+            worm.last_slept = timezone.localtime(timezone.now())
+            worm.last_played = timezone.localtime(timezone.now())
+            worm.last_fed = timezone.localtime(timezone.now())
+            worm.save()
+            
+            # Deduct one SeepCoin from the user and send it to Joe
+            user_profile.coin_count -= 1
+            user_profile.save()
+            
+            joe.profile.coin_count += 1
+            joe.profile.save()
+            
+            # Create a SeepCoinTransaction
+            SeepCoinTransaction.objects.create(sender=request.user, receiver=joe, amount=1)
+            
+            # Redirect to the main page or any other page you prefer
+            return redirect('worm/main')
+        
+        # If the user doesn't have enough SeepCoins, return a custom 404 error with a message
+        return custom_404_view(request, "You don't have enough SeepCoins to revive the worm.")
+    
+    # If there are worms currently alive, return a custom 404 error with a message
+    return custom_404_view(request, "You cannot revive a worm while there are worms currently alive.")
+
+# Rest of your views.py remains unchanged
