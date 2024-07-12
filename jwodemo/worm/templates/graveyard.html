@@ -63,7 +63,7 @@
                 <img style="width: 8rem;" src="{% static 'worm/worm-death.gif' %}">
                 <form method="post" action="{% url 'revive' dead_worm.name %}">
                     {% csrf_token %}
-                    <button type="submit" style="font-size: 100%;">Revive</button>
+                    <button type="submit" style="font-size: 100%;">Revive </br> <span style="font-size: 50%;">(1 Seep Coin)</span></button>
                 </form>
             </div>
         {% endfor %}

@@ -65,7 +65,7 @@
         border: none !important;
         background: transparent !important;
         word-wrap: break-word;
-        font-size : 5vw;
+        font-size: clamp(1rem, 2.5vw, 3rem);
     }
 
     .age-counter {
@@ -492,7 +492,7 @@
         <div class="top-section-noworms">
             <a>No worms are alive!</a>
             <h3>Create a worm, or Revive from the Graveyard.</h3>
-            
+
             <form method="post" action="{% url 'create_worm' %}">
                 {% csrf_token %}
                 <input style="max-width: 70%; font-size: 75%;" type="text" name="name" placeholder="Enter worm name" required>
