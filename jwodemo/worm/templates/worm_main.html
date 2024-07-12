@@ -122,7 +122,7 @@
         border: none !important;
         background: transparent !important;
         text-align: left;
-        
+
     }
 
     .progress-bar {
@@ -133,7 +133,7 @@
         position: relative;
         border: none !important;
         background-color: transparent !important;
-        
+
     }
 
     .progress-bar-fill {
@@ -232,6 +232,7 @@
             <!-- Badge Box -->
             <div class="badge-box">
                 <img src="" title="" id="badge-image">
+                <!-- {{ living_worm.badge|floatformat:"0" }} -->
             </div>
 
             <!-- Worm's Name -->
@@ -440,7 +441,7 @@
             var countdown;
             var actionname;
             var action;
-        
+
             function handleWormAction(selectedAction) {
                 action = selectedAction;
                 var animationSrc;
@@ -458,18 +459,18 @@
                         actionname = "Sleeping";
                         break;
                 }
-        
+
                 document.getElementById('wormAnimation').src = animationSrc;
-        
+
                 countdown = 7; // Countdown duration in seconds
                 var countdownElement = document.getElementById('action-progress');
                 var skipButton = document.getElementById('skip-button');
                 skipButton.style.display = 'inline-block'; // Show the skip button
-        
+
                 interval = setInterval(function() {
                     countdown--;
                     countdownElement.innerHTML = "{{ living_worm.name }} is " + actionname + " for " + countdown + " seconds...";
-        
+
                     if (countdown <= 0) {
                         clearInterval(interval);
                         skipButton.style.display = 'none'; // Hide the skip button
@@ -477,7 +478,7 @@
                     }
                 }, 1000);
             }
-        
+
             function skipAction() {
                 clearInterval(interval);
                 countdown = 0;
@@ -486,7 +487,7 @@
                 window.location.href = '/worm/' + action + '/';
             }
         </script>
-        
+
     {% else %}
         <div class="top-section-noworms">
             <p>No worms are alive!</p>
@@ -638,12 +639,12 @@
         width: 50%;
         max-width: 25rem !important;
     }
-    
+
     .graveyard-link:hover {
         background-color: rgba(0, 0, 0, 0.8); /* Optional: darkens background on hover */
         color: yellow; /* Optional: changes text color on hover */
     }
-    
+
 </style>
 
 <a href="{% url 'graveyard' %}" class="graveyard-link">Visit the Graveyard</a>
