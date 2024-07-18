@@ -7,6 +7,6 @@
 - Schmangie
 - Schmangela
 - Shminglebob
--SHMIGGUS
+- SHMIGGUS
 
 

@@ -100,7 +100,7 @@
             position: relative; /* Add position relative */
         }
 
-        
+
 
         .content-large {
             grid-row-start: 2;
@@ -108,7 +108,7 @@
             grid-column-start: 1;
             grid-column-end: 3; /* Adjust the column span to 3 */
         }
-        
+
 
     .footer {
         grid-column: 1 / span 3;
@@ -131,7 +131,7 @@
     }
 
 
-    
+
 
     /* CSS for the header */
     /* THIS CONTROLLS THE GRID; TO CHANGE GRID*/
@@ -203,7 +203,7 @@
         background-image: linear-gradient(
             to right,
             #bb9c36 0,
-            #cb9b51 12%, 
+            #cb9b51 12%,
             #ffdb28 55%,
             #cb9b51 98%,
             #967919 100%
@@ -213,10 +213,10 @@
         color: transparent;
         -webkit-background-clip: text;
     }
-    
-    
-    
-    
+
+
+
+
 
     .word-seppe {
         font-family: daydream;
@@ -241,7 +241,7 @@
         padding: 0px !important;
       }
       .wrapper > div {
-        background-clip: text;  
+        background-clip: text;
         -webkit-background-clip: text;
         color: #3b3a36;
         font-family: daydream;
@@ -254,8 +254,8 @@
         padding: 1rem !important;
       }
       div.bg {
-        background-image: repeating-linear-gradient( 105deg, 
-          var(--gold) 0% , 
+        background-image: repeating-linear-gradient( 105deg,
+          var(--gold) 0% ,
           var(--dark-shadow) 5%,
           var(--gold) 12%);
         color: transparent;
@@ -264,15 +264,15 @@
         transform-origin: top;
       }
       div.fg{
-        background-image: repeating-linear-gradient( 5deg,  
-          var(--gold) 0% , 
-          var(--light-shadow) 23%, 
+        background-image: repeating-linear-gradient( 5deg,
+          var(--gold) 0% ,
+          var(--light-shadow) 23%,
           var(--gold) 31%);
         color: #1e2127;
         transform: scale(1);
       }
 
-    
+
       :root {
         --gold: #ffb338;
         --light-shadow: #77571d;
@@ -389,7 +389,7 @@
         max-width: 10em;
         vertical-align: bottom;
     }
-        
+
         .food-content-bob p {
             font-size: 18px;
 
@@ -399,7 +399,7 @@
 
 
         .food-content-photo img{
-            max-width: 45vh; 
+            max-width: 45vh;
         }
 
 
@@ -477,7 +477,7 @@
         text-shadow: 10px 10px 0px #fec652;
         grid-row-start: 1;
         grid-row-end: 2;
-        
+
     }
 
     #header-logo {
@@ -491,12 +491,12 @@
         border: none;
         margin-right: auto; /* Align to the left */
     }
-    
+
     #header-logo a {
         display: inline-block;
         text-decoration: none;
     }
-    
+
     #header-logo a:visited {
         color: #0D47A1;
         border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
@@ -505,7 +505,7 @@
     .header-link{
         font-size: clamp( .8em, 1.2vw, 1.5rem);
     }
-    
+
 
     @keyframes headerlogohover {
         0%, 100% {
@@ -528,13 +528,13 @@
 
 
     @media only screen and (min-width: 0px) {
-        /* 
+        /*
         body {
             background-image: none;
             background-color: purple;
 
         }
-       
+
 
         #header-logo {
             font-size: 100% !important;
@@ -577,7 +577,7 @@
             background-image: none;
             background-color: blue;
         }
-       
+
 
         #header-logo {
             font-size: 150%;
@@ -658,7 +658,7 @@
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
 
-        
+
         }
         .container {
             width: 85%;
@@ -677,7 +677,7 @@
 
 
     @media only screen and (min-width: 1500px) {
-        /* 
+        /*
         body {
             background-image: none;
             background-color: orange;
@@ -810,7 +810,7 @@
         margin: .5rem;
     }
 
-    
+
     .scoreboard-data table {
         width: 100%;
         border-collapse: collapse;
@@ -826,7 +826,7 @@
             padding: 0px;
             margin: 0px;
             border-bottom: 1px solid #ccc;
-            
+
         }
 
         .scoreboard-data td p {
@@ -956,7 +956,7 @@
     .login-form-container {
         display: none;
         position: fixed;
-        
+
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
