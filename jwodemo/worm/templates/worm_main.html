@@ -82,6 +82,8 @@
         background-color: transparent !important;
     }
 
+
+
     .box {
         flex: 1;
         display: flex;
@@ -89,6 +91,7 @@
         justify-content: center;
         border: 1px solid #000;
         box-sizing: border-box;
+        
 
     }
 
@@ -97,6 +100,7 @@
         border: none !important;
         pointer-events: none; /* Prevents any interaction (click, hover, etc.) */
         user-select: none;    /* Prevents text selection on image drag */
+        
     }
 
 
@@ -201,6 +205,10 @@
         .worm-container {
             flex-direction: column; /* Stack the items vertically */
             align-items: center;    /* Center the items horizontally */
+        }
+
+        .worm-container img{         /* Prevents the worm from Being too big */
+            max-width: 70vw;         /* On Mobile Screens */
         }
 
         .box {
