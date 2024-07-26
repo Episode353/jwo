@@ -1,4 +1,5 @@
 {% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% load static %}
 {% block content %}
 <style>
     input{
@@ -7,7 +8,7 @@
 
 </style>
 <div class="content-large-fill">
-    
+
     {% if profile %}
         <h1 style="padding: 1rem">{{ user.profile.user|title }}'s Account</h1>
     {% endif %}
@@ -20,12 +21,12 @@
         border: none !important;
         background-color: transparent !important;
     }
-  
+
     .stage {
         width: 70%;
         height: 10%;
         font-size: 50px;
-  
+
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -33,7 +34,7 @@
         border: none !important;
         background-color: transparent !important;
     }
-  
+
     .column {
         height: 100%;
         display: flex;
@@ -42,89 +43,89 @@
         border: none !important;
         background-color: transparent !important;
     }
-  
+
     .stacking {
         position: relative;
         height: 0.25em;
         border: none !important;
         background-color: transparent !important;
     }
-  
+
     .stacking--tilt-l {
         left: -0.125em;
         border: none !important;
         background-color: transparent !important;
     }
-  
+
     .stacking--tilt-r {
         left: 0.125em;
         border: none !important;
         background-color: transparent !important;
     }
-  
+
     .fall {
         opacity: 0;
         animation: falling 0.65s ease-in forwards 1;
     }
-  
+
     .coin {
         width: 1.4em;
         height: 1em;
         transform: translateY(-100%);
     }
-  
+
     @for $i from 1 through 15 {
         .fall:nth-child(#{$i}) {
             animation-delay: #{($i * 0.3 * 0.65)}s;
         }
     }
-  
-  
-  
+
+
+
     .appear {
         opacity: 0;
         animation: appear 0.65s ease-in forwards 1;
     }
-  
+
     @for $i from 1 through 25 {
         .appear:nth-child(#{$i}) {
             animation-delay: #{($i * 0.5 * 0.3 * 0.65)}s;
         }
     }
-  
+
     @keyframes falling {
         0% {
             transform: translateY(-150px);
             opacity: 0;
         }
-  
+
         80% {
             transform: translateY(0);
             opacity: 1;
         }
-  
+
         82% {
             transform: translateY(-2px);
             opacity: 1;
         }
-  
+
         100% {
             transform: translateY(0);
             opacity: 1;
         }
     }
-  
+
     @keyframes appear {
         0% {
             opacity: 0.3;
         }
-  
+
         100% {
             opacity: 1;
         }
     }
 
-    
+
   </style>
   <script>
     function moneyPile(amount, container, columnsCount) {
@@ -185,13 +186,13 @@
     <div style="font-size: clamp( .1em, 3vw, 2rem);"  class="fg">{{user.profile.coin_count}}</div>
   </div>
 
-  
+
   <div style="display:flex;flex-basis:45%; justify-content: space-between; border: none !important; background-color: transparent !important;">
         <div id="stage-coins"></div>
-      
-   
+
+
     </div>
-    
+
     <div hidden>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 194 120">
         <symbol viewBox="0 0 194 120" id="icon-coin">
@@ -208,8 +209,8 @@
             <path d="M97 7C46.1 7 4.7 24.4 4.7 45.7v28.6C4.7 95.6 46.1 113 97 113s92.3-17.4 92.3-38.7V45.7C189.3 24.4 147.9 7 97 7zM19 93.7C10.7 88 5.9 81.4 5.9 74.3V51.9c2 5.3 6.6 10.1 13.1 14.5V93.7zM28.5 99c-3.1-1.4-5.8-3-8.3-4.6V67.1c2.5 1.6 5.4 3.1 8.4 4.5L28.5 99zM188.1 74.3c0 20.7-40.9 37.5-91.1 37.5 -26.6 0-50.6-4.7-67.3-12.3l0.1-27.4C46.7 79.7 70.5 84.4 97 84.4c45.9 0 84-14.1 91.1-32.5V74.3zM97 83.2c-50.2 0-91.1-16.8-91.1-37.5S46.8 8.2 97 8.2s91.1 16.8 91.1 37.5S147.2 83.2 97 83.2z"/>
           </g>
         </symbol>
-      
-     
+
+
     </svg>
     </div>
     {% if user.profile.coin_count < 0 %}
@@ -228,10 +229,10 @@
         <p>Would you like to Redeem a Seep Coin?</p>
         <form method="POST" action="{% url 'redeem_code_form' %}">
             {% csrf_token %}
-            <input type="text" name="code" placeholder="Enter your redeem code" required>
+            <input type="text" name="code" placeholder="Enter your Seep Coin code" required>
             <button type="submit">Redeem Code</button>
         </form>
-        
+
     </div>
 </div>
 
