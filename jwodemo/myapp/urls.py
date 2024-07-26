@@ -3,10 +3,10 @@ from . import views
 from .views import save_drawing, get_drawings
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import todo_view
+from .views import todo_view, redeem_code_form
 
 from django.conf.urls import handler404
-from .views import custom_404_view
+from .views import custom_404_view, redeem_code
 
 handler404 = custom_404_view
 
@@ -31,7 +31,9 @@ urlpatterns = [
     path("map", views.mapdirect, name="mapdirect"),
     path("todo", views.todo_view, name="todo"),
     path('worm/', include('worm.urls')),
-    path("timenow", views.timenow, name="timenow")
+    path("timenow", views.timenow, name="timenow"),
+    path('members/redeem/<str:code>/', redeem_code, name='redeem_code'),
+    path('members/redeem/', redeem_code_form, name='redeem_code_form'),
     
 ]
 

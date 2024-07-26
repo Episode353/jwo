@@ -224,7 +224,15 @@
 
 
 
-
+    <div style="border: none;">
+        <p>Would you like to Redeem a Seep Coin?</p>
+        <form method="POST" action="{% url 'redeem_code_form' %}">
+            {% csrf_token %}
+            <input type="text" name="code" placeholder="Enter your redeem code" required>
+            <button type="submit">Redeem Code</button>
+        </form>
+        
+    </div>
 </div>
 
 

@@ -61,5 +61,3 @@ def edit_profile(request):
 
     return render(request, 'edit_profile.html')
 
-def coin_coint(request):
-    return render(request, "coin_count.html")

@@ -53,3 +53,20 @@ class todo(models.Model):
 
     def __str__(self):
         return self.name
+    
+from django.db import models
+import random
+import string
+
+class RedeemCode(models.Model):
+    code = models.CharField(max_length=8, unique=True)
+    amount = models.PositiveIntegerField()
+    was_used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.code
+
+    @staticmethod
+    def generate_random_code(length=8):
+        characters = string.ascii_uppercase + string.digits
+        return ''.join(random.choice(characters) for _ in range(length))

@@ -215,3 +215,36 @@ from django.utils import timezone
 def timenow(request):
     time = timezone.localtime(timezone.now())
     return HttpResponse(time, content_type="text/plain")
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Profile, RedeemCode
+
+@login_required
+def redeem_code(request, code):
+    try:
+        redeem_code = RedeemCode.objects.get(code=code)
+        if redeem_code.was_used:
+            messages.error(request, "This code has already been used.")
+        else:
+            profile = request.user.profile
+            profile.coin_count += redeem_code.amount
+            profile.save()
+            redeem_code.was_used = True
+            redeem_code.save()
+            messages.success(request, f"You have successfully redeemed {redeem_code.amount} SeepCoins.")
+    except RedeemCode.DoesNotExist:
+        messages.error(request, "Invalid redeem code.")
+
+    return redirect('seepcoin')
+
+from django.http import HttpResponseRedirect
+
+@login_required
+def redeem_code_form(request):
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        return HttpResponseRedirect(f'/members/redeem/{code}/')
+    return redirect('seepcoin')
