@@ -20,10 +20,11 @@ import os
 import random
 import time
 
+from django.template import Context, Template
+
 def home(request):
     seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')[:3]
     users = User.objects.exclude(pk=request.user.id).filter(profile__coin_count__gt=0).order_by('-profile__coin_count')[:3]
-
 
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
@@ -49,8 +50,12 @@ def home(request):
     today = date.today()
     SeasonalContentEntries = SeasonalContent.objects.filter(start_date__lte=today).filter(end_date__gte=today)
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp, 'SeasonalContentEntries': SeasonalContentEntries})
+    # Render the content of SeasonalContentEntries
+    for entry in SeasonalContentEntries:
+        template = Template(entry.content)
+        entry.content = template.render(Context({}))
 
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp, 'SeasonalContentEntries': SeasonalContentEntries})
 
 
 

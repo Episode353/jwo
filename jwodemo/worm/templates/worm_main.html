@@ -337,6 +337,7 @@
                 }
 
                 var animationSrc = "{% static 'worm/idle.gif' %}";
+                if (hunger < 2) {animationSrc = "{% static 'worm/worm-help.gif' %}";}
                 if (hunger < 9) {animationSrc = "{% static 'worm/worm-hang.gif' %}";}
                 if (happiness < 9) {animationSrc = "{% static 'worm/worm-stand.gif' %}";}
                 if (happiness < 8) {animationSrc = "{% static 'worm/worm-bored.gif' %}";}
@@ -346,7 +347,6 @@
                 if (sleep < 3) {animationSrc = "{% static 'worm/worm-sleep.gif' %}";}
                 if (happiness < 3) {animationSrc = "{% static 'worm/worm-fishstick.gif' %}";}
                 if (happiness < 2) {animationSrc = "{% static 'worm/very-sad.gif' %}";}
-                if (hunger < 2) {animationSrc = "{% static 'worm/worm-help.gif' %}";}
                 if (!is_alive) { animationSrc = "{% static 'worm/worm-death.gif' %}";}
 
                 document.getElementById('wormAnimation').src = animationSrc;
@@ -626,9 +626,7 @@
                 <li>The worm's health is the average of its <em>Sleep, Hunger, and Happiness</em> values.</li>
                 <li>When health reaches zero, the worm will die.</li>
                 <li>Worms can be revived using seepcoins.</li>
-                <li>Revived worms have health problems, and are unstable.</li>
-                <li>Even when fully Slept, Fed, and Happy, a revived worm's health cannot exceed a certain limit.</li>
-                <li>Worms can be revived up to 9 times, with their maximum health decreasing to 1 after each revival.</li>
+                <li>Worms can be revived up to 9 times, with their maximum health decreasing by 1 after each revival.</li>
             </ul>
             
             

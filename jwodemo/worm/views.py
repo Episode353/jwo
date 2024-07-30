@@ -34,10 +34,11 @@ def main(request):
         # Calculate the Current Health
         living_worm.health = round((living_worm.sleep + living_worm.hunger + living_worm.happiness) / 3)
 
-        # Subtract the revives from the health
-        # If a worm is revived zero times, were subtracting zero and it can go up to full health
-        # If a worm is revived two times, were subtracting two and it can only go up to eight health.
-        living_worm.health -= living_worm.times_revived
+        # Calculate the max health based on times revived
+        max_health = 10 - living_worm.times_revived
+
+        # Ensure the health does not exceed the max health
+        living_worm.health = min(max_health, living_worm.health)
 
         # Ensure health is at least 0 to avoid integrity errors
         living_worm.health = max(0, living_worm.health)
@@ -74,9 +75,9 @@ def main(request):
         # Save the updated worm
         living_worm.save()
 
-
     # Pass the living_worm to the template
     return render(request, 'worm_main.html', {'living_worm': living_worm})
+
 
 
 from django.shortcuts import render, redirect
