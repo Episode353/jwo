@@ -7,6 +7,11 @@
     .mb-3{
         border: none !important;
     }
+
+    .login-message{
+        color: red;
+        font-size: 70%;
+    }
 </style>
 <div class="content-large-fill">
     <p class="word-seppe" style="font-size: 120%;">Welcome to Joe's World!</p>
@@ -14,7 +19,7 @@
     <div style="max-width: 25rem; border: none !important;">
         {% if messages %}
                     {% for message in messages %}
-                        {{ message }}
+                       <p class="login-message"> {{ message }} </p>
                     {% endfor %}
                 {% endif %}
         <form action="" method=POST>
