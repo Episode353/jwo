@@ -6,10 +6,16 @@ class Worm(models.Model):
     # Automatically created unique identifier for each Worm
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=True, null=True)
-
+    
     # Boolean field to indicate if the worm is alive (True) or dead (False)
     is_alive = models.BooleanField(default=True)
-    
+
+    # The Number of times the worm was revived.
+    times_revived = models.PositiveIntegerField(
+        default=0,
+        validators=[MaxValueValidator(9), MinValueValidator(0)]
+    )
+
     # Setting up fields with max 10 and min 0 constraints
     health = models.PositiveIntegerField(
         default=5,

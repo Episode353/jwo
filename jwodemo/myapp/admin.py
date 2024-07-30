@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import foodreview, Profile, SeepCoinTransaction, todo, RedeemCode
+from .models import foodreview, Profile, SeepCoinTransaction, todo, RedeemCode, SeasonalContent
 from music.models import Album, Song, Recommendation
 from worm.models import Worm
 
@@ -11,6 +11,7 @@ admin.site.register(Album)
 admin.site.register(Song)
 admin.site.register(Recommendation)
 admin.site.register(todo)
+admin.site.register(SeasonalContent)
 
 from django.contrib import admin
 from .models import RedeemCode

@@ -9,9 +9,9 @@ from django.views.decorators.csrf import csrf_exempt
 import base64
 from datetime import datetime
 from .models import Profile
-from .models import foodreview, SeepCoinTransaction, todo
+from .models import foodreview, SeepCoinTransaction, todo, SeasonalContent
 from django.conf import settings
-
+from datetime import date
 
 
 BASE_DIR = settings.BASE_DIR
@@ -46,7 +46,10 @@ def home(request):
     # Get the current timestamp including the hour
     current_timestamp = int(datetime.now().timestamp())
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp})
+    today = date.today()
+    SeasonalContentEntries = SeasonalContent.objects.filter(start_date__lte=today).filter(end_date__gte=today)
+
+    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp, 'SeasonalContentEntries': SeasonalContentEntries})
 
 
 
