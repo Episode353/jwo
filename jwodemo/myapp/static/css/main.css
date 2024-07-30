@@ -229,7 +229,7 @@
     .word-seppe-formal {
         font-family: daydream;
         color: black;
-        font-size: 60%;
+        font-size: 100%;
         text-shadow: 0 -1px white, 1px 0 white, 0 1px white, -1px 0 white;
         vertical-align: top;
         margin-top: 20px; /* adjust this value to control the height of the raised text */
