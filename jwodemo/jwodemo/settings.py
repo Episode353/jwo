@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-r4_&do#y2_dyf3!m@pn_*3t+g!w7b6yd9c*vcobnbw9-x+&4z$
 
 # When Pushing to PythonAnywhere: Debug = False ; WSGI_APPLICATION Enabled
 # When Offline Testing: Debug = True; WSGI_APPLICATION Disabled
-DEBUG = True
-#WSGI_APPLICATION = 'jwo.wsgl.application'
+DEBUG = False
+WSGI_APPLICATION = 'jwo.wsgl.application'
 
 LOGIN_URL = 'home'
 
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'  
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
