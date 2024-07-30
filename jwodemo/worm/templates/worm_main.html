@@ -69,6 +69,12 @@
     }
 
     .age-counter {
+        font-size: 2rem;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    .revive-counter{
         font-size: 1rem;
         border: none !important;
         background: transparent !important;
@@ -252,6 +258,11 @@
         </div>
                     <!-- Age Counter -->
                     <div class="age-counter" id="age-counter"></div>
+
+                    {% if living_worm.times_revived > 0 %}
+                        <div class="revive-counter">Revived {{living_worm.times_revived }} times</div>
+                    {% endif %}
+                    
         <div class="worm-container">
             <div class="box" id="box1">
                 <img id="wormAnimation" src="" style=" object-fit: contain;">
@@ -326,6 +337,7 @@
                 }
 
                 var animationSrc = "{% static 'worm/idle.gif' %}";
+                if (hunger < 2) {animationSrc = "{% static 'worm/worm-help.gif' %}";}
                 if (hunger < 9) {animationSrc = "{% static 'worm/worm-hang.gif' %}";}
                 if (happiness < 9) {animationSrc = "{% static 'worm/worm-stand.gif' %}";}
                 if (happiness < 8) {animationSrc = "{% static 'worm/worm-bored.gif' %}";}
@@ -335,7 +347,6 @@
                 if (sleep < 3) {animationSrc = "{% static 'worm/worm-sleep.gif' %}";}
                 if (happiness < 3) {animationSrc = "{% static 'worm/worm-fishstick.gif' %}";}
                 if (happiness < 2) {animationSrc = "{% static 'worm/very-sad.gif' %}";}
-                if (hunger < 2) {animationSrc = "{% static 'worm/worm-help.gif' %}";}
                 if (!is_alive) { animationSrc = "{% static 'worm/worm-death.gif' %}";}
 
                 document.getElementById('wormAnimation').src = animationSrc;
@@ -559,7 +570,7 @@
     </style>
 
 <div class="dropdown-container">
-    <button class="dropdown-button" onclick="toggleDropdown()">Information</button>
+    <button class="dropdown-button" onclick="toggleDropdown()">How does this all work?</button>
     <div class="dropdown-content" id="badgeTable">
         <table>
             <tr>
@@ -611,10 +622,14 @@
         <div class="extra-data">
 
             <ul>
-                <li>Every hour one of the worm's bars is not given attention, it will go down by one.</li>
-                <li>The Worm's health is an average of the three values: <em>Sleep, Hunger, and Happiness</em>.</li>
-                <li>When the health reaches zero, the worm will die.</li>
+                <li>Every hour a worm's bar is not attended to, it will decrease by one.</li>
+                <li>The worm's health is the average of its <em>Sleep, Hunger, and Happiness</em> values.</li>
+                <li>When health reaches zero, the worm will die.</li>
+                <li>Worms can be revived using seepcoins.</li>
+                <li>Worms can be revived up to 9 times, with their maximum health decreasing by 1 after each revival.</li>
             </ul>
+            
+            
 
         </div>
 

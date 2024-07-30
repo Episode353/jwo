@@ -24,7 +24,11 @@ SECRET_KEY = 'django-insecure-r4_&do#y2_dyf3!m@pn_*3t+g!w7b6yd9c*vcobnbw9-x+&4z$
 
 # When Pushing to PythonAnywhere: Debug = False ; WSGI_APPLICATION Enabled
 # When Offline Testing: Debug = True; WSGI_APPLICATION Disabled
+<<<<<<< HEAD
 DEBUG = False
+=======
+DEBUG = False   
+>>>>>>> d1059e674af2793e52ffbff794aed12989a79657
 WSGI_APPLICATION = 'jwo.wsgl.application'
 
 LOGIN_URL = 'home'

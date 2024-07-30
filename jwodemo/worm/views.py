@@ -34,6 +34,15 @@ def main(request):
         # Calculate the Current Health
         living_worm.health = round((living_worm.sleep + living_worm.hunger + living_worm.happiness) / 3)
 
+        # Calculate the max health based on times revived
+        max_health = 10 - living_worm.times_revived
+
+        # Ensure the health does not exceed the max health
+        living_worm.health = min(max_health, living_worm.health)
+
+        # Ensure health is at least 0 to avoid integrity errors
+        living_worm.health = max(0, living_worm.health)
+
         # If the health <= 0, set is_alive to False and record time of death
         if living_worm.health <= 0 and living_worm.is_alive:
             living_worm.is_alive = False
@@ -62,20 +71,20 @@ def main(request):
             living_worm.badge = 9
         else:  # 180 and above
             living_worm.badge = 10
-
+        
         # Save the updated worm
         living_worm.save()
-
 
     # Pass the living_worm to the template
     return render(request, 'worm_main.html', {'living_worm': living_worm})
 
 
+
 from django.shortcuts import render, redirect
 from worm.models import Worm
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from django.utils import timezone
 
 #@csrf_exempt  # You may enable for debugging
 def create_worm(request):
@@ -84,12 +93,16 @@ def create_worm(request):
         alive_worms_exist = Worm.objects.filter(is_alive=True).exists()
         if alive_worms_exist:
             # If alive worms exist, redirect to the main page with a message
-            return HttpResponse("There are already worms alive. You can't create a new worm until all are dead.", status=403)
+            return custom_404_view(request, "There are already worms alive. You can't create a new worm until all are dead.")
         
         name = request.POST.get('name')
         if name:
             # Capitalize the first letter and make the rest lowercase
             formatted_name = name.capitalize()
+            
+            # Check if the name matches any dead worms
+            if Worm.objects.filter(name=formatted_name, is_alive=False).exists():
+                return custom_404_view(request, "A worm with this name has already exists. Please choose a different name.")
             
             # Get the current time
             now = timezone.localtime(timezone.now())
@@ -105,6 +118,7 @@ def create_worm(request):
     
     # In case of GET request or no name provided, redirect to main page
     return redirect('worm/main')
+
 
 from django.shortcuts import render, redirect
 from worm.models import Worm
@@ -154,15 +168,24 @@ def revive(request, worm_name):
     
     # Check if there are no worms currently alive
     if not Worm.objects.filter(is_alive=True).exists():
+
+
         # Check if the user has more than 0 SeepCoins
         if user_profile.coin_count > 0:
             worm = get_object_or_404(Worm, name=worm_name, is_alive=False)
             
+            # Check if the worm has not exceed 9 revives
+            if worm.times_revived >= 9:
+                return custom_404_view(request, "This worm been revived too many times.")
+
             # Revive the worm
             worm.is_alive = True
             worm.last_slept = timezone.localtime(timezone.now())
             worm.last_played = timezone.localtime(timezone.now())
             worm.last_fed = timezone.localtime(timezone.now())
+
+            worm.times_revived += 1
+
             worm.save()
             
             # Deduct one SeepCoin from the user and send it to Joe

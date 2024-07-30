@@ -60,11 +60,21 @@
                 <p style="font-size: 150%;">{{ dead_worm.name }}</p>
                 <p style="font-size: 80%;">Created: {{ dead_worm.created_at }}</p>
                 <p style="font-size: 80%;">Died: {{ dead_worm.time_of_death }}</p>
+
+                    {% if dead_worm.times_revived > 0%}
+                        <p style="font-size: 80%;">Revived {{ dead_worm.times_revived }} times</p>
+                    {% endif %}
+                    
                 <img style="width: 8rem;" src="{% static 'worm/worm-death.gif' %}">
+
+                {% if dead_worm.times_revived < 9 %}
                 <form method="post" action="{% url 'revive' dead_worm.name %}">
                     {% csrf_token %}
                     <button type="submit" style="font-size: 100%;">Revive </br> <span style="font-size: 50%;">(1 Seep Coin)</span></button>
                 </form>
+                {% elif dead_worm.times_revived >= 9 %}
+                    <p>{{ dead_worm.name }} Has been revived too many times. May his soul forever rest peacefully.</p>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

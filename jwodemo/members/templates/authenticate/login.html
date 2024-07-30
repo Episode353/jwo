@@ -4,27 +4,37 @@
     input{
         text-align: center;
     }
+    .mb-3{
+        border: none !important;
+    }
 
+    .login-message{
+        color: red;
+        font-size: 70%;
+    }
 </style>
 <div class="content-large-fill">
-    <div style="width: 50%; border: none !important;">
-    {% if messages %}
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            {% endif %}
-    <form action="" method=POST>
-        {% csrf_token %}
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" name="username" id="username">
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+    <p class="word-seppe" style="font-size: 120%;">Welcome to Joe's World!</p>
+    <p class="word-seppe-formal">If you don't turn back now, it will be too late!</p>
+    <div style="max-width: 25rem; border: none !important;">
+        {% if messages %}
+                    {% for message in messages %}
+                       <p class="login-message"> {{ message }} </p>
+                    {% endfor %}
+                {% endif %}
+        <form action="" method=POST>
+            {% csrf_token %}
+            
+                <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username">
+                </div>
+                <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

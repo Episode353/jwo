@@ -70,3 +70,13 @@ class RedeemCode(models.Model):
     def generate_random_code(length=8):
         characters = string.ascii_uppercase + string.digits
         return ''.join(random.choice(characters) for _ in range(length))
+
+# This is the model for the stuff that can appear on the homepage on specific days
+class SeasonalContent(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title

@@ -13,6 +13,7 @@
         font-family: daydream;
         font-weight: bold;
     }
+
 </style>
 
 
@@ -27,17 +28,20 @@
 <div class="content-large">
 
     <!-- Features Section -->
-    <div class="feature-section" style="font-family: daydream; color: black; text-shadow: 3px 3px 0px red;">
-        
+    <div class="feature-section" style="border-left: none; border-right: none;">
         <!--<p><span class="joesworldonline-text">Some Really Cool text goes here</span></p>-->
-        <p>the agony!, <em>the pain!</em></p>
-        <p>it's complete madness!</p>
-        <a>On the</a>
-        <a href="{% url 'account'%}">Account Page</a>
-        <a>you can redeem seep coin codes!</a>
-        <p></p>
-        <p>What will we ever do!?!?!!</p>
+        {% for SeasonalContent in SeasonalContentEntries %}
+            <!--
+            <h2 class="seasonal-content-title">{{ SeasonalContent.title }}</h2>
+            I have hid the title because i honestly dont think i need it.
+            -->
+
+            <div style="border: none;">{{ SeasonalContent.content|safe }}</div>
+        {% endfor %}
     </div>
+    
+
+
 
 
     <!-- The Beeg Map-->
