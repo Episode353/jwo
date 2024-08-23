@@ -5,6 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from functools import wraps
 
+
+from blog.models import BlogProfile
+from django.shortcuts import render, get_object_or_404
+from django.views import generic
+from django.views.generic import DetailView, CreateView
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -65,3 +75,23 @@ def edit_profile(request):
         request.user.profile.save()
         return redirect('account')
     return render(request, 'edit_profile.html')
+
+
+class EditProfilePageView(generic.UpdateView):
+    model = BlogProfile
+    template_name = 'registration/edit_profile_page.html'
+    fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
+    success_url = reverse_lazy('home')
+
+class ShowProfilePageView(DetailView):
+    model = BlogProfile
+    template_name = 'registration/user_profile.html'
+
+    def get_context_data(self, *args, **kwargs):
+        # users = Profile.objects.all()
+        context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
+
+        page_user = get_object_or_404(BlogProfile, id=self.kwargs['pk'])
+
+        context["page_user"] = page_user
+        return context
