@@ -94,6 +94,25 @@ class AddPostView(CreateView):
     # fields = ('title', 'body')
     success_url = reverse_lazy('bloghome')
 
+    def get_form(self, form_class=None):
+        form = super(AddPostView, self).get_form(form_class)
+        for field_name, field in form.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        return form
+
+class UpdatePostView(UpdateView):
+    model = Post
+    form_class = EditForm
+    template_name = 'update_post.html'
+    #fields = ['title', 'title_tag', 'body']
+    success_url = reverse_lazy('bloghome')
+
+    def get_form(self, form_class=None):
+        form = super(UpdatePostView, self).get_form(form_class)
+        for field_name, field in form.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        return form
+
 class AddCommentView(CreateView):
     model = Comment
     form_class = CommentForm
@@ -118,12 +137,7 @@ class AddCategoryView(CreateView):
         return form
 
 
-class UpdatePostView(UpdateView):
-    model = Post
-    form_class = EditForm
-    template_name = 'update_post.html'
-    #fields = ['title', 'title_tag', 'body']
-    success_url = reverse_lazy('bloghome')
+
 
 class DeletePostView(DeleteView):
     model = Post

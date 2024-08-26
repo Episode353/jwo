@@ -12,7 +12,7 @@
                         Category: <a href="{% url 'category-view' post.category|slugify %}">{{ post.category }}</a>
                     </span>
                 </br>
-                    <span class="post-author">by <a href="{% url 'show_profile_page' post.author.profile.id %}" class="text-primary">{{ post.author.first_name }} {{ post.author.last_name }}</a></span>
+                    <span class="post-author">by <a href="{% url 'show_profile_page' post.author.profile.id %}">{{ post.author.first_name }} {{ post.author.last_name }}</a></span>
                 </br>
                 
                     <span class="post-date">{{ post.post_date }}</span>
@@ -35,8 +35,8 @@
 
             {% if user.is_authenticated and user.id == post.author.id %}
                 <div class="post-actions">
-                    <a class="edit-btn" href="{% url 'update_post' post.pk %}">Edit</a>
-                    <a class="delete-btn" href="{% url 'delete_post' post.pk %}">Delete</a>
+                    <a class="btn btn-secondary" href="{% url 'update_post' post.pk %}">Edit</a>
+                    <a class="btn btn-secondary" href="{% url 'delete_post' post.pk %}">Delete</a>
                 </div>
             {% endif %}
 

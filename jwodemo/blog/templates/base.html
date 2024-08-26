@@ -86,9 +86,12 @@
         font-weight: 500;
     }
 
-    .post-author {
-        font-style: italic;
-    }
+
+    .post-author a {
+      color: #0056b3;
+      font-weight: 500;
+      font-style: italic;
+  }
 
     .post-item {
       margin-bottom: 2.5rem;
@@ -116,6 +119,10 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
+    .default-profile-pic{
+      width:1rem;
+    }
+
     .post-snippet {
         font-size: 1rem;
         color: #555;
@@ -126,20 +133,7 @@
         margin-top: 1.5rem;
     }
 
-    .edit-btn, .delete-btn {
-        background-color: #007bff;
-        color: white;
-        padding: 0.4rem 1rem;
-        border-radius: 0.3rem;
-        text-decoration: none;
-        font-size: 0.9rem;
-        margin-right: 0.5rem;
-        transition: background-color 0.3s ease;
-    }
 
-    .edit-btn:hover, .delete-btn:hover {
-        background-color: #0056b3;
-    }
 
     .card {
         border-radius: 0.75rem;
@@ -223,6 +217,14 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Options</a>
+
+              <div class="col-md-2">
+                {% if post.author.profile.profile_pic %}
+                    <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-start default-profile-pic" alt="Default Profile Picture">
+                {% endif %}
+            </div>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'blog_edit_profile' %}">Edit Profile</a></li>
                 {% if user.profile.id %}

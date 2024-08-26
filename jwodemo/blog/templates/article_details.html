@@ -18,8 +18,8 @@
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
             <div>
-                <a href="{% url 'update_post' post.pk %}" class="edit-btn">Edit</a>
-                <a href="{% url 'delete_post' post.pk %}" class="delete-btn">Delete</a>
+                <a href="{% url 'update_post' post.pk %}" class="btn btn-secondary">Edit</a>
+                <a href="{% url 'delete_post' post.pk %}" class="btn btn-secondary">Delete</a>
             </div>
             {% endif %}
         {% endif %}
@@ -39,26 +39,31 @@
 
     <form action="{% url 'like_post' post.pk %}" method="POST" class="mb-4">
         {% csrf_token %}
-        {% if user.is_authenticated %}
-            {% if liked %}
-                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">Unlike</button>
+        <div class="d-flex align-items-center">
+            {% if user.is_authenticated %}
+                {% if liked %}
+                    <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm me-2">Unlike</button>
+                {% else %}
+                    <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm me-2">Like</button>
+                {% endif %}
             {% else %}
-                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">Like</button>
+                <small><a href="{% url 'login' %}" class="text-decoration-none">Login</a> to like</small>
             {% endif %}
-        {% else %}
-            <small><a href="{% url 'login' %}" >Login</a> to like</small>
-        {% endif %}
-    </br>
-        <span class="ms-2">{{ total_likes }} Likes</span>
+            <span class="ms-2">{{ total_likes }} Likes</span>
+        </div>
     </form>
-
+    <p class="post-meta mb-3">
+        Author Profile
+    </p>
     <div class="card mb-4">
+        
         <div class="row g-0">
+            
             <div class="col-md-2">
                 {% if post.author.profile.profile_pic %}
                     <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" alt="Profile Picture">
                 {% else %}
-                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-start" alt="Default Profile Picture">
+                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-start default-profile-pic" alt="Default Profile Picture">
                 {% endif %}
             </div>
             <div class="col-md-10">

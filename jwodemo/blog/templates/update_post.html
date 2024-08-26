@@ -10,11 +10,14 @@
         <div class="form-group">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ form.media }}
                 {{ form.as_p }}
-                <button type="submit">Update</button>
+                <button class="btn btn-secondary">Update Post</button>
             </form>
             
         </div>
+    
+        x``
     {% else %}
         You are not allowed here!
     {% endif %}
