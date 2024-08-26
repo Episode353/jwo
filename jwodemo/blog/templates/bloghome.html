@@ -1,28 +1,49 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="post-container">
+    <ul class="post-list">
+    {% for post in object_list %}
+        <li class="post-item">
+            <div class="post-header">
+                <h2><a class="post-title" href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h2>
+                <div class="post-meta">
+                    <span class="post-category">
+                        Category: <a href="{% url 'category-view' post.category|slugify %}">{{ post.category }}</a>
+                    </span>
+                </br>
+                    <span class="post-author">by <a href="{% url 'show_profile_page' post.author.profile.id %}" class="text-primary">{{ post.author.first_name }} {{ post.author.last_name }}</a></span>
+                </br>
+                
+                    <span class="post-date">{{ post.post_date }}</span>
+                </div>
+            </div>
 
-<h1>Post</h1>
-
-<ul>
-{% for post in object_list %}
-    <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a>
-
-        - <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a>
-        - {{ post.author.first_name }}
-        {{ post.author.last_name }}
-        - {{ post.post_date }} <small>
-
-            {% if user.is_authenticated %}
-                {% if user.id == post.author.id %}
-                    - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
-                    <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
-                {% endif %}
+            {% if post.header_image %}
+            <div class="post-image">
+                <a href="{% url 'article-detail' post.pk %}">
+                    <img src="{{ post.header_image.url }}" alt="{{ post.title }}" class="header-img">
+                </a>
+            </div>
             {% endif %}
 
-        </small> <br/>
-        {{ post.snippet }}</li>
-{% endfor %}
-</ul>
+            <div class="post-snippet">
+                {{ post.snippet }}
+            </div>
+
+
+
+            {% if user.is_authenticated and user.id == post.author.id %}
+                <div class="post-actions">
+                    <a class="edit-btn" href="{% url 'update_post' post.pk %}">Edit</a>
+                    <a class="delete-btn" href="{% url 'delete_post' post.pk %}">Delete</a>
+                </div>
+            {% endif %}
+
+
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 
 {% endblock %}

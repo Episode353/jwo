@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Post, Category, Comment
 from .forms import PostForm, EditForm, CommentForm
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 
 # Create your views here.
 
@@ -38,9 +39,32 @@ def CategoryListView(request):
     cat_menu_list = Category.objects.all()
     return render(request, 'category_list.html', {'cat_menu_list':cat_menu_list})
 
+
+
 def CategoryView(request, cats):
-    category_posts = Post.objects.filter(category=cats.replace('-', ' '))
-    return render(request, 'categories.html', {'cats':cats.title().replace('-', ' '), 'category_posts':category_posts})
+    cats_cleaned = cats.replace('-', ' ').title()  # Capitalize first letters for proper matching
+    print(f"Requested category: {cats}")
+    print(f"Cleaned category: {cats_cleaned}")
+
+    # Try to find the category by name, ignoring case
+    try:
+        category = Category.objects.get(Q(name__iexact=cats_cleaned))
+        category_posts = Post.objects.filter(category=category)
+    except Category.DoesNotExist:
+        print("Category does not exist")
+        return render(request, '404.html', status=404)
+
+    # Debugging
+    print(f"Number of posts found: {category_posts.count()}")
+
+    return render(request, 'categories.html', {
+        'cats': category.name,
+        'category_posts': category_posts
+    })
+
+
+
+
 
 class ArticleDetailView(DetailView):
     model = Post
@@ -68,6 +92,7 @@ class AddPostView(CreateView):
     template_name = 'add_post.html'
     # fields = '__all__'
     # fields = ('title', 'body')
+    success_url = reverse_lazy('bloghome')
 
 class AddCommentView(CreateView):
     model = Comment
@@ -78,21 +103,29 @@ class AddCommentView(CreateView):
         form.instance.post_id = self.kwargs['pk']
         return super().form_valid(form)
 
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('bloghome')
 
 class AddCategoryView(CreateView):
     model = Category
-    #form_class = PostForm
     template_name = 'add_category.html'
     fields = '__all__'
+    success_url = reverse_lazy('bloghome')
+
+    def get_form(self, form_class=None):
+        form = super(AddCategoryView, self).get_form(form_class)
+        for field_name, field in form.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        return form
+
 
 class UpdatePostView(UpdateView):
     model = Post
     form_class = EditForm
     template_name = 'update_post.html'
     #fields = ['title', 'title_tag', 'body']
+    success_url = reverse_lazy('bloghome')
 
 class DeletePostView(DeleteView):
     model = Post
     template_name = 'delete_post.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('bloghome')

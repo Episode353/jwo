@@ -12,7 +12,6 @@ handler404 = custom_404_view
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path('', include("encyclopedia.urls")),
     path('', include("music.urls")),
     path('blog/', include("blog.urls")),
     path("seepcoin", views.seepcoin, name="seepcoin"),

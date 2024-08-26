@@ -210,7 +210,11 @@
             {% csrf_token %}
             <input type="text" name="code" placeholder="Enter your Seep Coin code" required>
             <button type="submit">Redeem Code</button>
+            
         </form>
+        
     </div>
+    <input type="button" onclick="location.href='{% url 'password_change' %}';" value="Change Password" />
+    <input type="button" onclick="location.href='{% url 'blog_edit_profile' %}';" value="Edit Profile" />
 </div>
 {% endblock %}
