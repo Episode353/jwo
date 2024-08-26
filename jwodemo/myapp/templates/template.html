@@ -28,10 +28,12 @@
 
     <style>
         .header-login {
-            align-items: center;
+            display: flex; /* Enables flexbox */
+            align-items: center; /* Vertically centers elements */
+            justify-content: left;
             background-image: url("{% static 'mc/block/obsidian.png' %}");
             color: white;
-            padding: 10px 20px;
+            padding: 0rem 1rem;
             border: outset;
             border-color: #b2b5c7;
             position: fixed;
@@ -39,17 +41,49 @@
             z-index: 99;
         }
 
+        .header-login-text{
+            padding-right: 1rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        #logoutBtn {
+            width: 4rem;
+            background-color: rgb(172, 65, 65);
+            color: white;
+            padding: 5px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
             .fish {
                 position: relative;
               font-size: 3rem !important;
                height: 4rem;
-               width: 100%;
+                width: 100%;
               display: block;
               font-weight: 900 !important;
               cursor: pointer;
               user-select: none;
               color: #92AAFC;
               text-shadow: 1px 1px 1px white !important;
+            }
+
+            .profile-section {
+                display: flex;
+                align-items: center;
+                margin-left: auto; /* Pushes the profile section to the right */
+            }
+        
+            .navbar-nav {
+                display: flex;
+                align-items: center;
+            }
+        
+            .navbar-nav img {
+                width: 3rem;
+                margin-right: 10px;
             }
 
 
@@ -462,27 +496,50 @@
     <!--Firebase Authenticaion Information-->
     <div class="header-login">
 
+  <!-- Profile stuff -->
+  {% if user.is_authenticated %}
+  <a style="color:green;">Logged in as: [ {{ request.user }} ] </a>
+  <a href="{% url 'logout' %}" style="color: white;" id="logoutBtn">Logout</a>
+  <a href="{% url 'account' %}" style="color: white;">My Account</a>
+  
+  <div class="profile-section">
 
-            {% if user.is_authenticated %}
-            <a style="color:green;">Logged in as: [ {{ request.user }} ] </a>
-            <a href="{% url 'logout' %}" style="color: white;" id="logoutBtn">Logout</a>
-            <a href="{% url 'account' %}" style="color: white;">My Account</a>
-            {% else %}
-            <a href="{% url 'login' %}" style="color: white;">Login</a>
+    
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
+                  {% else %}
+                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-circle" alt="Default Profile Picture">
+                  {% endif %}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url 'blog_edit_profile' %}">Edit Profile</a></li>
+                  {% if user.profile.id %}
+                      <li><a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile Page</a></li>
+                      <li><a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show Profile Page</a></li>
+                  {% else %}
+                      <li><a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile Page</a></li>
+                  {% endif %}
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+          </li>
+      </ul>
+  </div>
+  {% else %}
+  <a class="header-login-text" href="{% url 'login' %}" style="color: white;">Login</a>
+  <a class="header-login-text" href="{% url 'register_user' %}" style="color: white;">Register</a>
+  {% endif %}
 
-            <a href="{% url 'register_user' %}" style="color: white;">Register</a>
-            {% endif%}
-
-
-            {% if messages %}
-                {% for message in messages %}
-                <a style="color:red;">
-                    {{ message }}
-                  </a>
-
-                {% endfor %}
-            {% endif %}
-
+  {% if messages %}
+      {% for message in messages %}
+      <a style="color:red;">
+          {{ message }}
+      </a>
+      {% endfor %}
+  {% endif %}
+</div>
 
             <button id="logoutBtn" style="display: none;">Logout</button>
             <div class="dropdown-content" id="dropdownContent">
@@ -495,6 +552,9 @@
 
         </div>
     </div>
+
+
+    
     <div id="loginFormContainer" class="login-form-container draggable">
         <form id="loginForm">
             <h2>Login</h2>

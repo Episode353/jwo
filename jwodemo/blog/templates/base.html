@@ -148,6 +148,10 @@
         font-size: 0.8rem;
         padding: 0.25rem 0.5rem;
     }
+
+    .prof-pic-dropdown{
+      width: 4rem;
+    }
     </style>
 
     <!-- Theme toggle script -->
@@ -216,15 +220,15 @@
           {% if user.is_authenticated %}
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Options</a>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-              <div class="col-md-2">
-                {% if post.author.profile.profile_pic %}
-                    <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" alt="Profile Picture">
-                {% else %}
-                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-start default-profile-pic" alt="Default Profile Picture">
-                {% endif %}
-            </div>
+                  {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" class="img-fluid rounded-circle prof-pic-dropdown" alt="Profile Picture">
+                  {% else %}
+                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-circle default-profile-pic prof-pic-dropdown" alt="Default Profile Picture">
+                  {% endif %}
+
+              </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'blog_edit_profile' %}">Edit Profile</a></li>
                 {% if user.profile.id %}
@@ -237,7 +241,8 @@
               </ul>
             </li>
           </ul>
-          {% endif %}
+        {% endif %}
+        
         </div>
       </div>
     </nav>

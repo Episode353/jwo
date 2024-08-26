@@ -108,7 +108,7 @@ class ShowProfilePageView(DetailView):
 class UserEditView(generic.UpdateView):
     form_class = EditProfileForm
     template_name = 'registration/edit_profile.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('bloghome')
 
     def get_object(self):
         return self.request.user

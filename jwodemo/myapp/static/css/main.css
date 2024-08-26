@@ -964,15 +964,7 @@
         padding: 10px;
     }
 
-    #logoutBtn {
-        width: 100%;
-        background-color: rgb(172, 65, 65);
-        color: white;
-        padding: 5px;
-        margin: 10px;
-        border: none;
-        cursor: pointer;
-    }
+
 
     .login-form-container {
         display: none;
