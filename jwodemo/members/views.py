@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from functools import wraps
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from myapp.models import Profile
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -77,7 +77,7 @@ def edit_profile(request):
     return render(request, 'edit_profile.html')
 
 
-class EditProfilePageView(generic.UpdateView):
+class EditProfilePageView(LoginRequiredMixin, generic.UpdateView):
     model = Profile
     template_name = 'registration/edit_profile_page.html'
     fields = ['bio', 'profile_pic', 'website_url', 'steam_url', 'twitter_url', 'instagram_url', 'discord_url']
@@ -105,7 +105,10 @@ class ShowProfilePageView(DetailView):
         context["page_user"] = page_user
         return context
     
-class UserEditView(generic.UpdateView):
+
+
+
+class UserEditView(LoginRequiredMixin, generic.UpdateView):
     form_class = EditProfileForm
     template_name = 'registration/edit_profile.html'
     success_url = reverse_lazy('bloghome')
