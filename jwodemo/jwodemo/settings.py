@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'worm',
     'blog',
     'ckeditor',
+    'ckeditor_uploader',
+    
 ]
 
 MIDDLEWARE = [
@@ -120,6 +122,17 @@ STATIC_ROOT = '/home/joetoscani/jwo/jwodemo/static'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = '/home/joetoscani/jwo/jwodemo/media'
+
+CKEDITOR_UPLOAD_PATH = "media/uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'extraPlugins': ','.join([
+            'uploadimage',  # Include the upload image plugin
+        ]),
+        'filebrowserUploadUrl': '/ckeditor/upload/',
+        'imageUploadUrl': '/ckeditor/upload/',
+    }
+}
 
 
 

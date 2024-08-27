@@ -33,6 +33,7 @@ urlpatterns = [
     path("timenow", views.timenow, name="timenow"),
     path('members/redeem/<str:code>/', redeem_code, name='redeem_code'),
     path('members/redeem/', redeem_code_form, name='redeem_code_form'),
+    path('ckeditor/', include('ckeditor_uploader.urls'))
     
 ]
 
