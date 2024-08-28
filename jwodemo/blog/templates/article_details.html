@@ -4,26 +4,20 @@
 {% block title %}{{ post.title_tag }}{% endblock %}
 
 {% block content %}
-<style>
 
-</style>
 
 <div class="post-container">
-    <h1 class="post-title mb-3">{{ post.title }}</h1>
-    <p class="post-meta mb-3">
-        By {{ post.author.first_name }} {{ post.author.last_name }} - 
-        {{ post.post_date|date:"F j, Y" }} - 
-        <a href="{% url 'category-view' post.category|slugify %}" class="post-category">{{ post.category }}</a>
-        
+
+        <!--If the logged in user is the author, show edit and delete buttons in a dropdown menu-->
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
-            <div>
-                <a href="{% url 'update_post' post.pk %}" class="btn btn-secondary">Edit</a>
-                <a href="{% url 'delete_post' post.pk %}" class="btn btn-secondary">Delete</a>
-            </div>
+                    <!--Use the Post Header Widget-->
+                    {% include 'widgets/post_actions.html' with author=post.author %}
             {% endif %}
         {% endif %}
-    </p>
+
+    <!--Use the Post Header Widget-->
+    {% include 'widgets/post_header.html' with author=post.author %}
 
     {% if post.header_image %}
         <div class="post-image">
@@ -52,47 +46,15 @@
             <span class="ms-2">{{ total_likes }} Likes</span>
         </div>
     </form>
+
     <p class="post-meta mb-3">
         Author Profile
     </p>
-    <div class="card mb-4">
-        
-        <div class="row g-0">
-            
-            <div class="col-md-2">
-                {% if post.author.profile.profile_pic %}
-                    <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" alt="Profile Picture">
-                {% else %}
-                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid rounded-start default-profile-pic" alt="Default Profile Picture">
-                {% endif %}
-            </div>
-            <div class="col-md-10">
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.author.first_name }} {{ post.author.last_name }}</h5>
-                    <p class="small text-muted">
-                        <a href="{% url 'show_profile_page' post.author.profile.id %}" class="text-primary">૰ Profile Page</a>
-                        {% if post.author.profile.website_url %}
-                            | <a href="{{ post.author.profile.website_url }}" class="text-primary">{{ post.author.profile.website_url }}</a>
-                        {% endif %}
-                        {% if post.author.profile.steam_url %}
-                            | <a href="{{ post.author.profile.steam_url }}" class="text-primary">૰ Steam</a>
-                        {% endif %}
-                        {% if post.author.profile.twitter_url %}
-                            | <a href="{{ post.author.profile.twitter_url }}" class="text-primary">૰ Twitter</a>
-                        {% endif %}
-                        {% if post.author.profile.instagram_url %}
-                            | <a href="{{ post.author.profile.instagram_url }}" class="text-primary">૰ Instagram</a>
-                        {% endif %}
-                        {% if post.author.profile.discord_url %}
-                            | <a href="{{ post.author.profile.discord_url }}" class="text-primary">૰ Discord</a>
-                        {% endif %}
-                    </p>
-                    <p class="card-text">{{ post.author.profile.bio }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
+   
+    {% include 'widgets/show_profile.html' with page_user=page_user %}
 
+
+    
     <h2 class="mt-4">Comments</h2>
     <br/>
     {% if not post.comments.all %}
@@ -109,4 +71,7 @@
         <a href="{% url 'add_comment' post.pk %}" class="btn btn-primary btn-sm">Add Comment</a>
     {% endif %}
 </div>
+
+
+
 {% endblock %}

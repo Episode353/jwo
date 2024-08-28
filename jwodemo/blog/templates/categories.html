@@ -17,15 +17,9 @@
         <ul class="post-list">
         {% for post in category_posts %}
             <li class="post-item">
-                <div class="post-header">
-                    <h2><a class="post-title" href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h2>
-                    <div class="post-meta">
-                        <span class="post-author">by <a href="{% url 'show_profile_page' post.author.profile.id %}" class="text-primary">{{ post.author.first_name }} {{ post.author.last_name }}</a></span>
-                    </br>
-                    
-                    <span class="post-date">{{ post.post_date }}</span>
-                    </div>
-                </div>
+                
+                <!--Use the Post Header Widget-->
+                {% include 'widgets/post_header.html' with author=post.author %}
 
                 <div class="post-snippet">
                     {{ post.snippet|slice:":200"|safe }}

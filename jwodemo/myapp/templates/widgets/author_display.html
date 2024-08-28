@@ -1,0 +1,10 @@
+<!-- templates/author_display.html -->
+<span class="post-author">by 
+  <a href="{% url 'show_profile_page' author.profile.id %}">
+  {{ author.first_name }} {{ author.last_name }}
+    {% if author.is_staff %}
+      <!--Use the Staff icon Widget-->
+      {% include 'widgets/staff_icon.html' with author=post.author %}
+    {% endif %}
+</a>
+</span>

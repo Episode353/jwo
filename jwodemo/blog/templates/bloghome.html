@@ -5,19 +5,18 @@
     <ul class="post-list">
     {% for post in object_list %}
         <li class="post-item">
-            <div class="post-header">
-                <h2><a class="post-title" href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h2>
-                <div class="post-meta">
-                    <span class="post-category">
-                        Category: <a href="{% url 'category-view' post.category|slugify %}">{{ post.category }}</a>
-                    </span>
-                </br>
-                    <span class="post-author">by <a href="{% url 'show_profile_page' post.author.profile.id %}">{{ post.author.first_name }} {{ post.author.last_name }}</a></span>
-                </br>
-                
-                    <span class="post-date">{{ post.post_date }}</span>
-                </div>
-            </div>
+
+            <!--If the logged in user is the author, show edit and delete buttons in a dropdown menu-->
+            {% if user.is_authenticated %}
+                {% if user.id == post.author.id %}
+                        <!--Use the Post Header Widget-->
+                        {% include 'widgets/post_actions.html' with author=post.author %}
+                {% endif %}
+            {% endif %}
+
+                <!--Use the Post Header Widget-->
+                {% include 'widgets/post_header.html' with author=post.author %}
+
 
             {% if post.header_image %}
             <div class="post-image">

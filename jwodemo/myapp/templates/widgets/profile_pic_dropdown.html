@@ -1,0 +1,26 @@
+{% load static %}
+{% if user.is_authenticated %}
+<ul class="navbar-nav ml-auto">
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+        {% if user.profile.profile_pic %}
+          <img src="{{ user.profile.profile_pic.url }}" class="img-fluid prof-pic-dropdown" alt="Profile Picture">
+        {% else %}
+          <img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid prof-pic-dropdown" alt="Default Profile Picture">
+        {% endif %}
+
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+      <li><a class="dropdown-item" href="{% url 'blog_edit_profile' %}">Edit Profile</a></li>
+      {% if user.profile.id %}
+        <li><a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile Page</a></li>
+        <li><a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show Profile Page</a></li>
+      {% else %}
+        <li><a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile Page</a></li>
+      {% endif %}
+      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+  </li>
+</ul>
+{% endif %}
