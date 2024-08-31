@@ -168,16 +168,16 @@
 
     </style>
 
-    <!-- Theme toggle script -->
     <script>
       (function() {
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        // Set the default theme to dark if no theme is set
+        const defaultTheme = 'dark';
+        const currentTheme = localStorage.getItem('theme') || defaultTheme;
         document.documentElement.setAttribute('data-bs-theme', currentTheme);
-        if (currentTheme === 'light') {
-          document.body.classList.add('light-mode');
-        }
+        document.body.classList.toggle('light-mode', currentTheme === 'light');
       })();
     </script>
+    
   </head>
 
   <body class="blog-body">
@@ -247,24 +247,22 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoNXHkflIMbMhsct6i1i6twtW73T76A5iowrn5Enqt8vxk5" crossorigin="anonymous"></script>
 
-    <!-- Dark Mode Toggle Script -->
-    <!-- Dark Mode Toggle Script -->
     <script>
       const darkModeSwitch = document.getElementById('darkModeSwitch');
       const darkModeLabel = document.getElementById('darkModeLabel');
-      const currentTheme = localStorage.getItem('theme') || 'light';
-
+      const currentTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
+    
       // Function to update the background image and label text based on the theme
       const updateTheme = (theme) => {
         const body = document.querySelector('.blog-body');
-        theme === 'light' ? body.classList.add('light-mode') : body.classList.remove('light-mode');
+        body.classList.toggle('light-mode', theme === 'light');
         darkModeLabel.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
       };
-
+    
       // Initialize the switch and label text based on the current theme
       darkModeSwitch.checked = currentTheme === 'dark';
       updateTheme(currentTheme);
-
+    
       darkModeSwitch.addEventListener('change', function() {
         const theme = darkModeSwitch.checked ? 'dark' : 'light';
         document.documentElement.setAttribute('data-bs-theme', theme);
@@ -272,6 +270,7 @@
         updateTheme(theme);
       });
     </script>
+    
 
 
 
