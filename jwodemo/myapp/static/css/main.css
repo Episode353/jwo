@@ -850,15 +850,21 @@
 
         }
 
+        .scoreboard-data td a {
+            margin: 0px 0px 0px;
+            font-size: clamp( .7rem, 2vw, 1.5rem) !important;
+
+        }
+
         .scoreboard-data td p {
             margin: 0px 0px 0px;
-            font-size: clamp( .7rem, 3vw, 1.5rem) !important;
+            font-size: clamp( .7rem, 2vw, 1.5rem) !important;
 
         }
 
         .scoreboard-data td p.user-message {
             margin: 0px 0px 0px;
-            font-size: clamp( .6em, 1.8vw, 1rem) !important;
+            font-size: clamp( .6em, 3vw, 1.6rem) !important;
 
 
             margin-top: 5px; /* Adjust as needed */

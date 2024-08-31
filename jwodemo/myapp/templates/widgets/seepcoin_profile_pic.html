@@ -1,0 +1,14 @@
+{% load static %}
+
+<style>
+    .seep-coin-prof-pic{
+        width: 2rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+{% if user.profile.profile_pic %}
+<img src="{{ user.profile.profile_pic.url }}" class="img-fluid prof-pic-dropdown seep-coin-prof-pic" alt="Profile Picture">
+{% else %}
+<img src="{% static 'blog/images/default_profile_pic.png' %}" class="img-fluid prof-pic-dropdown seep-coin-prof-pic" alt="Default Profile Picture">
+{% endif %}

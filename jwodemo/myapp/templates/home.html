@@ -87,8 +87,12 @@
                                 {% endif %}
                             </td>
                             <td style="font-size: clamp( .1em, .5vw, 1rem);">
-                                <p>{{ user.profile.user|title }}</p>
+
+                                <!-- Use the Seep Coin Profile Pics Widget -->
+                                {% include 'widgets/seepcoin_profile_pic.html' with page_user=page_user %}
+                                <a>{{ user.profile.user|title }}</a>
                                 <p  class="user-message">{{ user.profile.coin_message }}</p>
+
                             </td>
                             <td>
                                 <div class="wrapper">
