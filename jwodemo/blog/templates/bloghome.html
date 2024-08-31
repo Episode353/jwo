@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="post-container">
+    <ul class="post-list">
+    {% for post in object_list %}
+        <li class="post-item">
+
+            <!--If the logged in user is the author, show edit and delete buttons in a dropdown menu-->
+            {% if user.is_authenticated %}
+                {% if user.id == post.author.id %}
+                        <!--Use the Post Header Widget-->
+                        {% include 'widgets/post_actions.html' with author=post.author %}
+                {% endif %}
+            {% endif %}
+
+                <!--Use the Post Header Widget-->
+                {% include 'widgets/post_header.html' with author=post.author %}
+
+
+            {% if post.header_image %}
+            <div class="post-image">
+                <a href="{% url 'article-detail' post.pk %}">
+                    <img src="{{ post.header_image.url }}" alt="{{ post.title }}" class="header-img">
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="post-snippet">
+                {{ post.snippet }}
+            </div>
+
+
+
+            {% if user.is_authenticated and user.id == post.author.id %}
+                <div class="post-actions">
+                    <a class="btn btn-secondary" href="{% url 'update_post' post.pk %}">Edit</a>
+                    <a class="btn btn-secondary" href="{% url 'delete_post' post.pk %}">Delete</a>
+                </div>
+            {% endif %}
+
+
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

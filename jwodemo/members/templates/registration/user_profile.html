@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <!-- Use the Post Header Widget -->
+    {% include 'widgets/show_profile.html' with page_user=page_user %}
+
+{% endblock %}

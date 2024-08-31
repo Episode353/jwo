@@ -1,0 +1,17 @@
+<div class="post-header">
+    <h2><a class="post-title" href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h2>
+    <div class="post-meta">
+        <span class="post-category">
+            Category: <a href="{% url 'category-view' post.category|slugify %}">{{ post.category }}</a>
+        </span>
+    </br>
+
+    <!--Use the Disply Author Widget-->
+    {% include 'widgets/author_display.html' with author=post.author %}
+
+      
+    </br>
+    
+        <span class="post-date">{{ post.post_date }}</span>
+    </div>
+</div>

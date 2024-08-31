@@ -12,12 +12,11 @@ handler404 = custom_404_view
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path('', include("encyclopedia.urls")),
     path('', include("music.urls")),
+    path('blog/', include("blog.urls")),
     path("seepcoin", views.seepcoin, name="seepcoin"),
     path("board", views.board, name="board"),
     path("gallery", views.gallery, name="gallery"),
-    path("blog", views.blog, name="blog"),
     path("food", views.foodpage, name="foodpage"),
     path("food/<slug:slug>/", views.food_ar, name="food_ar"),
     path('members/', include('django.contrib.auth.urls')),
@@ -34,6 +33,7 @@ urlpatterns = [
     path("timenow", views.timenow, name="timenow"),
     path('members/redeem/<str:code>/', redeem_code, name='redeem_code'),
     path('members/redeem/', redeem_code_form, name='redeem_code_form'),
+    path('ckeditor/', include('ckeditor_uploader.urls'))
     
 ]
 

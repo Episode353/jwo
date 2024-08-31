@@ -161,8 +161,6 @@ def gallery(request):
     return render(request, "gallery.html")
 
 
-def blog(request):
-    return render(request, "blog.html")
 
 def tool(request):
     return render(request, "tool.html")

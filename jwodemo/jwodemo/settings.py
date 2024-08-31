@@ -14,8 +14,8 @@ SECRET_KEY = 'django-insecure-r4_&do#y2_dyf3!m@pn_*3t+g!w7b6yd9c*vcobnbw9-x+&4z$
 
 # When Pushing to PythonAnywhere: Debug = False ; WSGI_APPLICATION Enabled
 # When Offline Testing: Debug = True; WSGI_APPLICATION Disabled
-DEBUG = False
-WSGI_APPLICATION = 'jwo.wsgl.application'
+DEBUG = True
+#WSGI_APPLICATION = 'jwo.wsgl.application'
 
 LOGIN_URL = 'home'
 
@@ -33,9 +33,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     'members',
-    'encyclopedia',
     'music',
     'worm',
+    'blog',
+    'ckeditor',
+    'ckeditor_uploader',
+    
 ]
 
 MIDDLEWARE = [
@@ -53,7 +56,7 @@ ROOT_URLCONF = 'jwodemo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Add a global templates directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +122,17 @@ STATIC_ROOT = '/home/joetoscani/jwo/jwodemo/static'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = '/home/joetoscani/jwo/jwodemo/media'
+
+CKEDITOR_UPLOAD_PATH = "media/uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'extraPlugins': ','.join([
+            'uploadimage',  # Include the upload image plugin
+        ]),
+        'filebrowserUploadUrl': '/ckeditor/upload/',
+        'imageUploadUrl': '/ckeditor/upload/',
+    }
+}
 
 
 

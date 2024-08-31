@@ -9,14 +9,40 @@ class SeepCoinTransaction(models.Model):
     amount = models.PositiveIntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+from django.core.exceptions import ValidationError
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     coin_count = models.IntegerField(default=0)
     name = models.CharField(max_length=100, blank=True)
     coin_message = models.CharField(max_length=255, blank=True)
 
+    bio = models.TextField(null=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
+    website_url = models.CharField(max_length=255, null=True, blank=True)
+    steam_url = models.CharField(max_length=255, null=True, blank=True)
+    twitter_url = models.CharField(max_length=255, null=True, blank=True)
+    instagram_url = models.CharField(max_length=255, null=True, blank=True)
+    discord_url = models.CharField(max_length=255, null=True, blank=True)
+
+    def clean(self):
+        super().clean()
+        self._validate_url(self.website_url, 'website_url')
+        self._validate_url(self.steam_url, 'steam_url')
+        self._validate_url(self.twitter_url, 'twitter_url')
+        self._validate_url(self.instagram_url, 'instagram_url')
+        self._validate_url(self.discord_url, 'discord_url')
+
+    def _validate_url(self, url, field_name):
+        if url and not url.startswith('https://www.'):
+            raise ValidationError({field_name: f"The URL must start with 'https://www.'"})
+    
     def __str__(self):
-        return self.user.username  # Set the default name to the usernamee
+        return self.user.username
+
+    def get_absolute_url(self):
+        return reverse('home')
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .post-container h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: var(--bs-body-color);
+    }
+</style>
+
+<div class="post-container">
+    {% if category_posts %}
+        <h1>{{ cats }}</h1>
+
+        <ul class="post-list">
+        {% for post in category_posts %}
+            <li class="post-item">
+                
+                <!--Use the Post Header Widget-->
+                {% include 'widgets/post_header.html' with author=post.author %}
+
+                <div class="post-snippet">
+                    {{ post.snippet|slice:":200"|safe }}
+                </div>
+
+                {% if user.is_authenticated %}
+                    <div class="post-actions">
+                        <a class="edit-btn" href="{% url 'update_post' post.pk %}">Edit</a>
+                        <a class="delete-btn" href="{% url 'delete_post' post.pk %}">Delete</a>
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+
+    {% else %}
+        <h2>This page does not exist.</h2>
+    {% endif %}
+</div>
+
+{% endblock %}

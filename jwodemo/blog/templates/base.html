@@ -1,0 +1,297 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>{% block title %}Joe's World Blog{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+      @font-face {
+        src: url({% static "fonts/Daydream.ttf" %});
+        font-family: daydream;
+      }
+
+      @font-face {
+        font-family: chcard;
+        src: url({% static "fonts/chcard.otf" %});
+      }
+
+      .blog-body {
+        margin: 0;
+        background-image: url({% static "jpg/background-bricks-02.jpg" %}) !important;
+        background-size: 1rem;
+      }
+
+
+
+      .chcard-font {
+        font-family: chcard;
+      }
+
+      .light-mode {
+        background-image: url({% static "jpg/background-bricks-02-lightmode.jpg" %}) !important;
+      }
+
+      .post-list {
+        list-style: none;
+        padding: 0;
+    }
+
+
+
+.post-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--bs-body-bg);
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+}
+
+@media (max-width: 768px) { /* Adjust the max-width value as needed */
+    .post-container {
+        max-width: 100vw; /* Make the width 100% of the viewport width */
+        margin: 0; /* Remove margins */
+        padding: 1rem; /* Adjust padding as needed */
+        border-radius: 0; /* Remove border radius if desired */
+    }
+
+    .header-img {
+      width: 7rem;
+    }
+}
+
+
+    .post-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .post-meta {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+
+    .post-category a {
+        color: #0056b3;
+        font-weight: 500;
+    }
+
+
+    .post-author a {
+      color: #0056b3;
+      font-weight: 500;
+      font-style: italic;
+  }
+
+    .post-item {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e0e0e0;
+  }
+
+    .post-date {
+        color: #666;
+    }
+
+    .post-image {
+      margin: 1.5rem 0;
+  }
+
+
+  .header-img {
+    max-width: 20rem;
+    height: auto;
+    border-radius: 0.25rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .header-img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .default-profile-pic{
+      width:1rem;
+    }
+
+    
+    
+
+    .post-snippet {
+        font-size: 1rem;
+        color: var(--bs-body-color);  
+        line-height: 1.6;
+    }
+
+    .post-actions {
+        margin-top: 1.5rem;
+    }
+
+
+
+    .card {
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .btn-sm {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .prof-pic-dropdown {
+      max-width: 4rem; /* Ensure width and height are the same */
+      max-height: 4rem; /* Ensure width and height are the same */
+      border-radius: 50%; /* Makes the image circular */
+      object-fit: cover; /* Ensures the image covers the circle without stretching */
+    }
+    
+
+
+
+
+    </style>
+
+    <script>
+      (function() {
+        // Set the default theme to dark if no theme is set
+        const defaultTheme = 'dark';
+        const currentTheme = localStorage.getItem('theme') || defaultTheme;
+        document.documentElement.setAttribute('data-bs-theme', currentTheme);
+        document.body.classList.toggle('light-mode', currentTheme === 'light');
+      })();
+    </script>
+    
+  </head>
+
+  <body class="blog-body">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-body chcard-font">
+      <div class="container-fluid">
+        <a class="navbar-brand text-body" href="{% url 'bloghome' %}">Joe's World Blog</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if cat_menu %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-body" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% for item in cat_menu %}
+                    <a class="dropdown-item" href="{% url 'category-view' item|slugify %}">{{ item }}</a>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link text-body" href="{% url 'category-list' %}">Categories</a>
+              </li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link text-body" href="{% url 'add_post' %}">Add Post</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-body" href="{% url 'add_category' %}">Add Category</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link text-body" href="{% url 'register_user' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-body" href="{% url 'login' %}">Login</a>
+              </li>
+            {% endif %}
+
+            <li class="nav-item">
+              <a class="nav-link text-body" href="{% url 'home' %}">↩ Joe's World Online</a>
+            </li>
+          </ul>
+
+          <!-- Dark Mode Toggle -->
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitch" />
+            <label class="form-check-label" for="darkModeSwitch" id="darkModeLabel">Dark Mode</label>
+          </div>
+          
+
+            <!-- Use the Post Header Widget -->
+            {% include 'widgets/profile_pic_dropdown.html' with page_user=page_user %}
+        
+        </div>
+      </div>
+    </nav>
+
+    <br/>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoNXHkflIMbMhsct6i1i6twtW73T76A5iowrn5Enqt8vxk5" crossorigin="anonymous"></script>
+
+    <script>
+      const darkModeSwitch = document.getElementById('darkModeSwitch');
+      const darkModeLabel = document.getElementById('darkModeLabel');
+      const currentTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
+    
+      // Function to update the background image and label text based on the theme
+      const updateTheme = (theme) => {
+        const body = document.querySelector('.blog-body');
+        body.classList.toggle('light-mode', theme === 'light');
+        darkModeLabel.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+      };
+    
+      // Initialize the switch and label text based on the current theme
+      darkModeSwitch.checked = currentTheme === 'dark';
+      updateTheme(currentTheme);
+    
+      darkModeSwitch.addEventListener('change', function() {
+        const theme = darkModeSwitch.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateTheme(theme);
+      });
+    </script>
+    
+
+
+
+
+    <script>
+      function toggleDropdown(event) {
+          var dropdown = event.currentTarget.parentElement;
+          dropdown.classList.toggle('show');
+      }
+      
+      window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+              var dropdowns = document.getElementsByClassName("dropdown-content");
+              for (var i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.style.display === 'block') {
+                      openDropdown.style.display = 'none';
+                  }
+              }
+          }
+      }
+  </script>
+  </body>
+</html>
