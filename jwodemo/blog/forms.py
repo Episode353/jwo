@@ -1,15 +1,18 @@
 from django import forms
-from .models import Post, Category, Comment
+from .models import Post, Comment, Category
 
-#choices = [('coding', 'coding'), ('sports', 'sports'), ('entertainment', 'entertainment'),]
-choices = Category.objects.all().values_list('name', 'name')
+choices = [('coding', 'coding'), ('sports', 'sports'), ('entertainment', 'entertainment')]
 
 choice_list = []
 
 for item in choices:
     choice_list.append(item)
 
+
+
+
 class PostForm(forms.ModelForm):
+    category = forms.Select(choices=choice_list, attrs={'class': 'form-control'})
     class Meta:
         model = Post
         fields = ('title', 'title_tag', 'author', 'category', 'body', 'snippet', 'header_image')

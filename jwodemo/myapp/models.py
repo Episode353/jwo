@@ -17,7 +17,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=100, blank=True)
     coin_message = models.CharField(max_length=255, blank=True)
 
-    bio = models.TextField(null=True)
+    bio = models.TextField(null=True, blank=True,)
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
     website_url = models.CharField(max_length=255, null=True, blank=True)
     steam_url = models.CharField(max_length=255, null=True, blank=True)
@@ -36,7 +36,7 @@ class Profile(models.Model):
     def _validate_url(self, url, field_name):
         if url and not url.startswith('https://www.'):
             raise ValidationError({field_name: f"The URL must start with 'https://www.'"})
-    
+
     def __str__(self):
         return self.user.username
 
@@ -69,7 +69,7 @@ class foodreview(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 class todo(models.Model):
     name = models.CharField(max_length=100, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -79,7 +79,7 @@ class todo(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 from django.db import models
 import random
 import string
