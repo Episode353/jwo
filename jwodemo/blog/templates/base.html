@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
   <head>
-    
+
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -126,12 +126,12 @@
       width:1rem;
     }
 
-    
-    
+
+
 
     .post-snippet {
         font-size: 1rem;
-        color: var(--bs-body-color);  
+        color: var(--bs-body-color);
         line-height: 1.6;
     }
 
@@ -156,12 +156,13 @@
     }
 
     .prof-pic-dropdown {
-      max-width: 4rem; /* Ensure width and height are the same */
-      max-height: 4rem; /* Ensure width and height are the same */
-      border-radius: 50%; /* Makes the image circular */
-      object-fit: cover; /* Ensures the image covers the circle without stretching */
+        width: 4rem;  /* Adjust size */
+        height: 4rem; /* Adjust size */
+        border-radius: 50%;
+        object-fit: cover;
+        vertical-align: middle;
     }
-    
+
 
 
 
@@ -177,7 +178,7 @@
         document.body.classList.toggle('light-mode', currentTheme === 'light');
       })();
     </script>
-    
+
   </head>
 
   <body class="blog-body">
@@ -230,11 +231,11 @@
             <input class="form-check-input" type="checkbox" id="darkModeSwitch" />
             <label class="form-check-label" for="darkModeSwitch" id="darkModeLabel">Dark Mode</label>
           </div>
-          
+
 
             <!-- Use the Post Header Widget -->
             {% include 'widgets/profile_pic_dropdown.html' with page_user=page_user %}
-        
+
         </div>
       </div>
     </nav>
@@ -251,18 +252,18 @@
       const darkModeSwitch = document.getElementById('darkModeSwitch');
       const darkModeLabel = document.getElementById('darkModeLabel');
       const currentTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
-    
+
       // Function to update the background image and label text based on the theme
       const updateTheme = (theme) => {
         const body = document.querySelector('.blog-body');
         body.classList.toggle('light-mode', theme === 'light');
         darkModeLabel.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
       };
-    
+
       // Initialize the switch and label text based on the current theme
       darkModeSwitch.checked = currentTheme === 'dark';
       updateTheme(currentTheme);
-    
+
       darkModeSwitch.addEventListener('change', function() {
         const theme = darkModeSwitch.checked ? 'dark' : 'light';
         document.documentElement.setAttribute('data-bs-theme', theme);
@@ -270,7 +271,7 @@
         updateTheme(theme);
       });
     </script>
-    
+
 
 
 
@@ -280,7 +281,7 @@
           var dropdown = event.currentTarget.parentElement;
           dropdown.classList.toggle('show');
       }
-      
+
       window.onclick = function(event) {
           if (!event.target.matches('.dropbtn')) {
               var dropdowns = document.getElementsByClassName("dropdown-content");
