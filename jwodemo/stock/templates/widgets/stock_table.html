@@ -1,0 +1,36 @@
+<!-- stock_table.html -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                {% if show_last_updated %}
+                <th>Last Updated</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if stocks|length == 1 %}
+            <!-- Single stock -->
+            <tr>
+                <td>{% include 'widgets/seepcoin_profile_pic.html' with user=stock.owner %}{{ stocks.0.name }}</td>
+
+                <td>{{ stocks.0.value }}</td>
+                {% if show_last_updated %}
+                <td>{{ stocks.0.last_updated }}</td>
+                {% endif %}
+            </tr>
+            {% else %}
+            <!-- List of stocks -->
+            {% for stock in stocks %}
+            <tr>
+                <td>{% include 'widgets/seepcoin_profile_pic.html' with user=stock.owner %}<a href="{% url 'stock_detail' stock.id %}">{{ stock.name }}</a></td>
+                <td>{{ stock.value }}</td>
+                {% if show_last_updated %}
+                <td>{{ stock.last_updated }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
