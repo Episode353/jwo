@@ -40,7 +40,7 @@
         background-size: 14rem;
 
     }
-
+    
         body::before {
             content: "";
             position: fixed;

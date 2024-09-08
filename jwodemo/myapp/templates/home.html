@@ -74,34 +74,47 @@
                 </thead>
                 <tbody id="scoreboard-body">
                     {% for user in seep_coin_list %}
-                        <tr>
-                            <td>
-                                {% if forloop.first %}
-                                    <p>1st🥇</p>
-                                {% elif forloop.counter == 2 %}
-                                    <p>2nd🥈</p>
-                                {% elif forloop.counter == 3 %}
-                                    <p>3rd🥉</p>
-                                {% else %}
-                                    {{ forloop.counter }}th
-                                {% endif %}
-                            </td>
-                            <td style="font-size: clamp( .1em, .5vw, 1rem);">
-
-                                <!-- Use the Seep Coin Profile Pics Widget -->
-                                {% include 'widgets/seepcoin_profile_pic.html' with page_user=page_user %}
-                                <a>{{ user.profile.user|title }}</a>
-                                <p  class="user-message">{{ user.profile.coin_message }}</p>
-
-                            </td>
-                            <td>
-                                <div class="wrapper">
-                                    <div class="bg">{{user.profile.coin_count}}</div>
-                                    <div class="fg">{{user.profile.coin_count}}</div>
-                                  </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <td>
+                            {% if forloop.first %}
+                                <p>1st🥇</p>
+                            {% elif forloop.counter == 2 %}
+                                <p>2nd🥈</p>
+                            {% elif forloop.counter == 3 %}
+                                <p>3rd🥉</p>
+                            {% else %}
+                                {{ forloop.counter }}th
+                            {% endif %}
+                        </td>
+                        <td style="font-size: clamp(.1em, .5vw, 1rem);">
+                            <!-- Use the Seep Coin Profile Pics Widget -->
+                            {% include 'widgets/seepcoin_profile_pic.html' with page_user=page_user %}
+                            <a>{{ user.profile.user|title }}</a>
+                            <p class="user-message">{{ user.profile.coin_message }}</p>
+                        </td>
+                        <td>
+                            <div class="wrapper">
+                                <div class="bg" data-coin-count="{{ user.profile.coin_count }}"></div>
+                                <div class="fg" data-coin-count="{{ user.profile.coin_count }}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        document.querySelectorAll('[data-coin-count]').forEach(function(element) {
+                            var value = parseFloat(element.getAttribute('data-coin-count'));
+                            if (!isNaN(value)) {
+                                // Format number
+                                var formattedValue = value % 1 === 0 ? value.toFixed(0) : value.toFixed(2).replace(/\.?0+$/, '');
+                                element.textContent = formattedValue;
+                            }
+                        });
+                    });
+                </script>
+                
+                
 
                     
                 </tbody>

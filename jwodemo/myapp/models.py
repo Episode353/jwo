@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from decimal import Decimal
 
 class SeepCoinTransaction(models.Model):
     sender = models.ForeignKey(User, related_name='sent_transactions', on_delete=models.CASCADE)
@@ -13,7 +14,7 @@ from django.core.exceptions import ValidationError
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    coin_count = models.IntegerField(default=0)
+    coin_count = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
     name = models.CharField(max_length=100, blank=True)
     coin_message = models.CharField(max_length=255, blank=True)
 

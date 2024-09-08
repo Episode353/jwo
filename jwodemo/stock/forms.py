@@ -9,3 +9,12 @@ class StockCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['color'].widget = forms.TextInput(attrs={'type': 'color'})
+
+class EditStockForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ['name', 'color']  # Exclude 'value'
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['color'].widget = forms.TextInput(attrs={'type': 'color'})
