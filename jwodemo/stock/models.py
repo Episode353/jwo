@@ -5,15 +5,19 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth.models import User
 
+from django.db import models
+from django.contrib.auth.models import User
+
 class Stock(models.Model):
     name = models.CharField(max_length=100)
-    value = models.FloatField(default=0)
-    last_updated = models.DateTimeField(default=timezone.now)
-    color = models.CharField(max_length=7, default='#007bff')  # Default color
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Allow null
+    color = models.CharField(max_length=7)  # Hex color picker
+    value = models.DecimalField(max_digits=10, decimal_places=2, default=1.0)
+    last_updated = models.DateTimeField(auto_now=True)
+    owner = models.ManyToManyField(User, through='StockOwnership', related_name='owned_stocks')
 
     def __str__(self):
         return self.name
+
 
 
 
@@ -24,3 +28,11 @@ class StockHistory(models.Model):
 
     def __str__(self):
         return f"{self.stock.name} at {self.timestamp}: {self.price}"
+
+class StockOwnership(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.user.username} owns {self.quantity} of {self.stock.name}'

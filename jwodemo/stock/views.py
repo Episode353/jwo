@@ -27,7 +27,7 @@ def update_stock(stock, history_days=30):
     while now > last_timestamp + interval:
         last_timestamp += interval
         daily_return = np.random.normal(0, 0.05)  # Reapply volatility
-        new_price = round(stock.value * (1 + daily_return), 4)
+        new_price = stock.value
         
         # Record the stock's updated value in history
         StockHistory.objects.create(stock=stock, price=new_price, timestamp=last_timestamp)
@@ -72,6 +72,9 @@ def stock_home(request):
     return render(request, 'stocks.html', context)
 
 
+from django.shortcuts import get_object_or_404
+from .models import Stock, StockOwnership
+
 def stock_detail(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
     update_stock(stock)
@@ -81,13 +84,23 @@ def stock_detail(request, stock_id):
         'data': list(stock.history.values('timestamp', 'price'))
     }, default=str)
 
+    # Check if the user owns any of the stock
+    ownership = None
+    if request.user.is_authenticated:
+        try:
+            ownership = StockOwnership.objects.get(user=request.user, stock=stock)
+        except StockOwnership.DoesNotExist:
+            ownership = None
+
     context = {
         'stock': stock,
         'stock_list': [stock],  # Pass as a list to use in the template
         'stock_data': stock_data_json,
+        'ownership': ownership,  # Pass ownership info to the template
     }
 
     return render(request, 'stock_detail.html', context)
+
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -106,3 +119,97 @@ def create_stock(request):
         form = StockCreateForm()
 
     return render(request, 'create_stock.html', {'form': form})
+
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Stock, StockOwnership
+from myapp.models import Profile
+from decimal import Decimal
+
+
+# views.py
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Stock, StockOwnership
+from myapp.models import Profile
+from decimal import Decimal
+
+from decimal import Decimal
+
+@login_required
+def buy_stock(request, stock_id):
+    stock = get_object_or_404(Stock, id=stock_id)
+    user_profile = request.user.profile
+
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 0))
+
+        if quantity <= 0:
+            messages.error(request, 'You must specify a quantity greater than zero.')
+            return redirect('stock_detail', stock_id=stock_id)
+
+        total_cost = stock.value * quantity
+
+        if user_profile.coin_count < total_cost:
+            messages.error(request, 'You do not have enough Seep Coins to make this purchase.')
+            return redirect('stock_detail', stock_id=stock_id)
+
+        # Deduct coins and add stock to user's portfolio
+        user_profile.coin_count -= total_cost
+        user_profile.save()
+
+        ownership, created = StockOwnership.objects.get_or_create(user=request.user, stock=stock)
+        ownership.quantity += quantity
+        ownership.save()
+
+        # Increase stock price based on demand
+        price_increase_factor = Decimal(0.01)  # 1% increase per unit
+        stock.value *= Decimal(1) + (price_increase_factor * quantity)
+        stock.save()
+
+        messages.success(request, f'You have successfully purchased {quantity} units of {stock.name}.')
+        return redirect('stock_detail', stock_id=stock_id)
+
+@login_required
+def sell_stock(request, stock_id):
+    stock = get_object_or_404(Stock, id=stock_id)
+    user_profile = request.user.profile
+
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 0))
+
+        if quantity <= 0:
+            messages.error(request, 'You must specify a quantity greater than zero.')
+            return redirect('stock_detail', stock_id=stock_id)
+
+        # Check if the user owns any of this stock
+        try:
+            ownership = StockOwnership.objects.get(user=request.user, stock=stock)
+        except StockOwnership.DoesNotExist:
+            messages.error(request, 'You do not own any of this stock to sell.')
+            return redirect('stock_detail', stock_id=stock_id)
+
+        # Check if the user owns enough stock to sell
+        if ownership.quantity < quantity:
+            messages.error(request, 'You do not own enough of this stock to sell.')
+            return redirect('stock_detail', stock_id=stock_id)
+
+        # Sell stock and adjust user profile and stock price
+        ownership.quantity -= quantity
+        ownership.save()
+        if ownership.quantity == 0:
+            ownership.delete()
+
+        total_earnings = stock.value * quantity
+        user_profile.coin_count += total_earnings
+        user_profile.save()
+
+        # Decrease stock price based on supply
+        price_decrease_factor = Decimal(0.01)  # 1% decrease per unit
+        stock.value *= Decimal(1) - (price_decrease_factor * quantity)
+        stock.save()
+
+        messages.success(request, f'You have successfully sold {quantity} units of {stock.name}.')
+        return redirect('stock_detail', stock_id=stock_id)
