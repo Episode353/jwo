@@ -1,0 +1,45 @@
+{% load static %}
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            {% if show_last_updated %}
+            <th>Last Updated</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% if stocks|length == 1 %}
+        <!-- Single stock -->
+        <tr>
+            <td>{% include 'widgets/seepcoin_profile_pic.html' with user=stocks.0.owner.first %} <a href="{% url 'stock_detail' stocks.0.id %}">{{ stocks.0.name }}</a></td>
+            <td>{{ stocks.0.value }}</td>
+            {% if show_last_updated %}
+            <td>{{ stocks.0.last_updated }}</td>
+            
+            {% endif %}
+        </tr>
+        {% else %}
+        <!-- List of stocks -->
+        {% for stock in stocks %}
+        <tr>
+            <td>
+                {% if stock.owner.first %}
+                    {% include 'widgets/seepcoin_profile_pic.html' with user=stock.owner.first %}
+                {% else %}
+                    <!-- Handle the case where there's no owner -->
+                    <img src="{% static 'blog/images/default_profile_pic.png' %}" class="prof-pic-dropdown seep-coin-prof-pic" alt="Default Profile Picture">
+                {% endif %}
+                <a href="{% url 'stock_detail' stock.id %}">{{ stock.name }}</a>
+            </td>
+            <td>{{ stock.value }}</td>
+            {% if show_last_updated %}
+            <td>{{ stock.last_updated }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>

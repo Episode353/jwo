@@ -1,0 +1,28 @@
+{% extends 'template.html' %}
+
+{% block title %}Stock Prices{% endblock %}
+
+{% block content %}
+
+{% include 'widgets/stock_styles.html' %}
+
+<div class="content-large-fill">
+    <h1 class="text-center stock-detail-name">Seepe Stocks</h1>
+    </br>
+
+    {% include 'widgets/stock_table.html' with stocks=stocks show_last_updated=False %}
+    </br>
+    
+    {% if user.is_authenticated %}
+        {% if not user_has_stock %}
+            <a href="{% url 'create_stock' %}" class="btn btn-primary">Create New Stock</a>
+        {% endif %}
+    {% endif %}
+    
+    </br>
+    <h2 class="text-center my-4">Stock History Graph</h2>
+    </br>
+    {% include 'widgets/stock_chart.html' with stock_data=stock_data chart_type='stock_prices' %}
+
+</div>
+{% endblock %}

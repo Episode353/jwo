@@ -1,0 +1,116 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+
+
+    <canvas id="stockChart"></canvas>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const chartCanvas = document.getElementById('stockChart');
+        if (!chartCanvas) {
+            console.error('Chart canvas not found.');
+            return;
+        }
+
+        try {
+            const stockData = JSON.parse('{{ stock_data|escapejs }}');
+            console.log('Stock Data:', stockData);
+
+            const chartType = '{{ chart_type|escapejs }}';  // Get the chart type from the template
+
+            const commonOptions = {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Price'
+                        }
+                    }
+                }
+            };
+
+            function prepareChartData(data) {
+                return data.map(entry => ({
+                    x: new Date(entry.timestamp),
+                    y: entry.price
+                }));
+            }
+
+            function createChart(ctx, datasets) {
+                return new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: datasets
+                    },
+                    options: {
+                        ...commonOptions,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.dataset.label || '';
+                                        const value = context.raw.y;
+                                        return `${label}: ${value}`;
+                                    }
+                                }
+                            }
+                        },
+                        elements: {
+                            point: {
+                                radius: 5,  // Increase the radius to make the circles larger
+                                hitRadius: 10,  // Increase the hit radius to make the hover area larger
+                                hoverRadius: 7,  // Increase the hover radius for a larger hover area
+                                hoverBackgroundColor: '#FF0000'  // Optional: Change the hover background color
+                            }
+                        }
+                    }
+                });
+            }
+            
+
+            if (chartType === 'stock_prices') {
+                const stockDatasets = [];
+                for (const [name, { color, data }] of Object.entries(stockData)) {
+                    const preparedData = prepareChartData(data);
+                    stockDatasets.push({
+                        label: name,
+                        data: preparedData,
+                        fill: false,
+                        borderColor: color,
+                        tension: 0.1
+                    });
+                }
+                createChart(chartCanvas.getContext('2d'), stockDatasets);
+            } else if (chartType === 'stock_detail') {
+                const { color, data } = stockData;
+                const preparedData = prepareChartData(data);
+                createChart(chartCanvas.getContext('2d'), [{
+                    label: '{{ stock.name }}',
+                    data: preparedData,
+                    fill: false,
+                    borderColor: color,
+                    tension: 0.1
+                }]);
+            } else {
+                console.error('Unrecognized chart type:', chartType);
+            }
+        } catch (error) {
+            console.error('Error parsing stock data:', error);
+        }
+    });
+</script>

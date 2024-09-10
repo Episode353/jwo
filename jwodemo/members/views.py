@@ -62,10 +62,17 @@ def login_required_with_message(view_func):
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
+from stock.models import StockOwnership
 @login_required_with_message
 def account(request):
     profile = request.user.profile
-    return render(request, "account.html", {'profile': profile})
+    # Fetch stocks owned by the user
+    owned_stocks = StockOwnership.objects.filter(user=request.user)
+    return render(request, "account.html", {
+        'profile': profile,
+        'owned_stocks': owned_stocks,
+    })
+
 
 @login_required_with_message
 def edit_profile(request):

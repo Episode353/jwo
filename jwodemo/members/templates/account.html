@@ -195,27 +195,40 @@
         </svg>
     </div>
     {% if user.profile.coin_count < 0 %}
-        <h1 class="angry-text">YOU ARE IN SEEP COIN DEBT</h1>
-        <p>(⌯˃̶᷄ ﹏ ˂̶᷄⌯)</p>
-    {% endif %}
+    <h1 class="angry-text">YOU ARE IN SEEP COIN DEBT</h1>
+    <p>(⌯˃̶᷄ ﹏ ˂̶᷄⌯)</p>
+{% endif %}
 
-    {% if user.profile.coin_count == 0 %}
-        <p>You don't have any seep coins!</p>
-        <p>(ㆆ _ ㆆ)</p>
-    {% endif %}
+{% if user.profile.coin_count == 0 %}
+    <p>You don't have any Seep Coins!</p>
+    <p>(ㆆ _ ㆆ)</p>
+{% endif %}
 
-    <div style="border: none;">
-        <p>Would you like to Redeem a Seep Coin?</p>
-        <form method="POST" action="{% url 'redeem_code_form' %}">
-            {% csrf_token %}
-            <input type="text" name="code" placeholder="Enter your Seep Coin code" required>
-            <button type="submit">Redeem Code</button>
+<div style="border: none;">
+    <p>Would you like to Redeem a Seep Coin?</p>
+    <form method="POST" action="{% url 'redeem_code_form' %}">
+        {% csrf_token %}
+        <input type="text" name="code" placeholder="Enter your Seep Coin code" required>
+        <button type="submit">Redeem Code</button>
+    </form>
+</div>
 
-        </form>
+<input type="button" onclick="location.href='{% url 'password_change' %}';" value="Change Password" />
+<input type="button" onclick="location.href='{% url 'blog_edit_profile' %}';" value="Edit Profile" />
+<input type="button" onclick="location.href='{% url 'edit_profile_page' user.profile.id %}';" value="Edit Profile Page" />
 
+<h2 class="my-4" styl>My Stocks</h2>
+{% if owned_stocks %}
+    <div class="list-group" style="border: none !important; max-width: 40rem;">
+        {% for ownership in owned_stocks %}
+            <a href="{% url 'stock_detail' ownership.stock.id %}" class="list-group-item list-group-item-action">
+                {{ ownership.stock.name }} - {{ ownership.quantity }} units
+            </a>
+        {% endfor %}
     </div>
-    <input type="button" onclick="location.href='{% url 'password_change' %}';" value="Change Password" />
-    <input type="button" onclick="location.href='{% url 'blog_edit_profile' %}';" value="Edit Profile" />
-    <input type="button" onclick="location.href='{% url 'edit_profile_page' user.profile.id %}';" value="Edit Profile Page" />
+{% else %}
+    <p class="text-muted">You do not own any stocks.</p>
+{% endif %}
+
 </div>
 {% endblock %}

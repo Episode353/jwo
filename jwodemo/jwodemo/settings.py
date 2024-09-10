@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'members',
     'music',
     'worm',
+    'stock',
     'blog',
     'ckeditor',
     'ckeditor_uploader',

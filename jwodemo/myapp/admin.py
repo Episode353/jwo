@@ -13,6 +13,7 @@ admin.site.register(Recommendation)
 admin.site.register(todo)
 admin.site.register(SeasonalContent)
 
+
 from django.contrib import admin
 from .models import RedeemCode
 

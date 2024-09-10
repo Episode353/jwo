@@ -30,6 +30,12 @@
         src: url(../fonts/Spotify.ttf);
     }
 
+    @font-face {
+        font-family: chcard;
+        src: url(../fonts/chcard.otf);
+    }
+
+
 
 
     body {

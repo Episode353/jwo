@@ -13,6 +13,7 @@ handler404 = custom_404_view
 urlpatterns = [
     path("", views.home, name="home"),
     path('', include("music.urls")),
+    path('stock/', include("stock.urls")),
     path('blog/', include("blog.urls")),
     path("seepcoin", views.seepcoin, name="seepcoin"),
     path("board", views.board, name="board"),

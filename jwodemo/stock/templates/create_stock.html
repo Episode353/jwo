@@ -1,0 +1,12 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="content-large-fill mt-5">
+  <h2 class="mb-4">Create a New Stock</h2>
+  <form method="post" class="form-group">
+    {% csrf_token %}
+    {{ form.as_p|safe }}
+    <button type="submit" class="btn btn-primary mt-3">Create Stock</button>
+  </form>
+</div>
+{% endblock %}
