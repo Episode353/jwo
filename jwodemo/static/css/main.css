@@ -22,13 +22,19 @@
 
     @font-face {
         font-family: overt;
-        src: url(../fonts/Overt.ttf);
+        src: url(../fonts/Overt.otf);
     }
 
     @font-face {
         font-family: Spotify;
         src: url(../fonts/Spotify.ttf);
     }
+
+    @font-face {
+        font-family: chcard;
+        src: url(../fonts/chcard.otf);
+    }
+
 
 
 
@@ -40,7 +46,7 @@
         background-size: 14rem;
 
     }
-    
+
         body::before {
             content: "";
             position: fixed;
@@ -582,12 +588,12 @@
         .container {
             grid-template-columns: 1fr; /* Single column layout */
         }
-    
+
         .content-large {
             grid-column-start: 1;
             grid-column-end: span 1;
         }
-    
+
         #htmlshufflebox {
             grid-row-start: 3;
             grid-column-start: 1;

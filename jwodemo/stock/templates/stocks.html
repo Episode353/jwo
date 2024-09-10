@@ -6,19 +6,27 @@
 
 {% include 'widgets/stock_styles.html' %}
 
+<style>
+    th{
+        color:black !important;
+    }
+</style>
+
+
+
 <div class="content-large-fill">
-    <h1 class="text-center stock-detail-name">Seepe Stocks</h1>
+    <h1 class="text-center stock-detail-name">Stocks</h1>
     </br>
 
     {% include 'widgets/stock_table.html' with stocks=stocks show_last_updated=False %}
     </br>
-    
+
     {% if user.is_authenticated %}
         {% if not user_has_stock %}
             <a href="{% url 'create_stock' %}" class="btn btn-primary">Create New Stock</a>
         {% endif %}
     {% endif %}
-    
+
     </br>
     <h2 class="text-center my-4">Stock History Graph</h2>
     </br>

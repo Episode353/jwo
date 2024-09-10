@@ -22,7 +22,7 @@
 
     @font-face {
         font-family: overt;
-        src: url(../fonts/Overt.ttf);
+        src: url(../fonts/Overt.otf);
     }
 
     @font-face {
@@ -588,12 +588,12 @@
         .container {
             grid-template-columns: 1fr; /* Single column layout */
         }
-    
+
         .content-large {
             grid-column-start: 1;
             grid-column-end: span 1;
         }
-    
+
         #htmlshufflebox {
             grid-row-start: 3;
             grid-column-start: 1;
