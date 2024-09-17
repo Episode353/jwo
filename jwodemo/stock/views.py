@@ -45,17 +45,17 @@ def update_stock(stock, history_days=30):
     # Only proceed if enough time has passed
     while now > last_timestamp + interval:
         last_timestamp += interval
-        
+
         # Randomize the stock price within ±1.00 to ensure smaller changes
         change = Decimal(np.random.uniform(-1, 1)).quantize(Decimal('0.01'))
         new_price = Decimal(stock.value) + change
-        
+
         # Ensure the new price does not go below 0.1
         new_price = max(new_price, Decimal('0.1'))
 
         # Record the stock's updated value in history
         StockHistory.objects.create(stock=stock, price=new_price, timestamp=last_timestamp)
-        
+
         # Update the stock value to the new price
         stock.value = new_price
         updated = True  # Indicate that the stock value was updated
@@ -91,41 +91,40 @@ def stock_home(request):
     }
 
     if request.user.is_authenticated:
-        # Check if the user has any stocks
         user_has_stock = Stock.objects.filter(owner=request.user).exists()
         context['user_has_stock'] = user_has_stock
 
     return render(request, 'stocks.html', context)
 
 
+
 from django.shortcuts import get_object_or_404
-from .models import Stock, StockOwnership
+from .models import Stock
 
 def stock_detail(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
-    update_stock(stock)
+
+    # Check if the logged-in user is the creator
+    is_creator = False
+    if request.user.is_authenticated:
+        is_creator = (request.user == stock.created_by)
 
     stock_data_json = json.dumps({
         'color': stock.color,
         'data': list(stock.history.values('timestamp', 'price'))
     }, default=str)
 
-    # Check if the user owns any of the stock
-    ownership = None
-    if request.user.is_authenticated:
-        try:
-            ownership = StockOwnership.objects.get(user=request.user, stock=stock)
-        except StockOwnership.DoesNotExist:
-            ownership = None
-
     context = {
         'stock': stock,
-        'stock_list': [stock],  # Pass as a list to use in the template
         'stock_data': stock_data_json,
-        'ownership': ownership,  # Pass ownership info to the template
+        'is_creator': is_creator,  # Pass 'is_creator' to template
     }
 
     return render(request, 'stock_detail.html', context)
+
+
+
+
 
 
 from django.shortcuts import render, redirect
@@ -139,10 +138,10 @@ def create_stock(request):
         if form.is_valid():
             stock = form.save(commit=False)
             stock.save()  # Save the stock first
-            
+
             # Create the ownership record
             StockOwnership.objects.create(user=request.user, stock=stock, quantity=0)
-            
+
             return redirect('stock_home')  # Redirect to stock home or another appropriate page
     else:
         form = StockCreateForm()

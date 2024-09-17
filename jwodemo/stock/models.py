@@ -8,10 +8,12 @@ class Stock(models.Model):
     color = models.CharField(max_length=7)  # Hex color picker
     value = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('1.0'))
     last_updated = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_stocks', default=1)  # Default user ID
     owner = models.ManyToManyField(User, through='StockOwnership', related_name='owned_stocks')
 
     def __str__(self):
         return self.name
+
 
 class StockHistory(models.Model):
     stock = models.ForeignKey(Stock, related_name='history', on_delete=models.CASCADE)

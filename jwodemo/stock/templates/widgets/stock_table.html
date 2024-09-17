@@ -14,11 +14,11 @@
         {% if stocks|length == 1 %}
         <!-- Single stock -->
         <tr>
-            <td>{% include 'widgets/seepcoin_profile_pic.html' with user=stocks.0.owner.first %} <a href="{% url 'stock_detail' stocks.0.id %}">{{ stocks.0.name }}</a></td>
+            <td>{% include 'widgets/seepcoin_profile_pic.html' with user=stocks.0.created_by %}
+                <a href="{% url 'stock_detail' stocks.0.id %}">{{ stocks.0.name }}</a></td>
             <td>{{ stocks.0.value }}</td>
             {% if show_last_updated %}
             <td>{{ stocks.0.last_updated }}</td>
-            
             {% endif %}
         </tr>
         {% else %}
@@ -26,10 +26,9 @@
         {% for stock in stocks %}
         <tr>
             <td>
-                {% if stock.owner.first %}
-                    {% include 'widgets/seepcoin_profile_pic.html' with user=stock.owner.first %}
+                {% if stock.created_by %}
+                    {% include 'widgets/seepcoin_profile_pic.html' with user=stock.created_by %}
                 {% else %}
-                    <!-- Handle the case where there's no owner -->
                     <img src="{% static 'blog/images/default_profile_pic.png' %}" class="prof-pic-dropdown seep-coin-prof-pic" alt="Default Profile Picture">
                 {% endif %}
                 <a href="{% url 'stock_detail' stock.id %}">{{ stock.name }}</a>

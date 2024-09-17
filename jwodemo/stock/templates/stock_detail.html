@@ -9,12 +9,12 @@
 <div class="content-large-fill">
     <a href="{% url 'stock_home' %}" class="btn btn-outline-secondary mb-4">↩ Stocks</a>
     <h1 class="text-center stock-detail-name">{{ stock.name }}</h1>
-    
+
     {% include 'widgets/stock_table.html' with stocks=stock_list show_last_updated=True %}
-    
+
     <h2 class="text-center my-4">Stock History Graph</h2>
     {% include 'widgets/stock_chart.html' with stock_data=stock_data chart_type='stock_detail' %}
-    
+
     {% if messages %}
         <div class="alert alert-danger text-center" role="alert">
             {% for message in messages %}
@@ -24,14 +24,21 @@
     {% endif %}
 
     {% if user.is_authenticated %}
+
+
+             <!-- Show the "Edit Stock" button only if the logged-in user is the creator -->
+            {% if is_creator %}
+                <p class="text-center">
+                    <a href="{% url 'edit_stock' stock.id %}" class="btn btn-warning">Edit Stock</a>
+                </p>
+            {% endif %}
+
         {% if ownership %}
             <!-- Display Ownership Information -->
             <p class="text-center">You own {{ ownership.quantity }} units of {{ stock.name }}.</p>
 
-            <!-- Edit Stock Link -->
-            <p class="text-center">
-                <a href="{% url 'edit_stock' stock.id %}" class="btn btn-warning">Edit Stock</a>
-            </p>
+
+
 
             <!-- Sell Form -->
             <form action="{% url 'sell_stock' stock.id %}" method="POST" class="text-center">
