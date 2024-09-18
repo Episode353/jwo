@@ -109,15 +109,14 @@ def stock_detail(request, stock_id):
 
     # Check if the logged-in user is the creator
     is_creator = False
-    ownership = None  # Initialize ownership variable
+    user_ownership = None  # Initialize ownership variable to None
+    ownerships = StockOwnership.objects.filter(stock=stock)  # Fetch all ownership records for this stock
+
     if request.user.is_authenticated:
         is_creator = (request.user == stock.created_by)
 
-        # Check if the user owns any of this stock
-        try:
-            ownership = StockOwnership.objects.get(user=request.user, stock=stock)
-        except StockOwnership.DoesNotExist:
-            ownership = None  # The user doesn't own any of this stock
+        # Check if the logged-in user owns any of this stock
+        user_ownership = ownerships.filter(user=request.user).first()  # Get the first ownership record if it exists
 
     stock_data_json = json.dumps({
         'color': stock.color,
@@ -128,14 +127,11 @@ def stock_detail(request, stock_id):
         'stock': stock,
         'stock_data': stock_data_json,
         'is_creator': is_creator,  # Pass 'is_creator' to template
-        'ownership': ownership,    # Pass 'ownership' to template
+        'ownership': user_ownership,  # Pass logged-in user's ownership to template
+        'ownerships': ownerships,     # Pass all ownerships to template
     }
 
     return render(request, 'stock_detail.html', context)
-
-
-
-
 
 
 from django.shortcuts import render, redirect

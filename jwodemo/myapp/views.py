@@ -213,7 +213,7 @@ def todo_view(request):
     else:
         message = "You must be logged in to view this page"
         return custom_404_view(request, message)
-    
+
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.utils import timezone
@@ -254,3 +254,8 @@ def redeem_code_form(request):
         code = request.POST.get('code')
         return HttpResponseRedirect(f'/members/redeem/{code}/')
     return redirect('seepcoin')
+
+
+def midgetporn(request):
+    message = "You must be logged in to view this page"
+    return custom_404_view(request, message)
