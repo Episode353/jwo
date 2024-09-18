@@ -16,44 +16,37 @@
         <h5 class="mr-3 mb-0" style="padding-left: 1rem;">{{ stock.created_by }}</h5>
     </div>
 
-<!--
-    {% include 'widgets/show_profile.html' with page_user=stock.created_by %}
--->
-
-
     {% include 'widgets/stock_chart.html' with stock_data=stock_data chart_type='stock_detail' %}
 
-       <!-- Ownership list section -->
-        <h2 class="text-center mt-5">Owners</h2>
-        <table class="table table-bordered table-hover mt-4">
-            <thead class="thead-light">
+    <h2 class="text-center mt-5">Owners</h2>
+    <table class="table table-bordered table-hover mt-4">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Profile</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity Owned</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ownership in ownerships %}
                 <tr>
-                    <th scope="col">Profile</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Quantity Owned</th>
+                    <td class="text-center">
+                        {% include 'widgets/seepcoin_profile_pic.html' with user=ownership.user %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'show_profile_page' ownership.user.id %}">
+                            {{ ownership.user.username }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ ownership.quantity }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for ownership in ownerships %}
-                    <tr>
-                        <td class="text-center">
-                            {% include 'widgets/seepcoin_profile_pic.html' with user=ownership.user %}
-                        </td>
-                        <td class="text-center">
-                            <a href="{% url 'show_profile_page' ownership.user.id %}">
-                                {{ ownership.user.username }}
-                            </a>
-                        </td>
-                        <td class="text-center">{{ ownership.quantity }}</td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="3" class="text-center">No one owns this stock yet.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+            {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No one owns this stock yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     {% if messages %}
         <div class="alert alert-danger text-center" role="alert">
@@ -65,86 +58,82 @@
 
     {% if user.is_authenticated %}
 
-
-             <!-- Show the "Edit Stock" button only if the logged-in user is the creator -->
-            {% if is_creator %}
-                <p class="text-center">
-                    <a href="{% url 'edit_stock' stock.id %}" class="btn btn-warning">Edit Stock</a>
-                </p>
-            {% endif %}
+        {% if is_creator %}
+            <p class="text-center">
+                <a href="{% url 'edit_stock' stock.id %}" class="btn btn-warning">Edit Stock</a>
+            </p>
+        {% endif %}
 
         {% if ownership %}
-            <!-- Display Ownership Information -->
             <p class="text-center">You own {{ ownership.quantity }} units of {{ stock.name }}.</p>
 
-
-
-
-            <!-- Sell Form -->
-            <form action="{% url 'sell_stock' stock.id %}" method="POST" class="text-center">
-                {% csrf_token %}
-                <div class="form-row align-items-center justify-content-center" style="border: none !important;">
-                    <div class="col-auto" style="border: none !important;">
-                        <label for="sell-quantity" class="sr-only">Quantity:</label>
-                        <input type="number" id="sell-quantity" name="quantity" class="form-control mb-2" min="1" required placeholder="Quantity">
+            <!-- Container for Sell and Buy forms -->
+            <div class="d-flex justify-content-center gap-4 mt-4" style="border: none !important;">
+                <!-- Sell Form -->
+                <form action="{% url 'sell_stock' stock.id %}" method="POST" class="d-flex align-items-center">
+                    {% csrf_token %}
+                    <div class="form-row align-items-center">
+                        <div class="col-auto" style="border: none !important;">
+                            <label for="sell-quantity" class="sr-only">Sell Quantity:</label>
+                            <input type="number" id="sell-quantity" name="quantity" class="form-control" min="1" required placeholder="Sell Quantity">
+                        </div>
+                        <div class="col-auto" style="border: none !important;">
+                            <p id="sell-cost-display" class="mb-0">Total Revenue: 0 Seep Coins</p>
+                        </div>
+                        <div class="col-auto" style="border: none !important;">
+                            <button type="submit" class="btn btn-danger">Sell</button>
+                        </div>
                     </div>
-                    <div class="col-auto" style="border: none !important;">
-                        <p id="sell-cost-display" class="mb-2">Total Revenue: 0 Seep Coins</p>
+                </form>
+
+                <!-- Buy Form -->
+                <form action="{% url 'buy_stock' stock.id %}" method="POST" class="d-flex align-items-center">
+                    {% csrf_token %}
+                    <div class="form-row align-items-center">
+                        <div class="col-auto" style="border: none !important;">
+                            <label for="buy-quantity" class="sr-only">Buy Quantity:</label>
+                            <input type="number" id="buy-quantity" name="quantity" class="form-control" min="1" required placeholder="Buy Quantity">
+                        </div>
+                        <div class="col-auto" style="border: none !important;">
+                            <p id="buy-cost-display" class="mb-0">Total Cost: 0 Seep Coins</p>
+                        </div>
+                        <div class="col-auto" style="border: none !important;">
+                            <button type="submit" class="btn btn-primary">Buy</button>
+                        </div>
                     </div>
-                    <div class="col-auto" style="border: none !important;">
-                        <button type="submit" class="btn btn-danger btn-lg mb-2">Sell</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const buyQuantityInput = document.getElementById('buy-quantity');
+                    const buyCostDisplay = document.getElementById('buy-cost-display');
+                    const sellQuantityInput = document.getElementById('sell-quantity');
+                    const sellCostDisplay = document.getElementById('sell-cost-display');
+                    const stockValue = {{ stock.value|floatformat:2 }}; // Use floatformat to ensure correct decimal precision
+
+                    function updateBuyCost() {
+                        const quantity = parseInt(buyQuantityInput.value, 10) || 0;
+                        const totalCost = (stockValue * quantity).toFixed(2);
+                        buyCostDisplay.textContent = `Total Cost: ${totalCost} Seep Coins`;
+                    }
+
+                    function updateSellCost() {
+                        const quantity = parseInt(sellQuantityInput.value, 10) || 0;
+                        const totalRevenue = (stockValue * quantity).toFixed(2);
+                        sellCostDisplay.textContent = `Total Revenue: ${totalRevenue} Seep Coins`;
+                    }
+
+                    buyQuantityInput.addEventListener('input', updateBuyCost);
+                    sellQuantityInput.addEventListener('input', updateSellCost);
+                });
+            </script>
+
         {% else %}
-            <!-- No Ownership Information -->
             <p class="text-center">You do not own any units of this stock.</p>
         {% endif %}
 
-        <!-- Buy Form -->
-        <form action="{% url 'buy_stock' stock.id %}" method="POST" class="text-center mt-4">
-            {% csrf_token %}
-            <div class="form-row align-items-center justify-content-center" style="border: none !important;">
-                <div class="col-auto" style="border: none !important;">
-                    <label for="buy-quantity" class="sr-only">Quantity:</label>
-                    <input type="number" id="buy-quantity" name="quantity" class="form-control mb-2" min="1" max="{{ user.profile.coin_count }}" required placeholder="Quantity">
-                </div>
-                <div class="col-auto" style="border: none !important;">
-                    <p id="buy-cost-display" class="mb-2">Total Cost: 0 Seep Coins</p>
-                </div>
-                <div class="col-auto" style="border: none !important;">
-                    <button type="submit" class="btn btn-primary btn-lg mb-2">Buy</button>
-                </div>
-            </div>
-        </form>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const buyQuantityInput = document.getElementById('buy-quantity');
-                const buyCostDisplay = document.getElementById('buy-cost-display');
-                const sellQuantityInput = document.getElementById('sell-quantity');
-                const sellCostDisplay = document.getElementById('sell-cost-display');
-                const stockValue = {{ stock.value|floatformat:2 }}; // Use floatformat to ensure correct decimal precision
-
-                function updateBuyCost() {
-                    const quantity = parseInt(buyQuantityInput.value, 10) || 0;
-                    const totalCost = (stockValue * quantity).toFixed(2);
-                    buyCostDisplay.textContent = `Total Cost: ${totalCost} Seep Coins`;
-                }
-
-                function updateSellCost() {
-                    const quantity = parseInt(sellQuantityInput.value, 10) || 0;
-                    const totalRevenue = (stockValue * quantity).toFixed(2);
-                    sellCostDisplay.textContent = `Total Revenue: ${totalRevenue} Seep Coins`;
-                }
-
-                buyQuantityInput.addEventListener('input', updateBuyCost);
-                sellQuantityInput.addEventListener('input', updateSellCost);
-            });
-        </script>
-
     {% else %}
-        <!-- Not Authenticated -->
         <p class="text-center">You need to <a href="{% url 'login' %}">log in</a> to buy or sell stocks.</p>
     {% endif %}
 
