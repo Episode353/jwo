@@ -222,7 +222,7 @@
     <div class="list-group" style="border: none !important; max-width: 40rem;">
         {% for ownership in owned_stocks %}
             <a href="{% url 'stock_detail' ownership.stock.id %}" class="list-group-item list-group-item-action">
-                {{ ownership.stock.name }} - {{ ownership.quantity }} units
+                {{ ownership.quantity }} - {{ ownership.stock.name }}
             </a>
         {% endfor %}
     </div>

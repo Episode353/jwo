@@ -101,13 +101,23 @@ def stock_home(request):
 from django.shortcuts import get_object_or_404
 from .models import Stock
 
+from django.shortcuts import render, get_object_or_404
+from .models import Stock, StockOwnership
+
 def stock_detail(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
 
     # Check if the logged-in user is the creator
     is_creator = False
+    ownership = None  # Initialize ownership variable
     if request.user.is_authenticated:
         is_creator = (request.user == stock.created_by)
+
+        # Check if the user owns any of this stock
+        try:
+            ownership = StockOwnership.objects.get(user=request.user, stock=stock)
+        except StockOwnership.DoesNotExist:
+            ownership = None  # The user doesn't own any of this stock
 
     stock_data_json = json.dumps({
         'color': stock.color,
@@ -118,6 +128,7 @@ def stock_detail(request, stock_id):
         'stock': stock,
         'stock_data': stock_data_json,
         'is_creator': is_creator,  # Pass 'is_creator' to template
+        'ownership': ownership,    # Pass 'ownership' to template
     }
 
     return render(request, 'stock_detail.html', context)
@@ -137,7 +148,8 @@ def create_stock(request):
         form = StockCreateForm(request.POST)
         if form.is_valid():
             stock = form.save(commit=False)
-            stock.save()  # Save the stock first
+            stock.created_by = request.user  # Assign the logged-in user to created_by
+            stock.save()  # Save the stock
 
             # Create the ownership record
             StockOwnership.objects.create(user=request.user, stock=stock, quantity=0)
@@ -147,6 +159,7 @@ def create_stock(request):
         form = StockCreateForm()
 
     return render(request, 'create_stock.html', {'form': form})
+
 
 
 from django.shortcuts import render, get_object_or_404, redirect

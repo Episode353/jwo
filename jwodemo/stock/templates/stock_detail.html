@@ -10,9 +10,17 @@
     <a href="{% url 'stock_home' %}" class="btn btn-outline-secondary mb-4">↩ Stocks</a>
     <h1 class="text-center stock-detail-name">{{ stock.name }}</h1>
 
-    {% include 'widgets/stock_table.html' with stocks=stock_list show_last_updated=True %}
+    <div class="d-flex align-items-center justify-content-center mb-4" style="border: none !important;">
+        <h5 class="mr-3 mb-0" style="padding-right: 1rem;">Created by</h5>
+        {% include 'widgets/seepcoin_profile_pic.html' with user=stock.created_by %}
+        <h5 class="mr-3 mb-0" style="padding-left: 1rem;">{{ stock.created_by }}</h5>
+    </div>
 
-    <h2 class="text-center my-4">Stock History Graph</h2>
+<!--
+    {% include 'widgets/show_profile.html' with page_user=stock.created_by %}
+-->
+
+
     {% include 'widgets/stock_chart.html' with stock_data=stock_data chart_type='stock_detail' %}
 
     {% if messages %}
