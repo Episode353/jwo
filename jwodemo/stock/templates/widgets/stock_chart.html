@@ -6,7 +6,38 @@
 </head>
 
 
-    <canvas id="stockChart"></canvas>
+
+<canvas id="stockChart"></canvas>
+
+<script>
+    function resize_chrt() {
+        const chartCanvas = document.getElementById('stockChart');
+        if (!chartCanvas) {
+            console.error('Chart canvas not found.');
+            return;
+        }
+
+        // Set the canvas size dynamically based on screen size or desired aspect ratio
+        chartCanvas.style.width = '100%';  // Adjust to fit container width
+        chartCanvas.style.height = '50rem';  // Set a fixed height that looks good
+
+        // Redraw the chart with proper resolution
+        chartCanvas.width = chartCanvas.clientWidth;
+        chartCanvas.height = chartCanvas.clientHeight / 1.5;
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        resize_chrt()
+    });
+
+    window.addEventListener('resize', function(event){
+      resize_chrt()
+    });
+
+
+
+</script>
 
 
 <script>
