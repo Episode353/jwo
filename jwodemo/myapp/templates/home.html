@@ -27,7 +27,7 @@
 
 <div class="content-large">
 
-    <!-- Features Section -->
+    <!-- SeasonalContent -->
     <div class="feature-section" style="border-left: none; border-right: none;">
         <!--<p><span class="joesworldonline-text">Some Really Cool text goes here</span></p>-->
         {% for SeasonalContent in SeasonalContentEntries %}
@@ -39,7 +39,67 @@
             <div style="border: none;">{{ SeasonalContent.content|safe }}</div>
         {% endfor %}
     </div>
-    
+
+<!-- Recent Blogs -->
+<div class="feature-section">
+    {% for post in recent_blog_post %}
+        <div class="blog-post">
+            <a href="{% url 'article-detail' post.pk %}">
+                <h2 class="blog-title">{{ post.title|safe }}</h2>
+                <img src="{{ post.header_image.url }}" class="blog-image" alt="{{ post.title }}">
+            </a>
+            <p class="blog-snippet">{{ post.snippet }}</p>
+            <p class="blog-date">{{ post.post_date }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+<style>
+    .feature-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; /* Space between blog posts */
+        padding: 1rem; /* Padding around the feature section */
+        border-right: none !important;
+        border-left: none !important;
+    }
+
+    .blog-post {
+        border-top: none !important;
+        border-bottom: none !important;
+        overflow: hidden; /* Hide overflow */
+        transition: transform 0.2s; /* Animation for hover effect */
+    }
+
+    .blog-post:hover {
+        transform: scale(1.02); /* Slightly enlarge on hover */
+    }
+
+    .blog-title {
+        font-size: 1.5rem; /* Larger font size for the title */
+        color: #333; /* Darker color for readability */
+        text-decoration: none; /* Remove underline from title link */
+        padding: 0.5rem; /* Padding around the title */
+    }
+
+    .blog-image {
+        max-width: 100%; /* Make sure the image is responsive */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .blog-snippet {
+        font-size: 1rem; /* Font size for the snippet */
+        color: #666; /* Lighter color for the snippet text */
+        padding: 0.5rem; /* Padding around the snippet */
+    }
+
+    .blog-date {
+        font-size: 0.9rem; /* Smaller font size for the date */
+        color: #999; /* Even lighter color for the date */
+        padding: 0.5rem; /* Padding around the date */
+    }
+</style>
+
 
 
 
@@ -60,7 +120,7 @@
         </div>
     </div>
     -->
-    <div>
+    <div style="border-left: none; border-right: none;">
         <a href="/seepcoin" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #1adb31;font-family: daydream; " target="_top">Seep Coin🪙</a>
         <!-- Display Seep Coins on a single scoreboard -->
         <div class="scoreboard-data">
