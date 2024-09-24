@@ -40,15 +40,14 @@
         {% endfor %}
     </div>
 
-<<<<<<< HEAD
-=======
+
 <!-- Recent Blogs -->
 <div class="feature-section">
     {% for post in recent_blog_post %}
         <div class="blog-post">
             <a href="{% url 'article-detail' post.pk %}">
                 <h2 class="blog-title">{{ post.title|safe }}</h2>
-                <img src="{{ post.header_image.url }}" class="blog-image" alt="{{ post.title }}">
+                <img src="{{ post.header_image.url }}" class="blog-image" alt="{{ post.title }}" style="max-width: 20rem;">
             </a>
             <p class="blog-snippet">{{ post.snippet }}</p>
             <p class="blog-date">{{ post.post_date }}</p>
@@ -102,7 +101,7 @@
     }
 </style>
 
->>>>>>> ff48832c94210f8e4b76378e6c6ea12ee4529311
+
 
 
 
