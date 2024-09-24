@@ -12,7 +12,7 @@ from .models import Profile
 from .models import foodreview, SeepCoinTransaction, todo, SeasonalContent
 from django.conf import settings
 from datetime import date
-
+from blog.models import Post
 
 BASE_DIR = settings.BASE_DIR
 from .forms import CoinMessageForm
@@ -25,7 +25,8 @@ from django.template import Context, Template
 def home(request):
     seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')[:3]
     users = User.objects.exclude(pk=request.user.id).filter(profile__coin_count__gt=0).order_by('-profile__coin_count')[:3]
-
+    # Get the most Recent Blog Post
+    recent_blog_post = Post.objects.order_by('post_date')[:1]
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
     if shuffle_page:
@@ -55,7 +56,13 @@ def home(request):
         template = Template(entry.content)
         entry.content = template.render(Context({}))
 
-    return render(request, "home.html", {'seep_coin_list': seep_coin_list, 'users': users, 'template_name': template_name, 'current_timestamp': current_timestamp, 'SeasonalContentEntries': SeasonalContentEntries})
+    return render(request, "home.html", {
+        'seep_coin_list': seep_coin_list,
+        'users': users,
+        'template_name': template_name,
+        'current_timestamp': current_timestamp,
+        'SeasonalContentEntries': SeasonalContentEntries,
+        'recent_blog_post': recent_blog_post})
 
 
 
