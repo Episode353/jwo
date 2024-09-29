@@ -14,8 +14,10 @@
         {% if stocks|length == 1 %}
         <!-- Single stock -->
         <tr>
-            <td>{% include 'widgets/seepcoin_profile_pic.html' with user=stocks.0.created_by %}
-                <a href="{% url 'stock_detail' stocks.0.id %}">{{ stocks.0.name }}</a></td>
+            <td>
+                {% include 'widgets/seepcoin_profile_pic.html' with user=stocks.0.created_by %}
+                <a href="{% url 'stock_detail' stocks.0.id %}">{{ stocks.0.name }}</a>
+            </td>
             <td>{{ stocks.0.value }}</td>
             {% if show_last_updated %}
             <td>{{ stocks.0.last_updated }}</td>
@@ -26,6 +28,16 @@
         {% for stock in stocks %}
         <tr>
             <td>
+                {% if forloop.first %}
+                    <a>1st🥇</a>
+                {% elif forloop.counter == 2 %}
+                    <a>2nd🥈</a>
+                {% elif forloop.counter == 3 %}
+                    <a>3rd🥉</a>
+                {% else %}
+                    <a>{{ forloop.counter }}th</a>
+                {% endif %}
+
                 {% if stock.created_by %}
                     {% include 'widgets/seepcoin_profile_pic.html' with user=stock.created_by %}
                 {% else %}

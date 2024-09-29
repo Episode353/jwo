@@ -211,7 +211,7 @@ from django.urls import resolve
 
 def todo_view(request):
     if request.user.is_authenticated:
-        if request.user.username == 'joe':
+        if request.user.username == 'Joe':
             todo_list = todo.objects.all().order_by('position')
             return render(request, "todo.html", {'todo_list': todo_list})
         else:

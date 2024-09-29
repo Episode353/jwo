@@ -22,10 +22,11 @@
     </br>
 
     {% if user.is_authenticated %}
-        {% if not user_has_stock %}
+        {% if not user_has_created_stock %}
             <a href="{% url 'create_stock' %}" class="btn btn-primary">Create New Stock</a>
         {% endif %}
     {% endif %}
+
 
     </br>
     {% include 'widgets/stock_chart.html' with stock_data=stock_data chart_type='stock_prices' %}

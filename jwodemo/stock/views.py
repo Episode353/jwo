@@ -73,7 +73,9 @@ def update_stock(stock, history_days=30):
 
 
 def stock_home(request):
-    stocks = Stock.objects.all()
+    # Sort stocks by price in descending order
+    stocks = Stock.objects.all().order_by('-value')
+
     for stock in stocks:
         update_stock(stock)
 
@@ -91,10 +93,12 @@ def stock_home(request):
     }
 
     if request.user.is_authenticated:
-        user_has_stock = Stock.objects.filter(owner=request.user).exists()
-        context['user_has_stock'] = user_has_stock
+        # Check if the user has created a stock
+        user_has_created_stock = Stock.objects.filter(created_by=request.user).exists()
+        context['user_has_created_stock'] = user_has_created_stock
 
     return render(request, 'stocks.html', context)
+
 
 
 
