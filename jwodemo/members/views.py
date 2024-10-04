@@ -99,19 +99,26 @@ class EditProfilePageView(LoginRequiredMixin, generic.UpdateView):
         return reverse('show_profile_page', kwargs={'pk': self.object.pk})
 
 
+from stock.models import StockOwnership
+
 class ShowProfilePageView(DetailView):
     model = Profile
     template_name = 'registration/user_profile.html'
 
     def get_context_data(self, *args, **kwargs):
-        # users = Profile.objects.all()
         context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
 
+        # Get the profile user being viewed
         page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
 
+        # Fetch the stocks owned by the profile user
+        owned_stocks = StockOwnership.objects.filter(user=page_user.user)
+
         context["page_user"] = page_user
+        context["owned_stocks"] = owned_stocks
         return context
-    
+
+
 
 
 
@@ -122,7 +129,7 @@ class UserEditView(LoginRequiredMixin, generic.UpdateView):
 
     def get_object(self):
         return self.request.user
-    
+
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangingForm
     # form_class = PasswordChangeForm

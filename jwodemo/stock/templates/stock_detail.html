@@ -13,8 +13,13 @@
     <div class="d-flex align-items-center justify-content-center mb-4" style="border: none !important;">
         <h5 class="mr-3 mb-0" style="padding-right: 1rem;">Created by</h5>
         {% include 'widgets/seepcoin_profile_pic.html' with user=stock.created_by %}
-        <h5 class="mr-3 mb-0" style="padding-left: 1rem;">{{ stock.created_by }}</h5>
+        <h5 class="mr-3 mb-0" style="padding-left: 1rem;">
+            <a href="{% url 'show_profile_page' stock.created_by.id %}">
+                {{ stock.created_by.username }}
+            </a>
+        </h5>
     </div>
+
 
     {% include 'widgets/stock_chart.html' with stock_data=stock_data chart_type='stock_detail' %}
 
