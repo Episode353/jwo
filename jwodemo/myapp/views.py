@@ -173,23 +173,55 @@ def tool(request):
     return render(request, "tool.html")
 
 def foodpage(request):
-    food_review_list = foodreview.objects.all().order_by('-Date')
+    food_review_list = foodreview.objects.all().order_by('-date')
     return render(request, "foodreview.html", {'food_review_list': food_review_list})
 
+import os
+from django.shortcuts import get_object_or_404, render
+import os
+from django.shortcuts import get_object_or_404, render
+
+from django.shortcuts import render, get_object_or_404
+from django.templatetags.static import static
+from django.shortcuts import render, get_object_or_404
+from django.conf import settings
+from django.templatetags.static import static
+import os
+
+from django.shortcuts import get_object_or_404, render
+from django.conf import settings
+from django.contrib.staticfiles import finders
+
 def food_ar(request, slug):
-    food_review = foodreview.objects.get(slug=slug)
-    html_file_path = os.path.join('jwo/jwodemo/static/food-review-posts/', food_review.slug +  '.html')
-    print(html_file_path)
+    food_review = get_object_or_404(foodreview, slug=slug)
 
-    try:
-        with open(html_file_path, 'r', encoding='utf-8-sig') as html_file:  # Use 'utf-8-sig' to handle BOM
-            html_content = html_file.read()
-    except FileNotFoundError:
-        # Handle file not found error
-        html_content = None
+    # Initialize html_content to None
+    html_content = None
 
-    return render(request, "food_template.html", {'food_review': food_review, 'html_content': html_content})
+    # Check if the review is dynamic
+    if food_review.is_dynamic:
+        template = "dynamic_food_template.html"
+    else:
+        template = "food_template.html"
+        
+        # Construct the file path for the static HTML file
+        html_file_name = f'food-review-posts/{food_review.slug}.html'
+        print(html_file_name)  # Debug output for the file name
 
+        # Attempt to find and read the HTML file
+        try:
+            html_file_path = finders.find(html_file_name)
+            if html_file_path:
+                with open(html_file_path, 'r', encoding='utf-8-sig') as html_file:
+                    html_content = html_file.read()
+        except FileNotFoundError:
+            # Handle file not found error
+            html_content = None
+
+    return render(request, template, {
+        'food_review': food_review,
+        'html_content': html_content,
+    })
 
 def translator(request):
     return render(request, "translator.html")

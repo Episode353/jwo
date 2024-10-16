@@ -1,15 +1,29 @@
-{% extends "template.html" %} {% block title %} Home Page {% endblock %}
+{% extends "template.html" %} 
+{% block title %} Home Page {% endblock %}
 {% block content %}
 {% load static %}
+<style>
+    .food-review-picture {
+        width: 100%; /* Adjust as needed */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Crop the image to fill the box */
+        aspect-ratio: 1 / 1; /* Enforce a 1:1 aspect ratio */
+    }
+</style>
 {% for review in food_review_list %}
     <div id="food-review-headerlinks-box">
         <p>
-            <a href="{% url 'food_ar' slug=review.slug %}" target="_top"><img class="food-review-picture" src="{% static review.PhotoLink %}"></a>
-            <a href="{% url 'food_ar' slug=review.slug %}" target="_top"><p>{{ review.name }}</p></a>
+            <a href="{% url 'food_ar' slug=review.slug %}" target="_top">
+                {% if review.is_dynamic and review.cover_image %}
+                    <img class="food-review-picture" src="{{ review.cover_image.url }}">
+                {% else %}
+                    <img class="food-review-picture" src="{% static review.photo_link %}">
+                {% endif %}
+            </a>
+            <a href="{% url 'food_ar' slug=review.slug %}" target="_top">
+                <p>{{ review.name }}</p>
+            </a>
         </p>
     </div>
 {% endfor %}
-
 {% endblock %}
-
-</html>

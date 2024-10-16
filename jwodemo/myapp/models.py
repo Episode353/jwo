@@ -57,19 +57,41 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+from django.db import models
+
+from django.db import models
+
+
 class foodreview(models.Model):
-    # Name of the Food Review
     name = models.CharField(max_length=100)
-    # Link to Food Review
-    slug = models.CharField(max_length=100)
-    # Food Review Image
-    PhotoLink = models.CharField(max_length=100)
-    # The Order in which to Display the Food Reviews
-    # 0 being the first, and 9999 being the last
-    Date = models.DateTimeField()
+    slug = models.CharField(max_length=100, unique=True)
+    photo_link = models.CharField(max_length=100, blank=True)  # Keep this for static reviews
+    cover_image = models.ImageField(upload_to='food_images/', null=True, blank=True)  # New field for dynamic reviews
+    date = models.DateTimeField()
+    is_dynamic = models.BooleanField(default=False)  # Determines if the review is dynamic
+
+    # Dynamic fields
+    food_score = models.IntegerField(null=True, blank=True)  # Change to IntegerField
+    image1 = models.ImageField(upload_to='food_images/', null=True, blank=True)
+    image2 = models.ImageField(upload_to='food_images/', null=True, blank=True)
+    image3 = models.ImageField(upload_to='food_images/', null=True, blank=True)
+    image4 = models.ImageField(upload_to='food_images/', null=True, blank=True)
+    image5 = models.ImageField(upload_to='food_images/', null=True, blank=True)
+    would_sip = models.BooleanField(null=True, blank=True)
+    bob_marley = models.BooleanField(null=True, blank=True)
+    stop_train = models.BooleanField(null=True, blank=True)
+    body = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    @property
+    def display_image(self):
+        if self.is_dynamic and self.cover_image:
+            return self.cover_image.url
+        return self.photo_link  # Use the old image URL if not dynamic
+
+
 
 class todo(models.Model):
     name = models.CharField(max_length=100, blank=True)

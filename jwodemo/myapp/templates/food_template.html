@@ -1,42 +1,55 @@
 {% extends "template.html" %}
 {% block title %} {{ food_review.name }} {% endblock %}
 {% load static %}
-
+<style>
+    #food-review-content {
+        width: 100%; /* Ensure it takes full width */
+        max-width: 1200px; /* Set a maximum width if desired */
+        margin: 0 auto; /* Center the content */
+        padding: 20px; /* Add padding */
+    }
+    
+    .food-content-large-fill {
+        display: flex; /* If you want to control layout with flex */
+        flex-direction: column; /* Change based on your layout needs */
+    }
+    
+    .food-review-body {
+        width: 100%; /* Ensure it fills the parent */
+        background: transparent; /* As in the old version */
+    }
+</style>
 {% block content %}
-    {% if html_content %}
-        {{ html_content|safe }}
-    {% else %}
-        <p>No content available for this food review.</p>
-    {% endif %}
+
+    <div class="food-content-large-fill" id="food-review-content">
+        {% if html_content %}
+            {{ html_content|safe }}  <!-- Render the HTML content -->
+        {% else %}
+            <p>No content available.</p>
+        {% endif %}
+    </div>
 
     <script>
-        var STATIC_URL = "{% static '' %}";
-
         document.addEventListener("DOMContentLoaded", function() {
-            // Get all image and link elements in the document
-            var elements = document.querySelectorAll('img, a');
-
-            // Iterate through each element and update the src or href attribute
-            elements.forEach(function(element) {
-                if (element.tagName.toLowerCase() === 'img') {
-                    // For images
-                    updateAttribute(element, 'src');
-                } else if (element.tagName.toLowerCase() === 'a') {
-                    // For links
-                    updateAttribute(element, 'href');
-                }
-            });
-
-            function updateAttribute(element, attribute) {
-                // Get the original attribute value
-                var originalValue = element.getAttribute(attribute);
-
-                // Check if the attribute value starts with "####" (indicating a relative path)
-                if (originalValue && originalValue.startsWith('####')) {
-                    // Update the attribute value with the static URL
-                    element.setAttribute(attribute, STATIC_URL + originalValue.substring(5)); // Remove the "####" from the original path
-                }
+            // Function to update image paths
+            function updateImagePaths() {
+                var images = document.querySelectorAll('#food-review-content img');
+                images.forEach(function(img) {
+                    var src = img.getAttribute('src');
+                    if (src && src.includes('####')) {
+                        // Ensure no double slashes when replacing '####' with the static path
+                        var newSrc = src.replace('####', '{% static "" %}');
+                        newSrc = newSrc.replace(/\/{2,}/g, '/');  // Remove any double slashes
+                        img.setAttribute('src', newSrc);
+                    }
+                });
             }
+
+            // Fetch the HTML content (assuming it is passed as part of the view)
+            // In this case, the content is already injected in the div above,
+            // so we can directly call the updateImagePaths function.
+            updateImagePaths();
         });
     </script>
+    
 {% endblock %}
