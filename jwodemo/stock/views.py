@@ -268,14 +268,24 @@ def sell_stock(request, stock_id):
         stock_value = Decimal(stock.value)
         total_earnings = stock_value * Decimal(quantity)
 
+        # Check if adding earnings will exceed the max_digits limit
+        new_coin_count = user_profile.coin_count + total_earnings
+        max_coin_count = Decimal('99999999.99')
+
+        if new_coin_count > max_coin_count:
+            messages.error(request, 'Transaction would exceed maximum coin count limit.')
+            return redirect('stock_detail', stock_id=stock_id)
+
+        # Proceed with selling the stock
         ownership.quantity -= quantity
         ownership.save()
 
         if ownership.quantity == 0:
             ownership.delete()
 
-        user_profile.coin_count = Decimal(user_profile.coin_count).quantize(Decimal('0.01'), rounding=ROUND_DOWN) + total_earnings
+        user_profile.coin_count = new_coin_count
         user_profile.save()
 
         messages.success(request, f'You have successfully sold {quantity} units of {stock.name}.')
         return redirect('stock_detail', stock_id=stock_id)
+
