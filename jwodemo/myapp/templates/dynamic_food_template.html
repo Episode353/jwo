@@ -12,7 +12,7 @@
         display: flex; /* If you want to control layout with flex */
         flex-direction: column; /* Change based on your layout needs */
     }
-    
+
     .food-review-body {
         width: 100%; /* Ensure it fills the parent */
         background: transparent; /* As in the old version */
@@ -27,7 +27,7 @@
             <!-- Display images if available -->
             <div class="food-content-photo">
                 <img src="{{ food_review.cover_image.url }}" alt="Food image">
-                
+
                 <!-- Food Review Image 1 -->
                 {% if food_review.image1 %}
                 <div style="border-left: none; border-right: none; border-bottom: none;"></div>
@@ -63,11 +63,11 @@
                     <p>{{ food_review.food_score }}/10</p>
                 {% endif %}
 
-                {% if food_review.would_sip %}
-                    <img class="food-sip" src="{% static 'png/sip-approved.png' %}">
-                {% else %}
-                    <img class="food-sip" src="{% static 'png/sip-disapproved.png' %}">
-                {% endif %}
+            {% if food_review.would_sip == True %}
+                <img class="food-sip" src="{% static 'png/sip-approved.png' %}" alt="Sip Approved">
+            {% elif food_review.would_sip == False %}
+                <img class="food-sip" src="{% static 'png/sip-disapproved.png' %}" alt="Sip Disapproved">
+            {% endif %}
 
 
             </div>
@@ -87,7 +87,7 @@
                     <p style="height: 169px; position: absolute; top: 15%; left: 65%; transform: rotate(20deg);">No</p>
                     <img src="{% static 'png/bob-no.png' %}">
                 {% endif %}
-                
+
                 <p>Would Seep stop a train for this?</p>
                 {% if food_review.stop_train %}
                     <p style="height: 169px; position: absolute; top: 60%; left: 65%; transform: rotate(20deg);">Yes</p>
