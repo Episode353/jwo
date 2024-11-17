@@ -36,6 +36,7 @@ urlpatterns = [
     path('members/redeem/', redeem_code_form, name='redeem_code_form'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path("midgetporn", views.midgetporn, name="midgetporn"),
+    path('button/', include('button.urls')),  # Ensure this line is added to include the button app URLs
 
 ]
 

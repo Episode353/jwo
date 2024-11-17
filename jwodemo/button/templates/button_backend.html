@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button Backend</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Backend Updates</h1>
+
+    <div id="updates" style="font-size: 2rem;">
+        {% for update in updates %}
+            <p>{{ update }}</p>
+        {% endfor %}
+    </div>
+
+    <!-- Clear Button to clear updates -->
+    <form id="clearUpdatesForm" method="post">
+        {% csrf_token %}
+        <button style="width: 10rem;height: 5rem;font-size:2rem;"type="submit">Clear Updates</button>
+    </form>
+
+    <script>
+        // Handle clear updates button click without redirect
+        $('#clearUpdatesForm').submit(function(e) {
+            e.preventDefault();  // Prevent the form from submitting normally
+
+            $.ajax({
+                url: '{% url "clear_updates" %}',  // Endpoint for clearing updates
+                type: 'POST',
+                data: $(this).serialize(),  // Send CSRF token with the request
+                success: function(response) {
+                    // Clear the updates section on the page without redirecting
+                    $('#updates').html('');
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred while clearing updates: ' + error);
+                }
+            });
+        });
+
+        // Polling for updates every 3 seconds
+        setInterval(function() {
+            $.ajax({
+                url: "{% url 'get_updates' %}",  // Backend URL for getting updates
+                method: "GET",
+                success: function(response) {
+                    $('#updates').html(response.updates.join("<br>"));
+                }
+            });
+        }, 150);  // 3 seconds polling interval
+    </script>
+</body>
+</html>
