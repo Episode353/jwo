@@ -12,12 +12,12 @@
         width: 100%;
         height: 100%;
       }
-      
+
       body {
         background-image: url({% static 'jpg/christmas_jpg.jpg' %}?V=1);
         background-size: cover;
       }
-      
+
       button {
         position: absolute;
         font-family: 'Bangers', sans-serif;
@@ -42,7 +42,7 @@
         cursor: pointer;
         transition: all 0.05s ease-in;
       }
-      
+
       button.mousedown {
         color: rgba(255, 255, 255, 0.9);
         font-size: 76px;
@@ -50,19 +50,19 @@
         letter-spacing: 1px;
         padding: 100px 0;
       }
-      
+
       button.mousedown:before {
         width: 265px;
         height: 265px;
         box-shadow: 0 0 0 9px #424040, 0 0 0 10px rgba(0, 0, 0, 0.8);
       }
-      
+
       button.mousedown:after {
         opacity: 1;
         width: 235px;
         height: 235px;
       }
-      
+
       button:before, button:after {
         content: '';
         position: absolute;
@@ -74,14 +74,14 @@
         z-index: -1;
         transition: all 0.05s ease-in;
       }
-      
+
       button:before {
         width: 270px;
         height: 270px;
         background: linear-gradient(to bottom, #e60513 0%, #bb0b16 100%);
         box-shadow: 0 0 0 7px #424040, 0 0 0 8px rgba(0, 0, 0, 0.8);
       }
-      
+
       button:after {
         width: 240px;
         height: 240px;
@@ -90,7 +90,7 @@
         background: linear-gradient(to bottom, #bb0b16 0%, #e60513 100%);
         border: 2px solid #DD0615;
       }
-      
+
  </style>
 
 <script>
@@ -101,12 +101,12 @@
         $('button').on('mouseup mouseout', function() {
           $(this).removeClass('mousedown');
         });
-        
+
         $('button').click(function() {
           return false;
         });
       });
-</script> 
+</script>
 <body>
 
 <div>
@@ -126,32 +126,32 @@
     {% if current_user != 'Guest' %}
         <button id="pressButton">Press Me!</button>
     {% endif %}
-    
 
-    <script>
-        $(document).ready(function() {
-            // Handle button press with AJAX
-            $('#pressButton').click(function() {
-                $.ajax({
-                    url: '{% url "button_backend" %}',
-                    type: 'POST',
-                    data: {
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function(response) {
-                        // Update the page with the new updates
-                        let updatesHTML = '';
-                        response.updates.forEach(function(update) {
-                            updatesHTML += '<p>' + update + '</p>';
-                        });
-                        $('#updateSection').html(updatesHTML);
-                    },
-                    error: function(xhr, status, error) {
-                        alert('An error occurred: ' + error);
-                    }
+
+<script>
+    // Function to fetch updates from the backend and display them
+    function fetchUpdates() {
+        fetch('/get_updates/')
+            .then(response => response.json())
+            .then(data => {
+                const updatesContainer = document.getElementById('updates-container');
+                updatesContainer.innerHTML = '';
+                data.updates.forEach(update => {
+                    const updateElement = document.createElement('p');
+                    updateElement.innerText = `${update.user}: ${update.update_message} at ${update.created_at}`;
+                    updatesContainer.appendChild(updateElement);
                 });
             });
-        });
-    </script>
+    }
+
+    // Initial fetch of updates when the page loads
+    window.onload = fetchUpdates;
+
+    // Optionally, set up an interval to fetch updates periodically
+    setInterval(fetchUpdates, 5000); // Fetch updates every 5 seconds
+</script>
+
+<div id="updates-container"></div>
+
 </body>
 </html>
