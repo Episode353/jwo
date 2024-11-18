@@ -13,7 +13,7 @@
             <p>{{ update }}</p>
         {% endfor %}
     </div>
-    
+
 
     <!-- Clear Button to clear updates -->
     <form id="clearUpdatesForm" method="post">
@@ -22,23 +22,23 @@
     </form>
 
     <script>
+        // Handle clear updates button click without redirect
         $('#clearUpdatesForm').submit(function(e) {
-    e.preventDefault();  // Prevent the form from submitting normally
+            e.preventDefault();  // Prevent the form from submitting normally
 
-    $.ajax({
-        url: '{% url "clear_updates" %}',  // Correct URL for clear_updates view
-        type: 'POST',
-        data: $(this).serialize(),  // Send CSRF token with the request
-        success: function(response) {
-            // Clear the updates section on the page without redirecting
-            $('#updates').html('');
-        },
-        error: function(xhr, status, error) {
-            alert('An error occurred while clearing updates: ' + (xhr.responseText || error));
-        }
-    });
-});
-
+            $.ajax({
+                url: '{% url "clear_updates" %}',  // Endpoint for clearing updates
+                type: 'POST',
+                data: $(this).serialize(),  // Send CSRF token with the request
+                success: function(response) {
+                    // Clear the updates section on the page without redirecting
+                    $('#updates').html('');
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred while clearing updates: ' + error);
+                }
+            });
+        });
 
         // Polling for updates every 3 seconds
         setInterval(function() {
@@ -49,7 +49,7 @@
                     $('#updates').html(response.updates.join("<br>"));
                 }
             });
-        }, 1000);  // 3 seconds polling interval
+        }, 150);  // 3 seconds polling interval
     </script>
 </body>
 </html>

@@ -26,7 +26,7 @@ def home(request):
     seep_coin_list = User.objects.filter(profile__coin_count__gt=0).order_by('-profile__coin_count')[:3]
     users = User.objects.exclude(pk=request.user.id).filter(profile__coin_count__gt=0).order_by('-profile__coin_count')[:3]
     # Get the most Recent Blog Post
-    recent_blog_post = Post.objects.order_by('post_date')[:1]
+    recent_blog_post = Post.objects.order_by('-post_date')[:1]
     # Logic for randomizing and selecting a file
     shuffle_page = request.GET.get('shuffle')
     if shuffle_page:
@@ -203,7 +203,7 @@ def food_ar(request, slug):
         template = "dynamic_food_template.html"
     else:
         template = "food_template.html"
-        
+
         # Construct the file path for the static HTML file
         html_file_name = f'food-review-posts/{food_review.slug}.html'
         print(html_file_name)  # Debug output for the file name
