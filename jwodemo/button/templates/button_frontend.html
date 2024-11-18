@@ -127,6 +127,7 @@
         <button id="pressButton">Press Me!</button>
     {% endif %}
 
+<<<<<<< HEAD
 
 <script>
     // Function to fetch updates from the backend and display them
@@ -140,6 +141,32 @@
                     const updateElement = document.createElement('p');
                     updateElement.innerText = `${update.user}: ${update.update_message} at ${update.created_at}`;
                     updatesContainer.appendChild(updateElement);
+=======
+    
+    
+
+    <script>
+        $(document).ready(function() {
+            // Handle button press with AJAX
+            $('#pressButton').click(function() {
+                $.ajax({
+                    url: '{% url "button_backend" %}',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        // Update the page with the new updates
+                        let updatesHTML = '';
+                        response.updates.forEach(function(update) {
+                            updatesHTML += '<p>' + update + '</p>';
+                        });
+                        $('#updateSection').html(updatesHTML);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+>>>>>>> 198f3908512779f0f3c28f02e201c9642d9a8ce5
                 });
             });
     }
