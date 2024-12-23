@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import foodreview, Profile, SeepCoinTransaction, todo, RedeemCode, SeasonalContent
 from music.models import Album, Song, Recommendation
 from worm.models import Worm
+from bounty.models import Bounty
 
 # Register your models here.
 admin.site.register(foodreview)
@@ -12,6 +13,7 @@ admin.site.register(Song)
 admin.site.register(Recommendation)
 admin.site.register(todo)
 admin.site.register(SeasonalContent)
+admin.site.register(Bounty  )
 
 
 from django.contrib import admin

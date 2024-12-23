@@ -1,0 +1,279 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    @font-face {
+        font-family: 'minecraft';
+        src: url('{% static "path_to_minecraft_font/minecraft_font.ttf" %}') format('truetype');
+    }
+
+    .bounty-teir-icon {
+        height: 1.5rem;
+        width: 1.5rem;
+        image-rendering: pixelated;
+    }
+
+    .bounty-detail, .minecraft-text {
+        font-family: minecraft, sans-serif;
+        font-weight: bold;
+        color: #313131;
+        font-size: 1rem;
+    }
+
+    .bounty-container {
+        border: 4px black groove !important;
+        color: #313131;
+        padding: 0px !important;
+        margin: 5px !important;
+        max-width: 30rem;
+        flex: 1 1 auto;
+        position: relative;
+    }
+
+    h4.minecraft-text {
+        font-size: 1.1rem;
+    }
+
+    .teir-1-box {
+        background-image: url('{% static "mc/block/powder_snow.png" %}') !important;
+    }
+
+    .teir-2-box {
+        background-image: url('{% static "mc/block/quartz_block_bottom.png" %}') !important;
+    }
+
+    .teir-3-box {
+        background-image: url('{% static "mc/block/bone_block_side.png" %}') !important;
+    }
+
+    .teir-4-box {
+        background-image: url('{% static "mc/block/sand.png" %}') !important;
+    }
+
+    .teir-5-box {
+        background-image: url('{% static "mc/block/mushroom_stem.png" %}') !important;
+    }
+
+    .bounty-tier-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center; /* Center items horizontally */
+        padding: 10px;
+    }
+
+    /* Style for the edit and delete buttons */
+    .action-buttons {
+        background-color: transparent !important;
+        border: none !important;
+        display: flex;
+        position: absolute;
+        width: 100%; /* Ensures buttons align within the container width */
+        bottom: 22px; /* Adjusts vertical positioning */
+    }
+    
+
+
+    .action-buttons .btn-edit {
+        position: absolute;
+        left: 5px; /* Aligns the Edit button to the bottom left */
+    }
+
+    .action-buttons .btn-delete {
+        position: absolute;
+        right: 5px; /* Aligns the Delete button to the bottom right */
+    }
+
+    .action-buttons a {
+        background-color: #3178c6;
+        color: white;
+        font-size: 0.8rem;
+        padding: 5px 5px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: minecraft, sans-serif;
+        text-shadow: 2px 2px 0px #6E6E6E;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .action-buttons a:hover {
+        transform: scale(1.1);
+    }
+
+    .action-buttons .btn-delete {
+        background-color: #e74c3c;
+    }
+
+    .action-buttons .btn-delete:hover {
+        background-color: #c0392b;
+    }
+
+    .create-bounty-button {
+        background-image: url('{% static "mc/block/stone.png" %}');
+        color: white;
+        font-family: minecraft, sans-serif;
+        border: 3px solid black;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-shadow: 2px 2px 0px #6E6E6E;
+        display: block;
+        width: fit-content;
+        margin: 20px auto;
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+        text-decoration: none;
+    }
+
+    .create-bounty-button:hover {
+        transform: scale(1.1);
+    }
+
+</style>
+
+<div class="content-large-fill mt-5" style="background-image: url('{% static "mc/block/mushroom_stem.png" %}'); border: none;">
+    <!-- Tier I -->
+    {% if tiers.I %}
+    <div style="background-image: url('{% static "mc/block/dirt.png" %}'); padding: 10px; border: 1px solid black;">
+        <h4 class="minecraft-text" style="color: goldenrod;">
+            <img class="bounty-teir-icon" src="{% static "mc/item/copper_ingot.png" %}">
+            Tier I Bounties
+        </h4>
+        <div class="bounty-tier-container">
+            {% for bounty in tiers.I %}
+            <div class="bounty-container teir-1-box">
+                <span class="bounty-detail minecraft-text">Objective: {{ bounty.objective }}</span><br>
+                <span class="bounty-detail minecraft-text">Reward: {{ bounty.reward }}</span><br>
+                <span class="bounty-detail minecraft-text">Created by {{ bounty.creator }}</span>
+                {% if request.user == bounty.creator %}
+            <div class="action-buttons">
+                <a href="{% url 'edit_bounty' bounty.id %}" class="minecraft-text btn-edit">Edit</a>
+                <a href="{% url 'delete_bounty' bounty.id %}" class="minecraft-text btn-delete">Delete</a>
+            </div>
+
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Tier II -->
+    {% if tiers.II %}
+    <div style="background-image: url('{% static "mc/block/andesite.png" %}'); padding: 10px; border: 1px solid black;">
+        <h4 class="minecraft-text" style="color: silver;">
+            <img class="bounty-teir-icon" src="{% static "mc/item/iron_ingot.png" %}">
+            Tier II Bounties
+        </h4>
+        <div class="bounty-tier-container">
+            {% for bounty in tiers.II %}
+            <div class="bounty-container teir-2-box">
+                <span class="bounty-detail minecraft-text">Objective: {{ bounty.objective }}</span><br>
+                <span class="bounty-detail minecraft-text">Reward: {{ bounty.reward }}</span><br>
+                <span class="bounty-detail minecraft-text">Created by {{ bounty.creator }}</span>
+                {% if request.user == bounty.creator %}
+            <div class="action-buttons">
+                <a href="{% url 'edit_bounty' bounty.id %}" class="minecraft-text btn-edit">Edit</a>
+                <a href="{% url 'delete_bounty' bounty.id %}" class="minecraft-text btn-delete">Delete</a>
+            </div>
+
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Tier III -->
+    {% if tiers.III %}
+    <div style="background-image: url('{% static "mc/block/deepslate.png" %}'); padding: 10px; border: 1px solid black;">
+        <h4 class="minecraft-text" style="color: gold;">
+            <img class="bounty-teir-icon" src="{% static "mc/item/gold_ingot.png" %}">
+            Tier III Bounties
+        </h4>
+        <div class="bounty-tier-container">
+            {% for bounty in tiers.III %}
+            <div class="bounty-container teir-3-box">
+                <span class="bounty-detail minecraft-text">Objective: {{ bounty.objective }}</span><br>
+                <span class="bounty-detail minecraft-text">Reward: {{ bounty.reward }}</span><br>
+                <span class="bounty-detail minecraft-text">Created by {{ bounty.creator }}</span>
+                {% if request.user == bounty.creator %}
+            <div class="action-buttons">
+                <a href="{% url 'edit_bounty' bounty.id %}" class="minecraft-text btn-edit">Edit</a>
+                <a href="{% url 'delete_bounty' bounty.id %}" class="minecraft-text btn-delete">Delete</a>
+            </div>
+
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Tier IV -->
+    {% if tiers.IV %}
+    <div style="background-image: url('{% static "mc/block/bedrock.png" %}'); padding: 10px; border: 1px solid black;">
+        <h4 class="minecraft-text" style="color: aquamarine;">
+            <img class="bounty-teir-icon" src="{% static "mc/item/diamond.png" %}">
+            Tier IV Bounties
+        </h4>
+        <div class="bounty-tier-container">
+            {% for bounty in tiers.IV %}
+            <div class="bounty-container teir-4-box">
+                <span class="bounty-detail minecraft-text">Objective: {{ bounty.objective }}</span><br>
+                <span class="bounty-detail minecraft-text">Reward: {{ bounty.reward }}</span><br>
+                <span class="bounty-detail minecraft-text">Created by {{ bounty.creator }}</span>
+                {% if request.user == bounty.creator %}
+            <div class="action-buttons">
+                <a href="{% url 'edit_bounty' bounty.id %}" class="minecraft-text btn-edit">Edit</a>
+                <a href="{% url 'delete_bounty' bounty.id %}" class="minecraft-text btn-delete">Delete</a>
+            </div>
+
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Tier V -->
+    {% if tiers.V %}
+    <div style="background-image: url('{% static "mc/block/end_stone.png" %}'); padding: 10px; border: 1px solid black;">
+        <h4 class="minecraft-text" style="color: purple;">
+            <img class="bounty-teir-icon" src="{% static "mc/item/elytra.png" %}">
+            Tier V Bounties
+        </h4>
+        <div class="bounty-tier-container">
+            {% for bounty in tiers.V %}
+            <div class="bounty-container teir-5-box">
+                <span class="bounty-detail minecraft-text">Objective: {{ bounty.objective }}</span><br>
+                <span class="bounty-detail minecraft-text">Reward: {{ bounty.reward }}</span><br>
+                <span class="bounty-detail minecraft-text">Created by {{ bounty.creator }}</span>
+                {% if request.user == bounty.creator %}
+            <div class="action-buttons">
+                <a href="{% url 'edit_bounty' bounty.id %}" class="minecraft-text btn-edit">Edit</a>
+                <a href="{% url 'delete_bounty' bounty.id %}" class="minecraft-text btn-delete">Delete</a>
+            </div>
+
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- No Bounties Message -->
+    {% if not tiers.I and not tiers.II and not tiers.III and not tiers.IV and not tiers.V %}
+    <p class="minecraft-text" style="text-shadow: 2px 2px 0px #6E6E6E; font-size: 125%;">No active bounties available.</p>
+    {% endif %}
+
+    <!-- If the user is logged in, have a "Create Bounty" button that takes them to the bounty create page (/bounty/create/)-->
+        <!-- If the user is logged in, show the Create Bounty button -->
+    {% if user.is_authenticated %}
+    <a href="{% url 'create_bounty' %}" class="create-bounty-button">Create Bounty</a>
+    {% else %}
+    <p class="minecraft-text" style="text-shadow: 2px 2px 0px #6E6E6E; margin-top: 2rem; font-size: 100%;">Log in to Create a Bounty</p>
+    {% endif %}
+</div>
+
+{% endblock %}

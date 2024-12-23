@@ -1,0 +1,97 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    @font-face {
+        font-family: 'minecraft';
+        src: url('{% static "path_to_minecraft_font/minecraft_font.ttf" %}') format('truetype');
+    }
+
+    .minecraft-text {
+        font-family: minecraft, sans-serif;
+        font-weight: bold;
+        color: #313131;
+        text-shadow: 2px 2px 0px #6E6E6E;
+    }
+
+    .form-container {
+        background-image: url('{% static "mc/block/clay.png" %}');
+        border: 4px black groove;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-label {
+        font-family: minecraft, sans-serif;
+        color: #313131;
+    }
+
+    .form-control {
+        background-image: url('{% static "mc/block/bone_block_side.png" %}');
+        border: 2px solid #313131;
+        background-color: #f9f9f9;
+        font-family: minecraft, sans-serif;
+        color: #313131;
+        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-minecraft {
+        background-image: url('{% static "mc/block/stone.png" %}');
+        color: white;
+        font-family: minecraft, sans-serif;
+        border: 2px solid black;
+        padding: 10px 20px;
+        text-shadow: 2px 2px 0px #6E6E6E;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .btn-minecraft:hover {
+        transform: scale(1.05);
+    }
+
+    .content-large-fill {
+        background-image: url('{% static "mc/block/mushroom_stem.png" %}');
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<div class="content-large-fill mt-5">
+    <h2 class="minecraft-text text-center mb-4">Create a New Bounty</h2>
+    <form method="post" class="form-container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <div class="mb-4">
+            <label for="id_objective" class="form-label">Objective:</label>
+            <textarea name="objective" cols="40" rows="5" required id="id_objective" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="id_reward" class="form-label">Reward:</label>
+            <input type="text" name="reward" maxlength="255" required id="id_reward" class="form-control">
+        </div>
+
+        <div class="mb-4">
+            <label for="id_tier" class="form-label">Tier:</label>
+            <select name="tier" id="id_tier" class="form-control">
+                <option value="I" selected>I</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+            </select>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-minecraft">Create Bounty</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

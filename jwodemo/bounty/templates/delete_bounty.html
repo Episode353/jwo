@@ -1,0 +1,82 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    @font-face {
+        font-family: 'minecraft';
+        src: url('{% static "path_to_minecraft_font/minecraft_font.ttf" %}') format('truetype');
+    }
+
+    .minecraft-text {
+        font-family: minecraft, sans-serif;
+        font-weight: bold;
+        color: #313131;
+        text-shadow: 2px 2px 0px #6E6E6E;
+    }
+
+    .form-container {
+        background-image: url('{% static "mc/block/clay.png" %}');
+        border: 4px black groove;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-label {
+        font-family: minecraft, sans-serif;
+        color: #313131;
+    }
+
+    .form-control {
+        background-image: url('{% static "mc/block/bone_block_side.png" %}');
+        border: 2px solid #313131;
+        background-color: #f9f9f9;
+        font-family: minecraft, sans-serif;
+        color: #313131;
+        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-minecraft {
+        background-image: url('{% static "mc/block/stone.png" %}');
+        color: white;
+        font-family: minecraft, sans-serif;
+        border: 2px solid black;
+        padding: 10px 20px;
+        text-shadow: 2px 2px 0px #6E6E6E;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .btn-minecraft:hover {
+        transform: scale(1.05);
+    }
+
+    .content-large-fill {
+        background-image: url('{% static "mc/block/mushroom_stem.png" %}');
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<div class="content-large-fill mt-5">
+    <h2 class="minecraft-text text-center mb-4">Delete Bounty</h2>
+    <p class="minecraft-text text-center mb-4">Are you sure you want to delete this bounty?</p>
+    <div class="form-container">
+        <p class="minecraft-text text-center mb-4"><strong>{{ bounty.objective }}</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="text-center" style="border: none !important;">
+                <button type="submit" class="btn-minecraft" style="color:darkred;">Delete</button>
+            </div>
+        </form>
+        <div class="text-center mt-3" style=" border: none !important;">
+            <a href="{% url 'bounty_list' %}" class="btn-minecraft" style="background-image: url('{% static "mc/block/stone.png" %}'); color: white;">Cancel</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

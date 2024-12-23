@@ -38,6 +38,7 @@ urlpatterns = [
     path("midgetporn", views.midgetporn, name="midgetporn"),
     path('button/', include('button.urls')),  # Ensure this line is added to include the button app URLs
     path('mc/', views.mc, name='mc'),
+    path('bounty/', include('bounty.urls')),
 
 ]
 
