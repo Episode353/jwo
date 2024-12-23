@@ -253,6 +253,9 @@ def todo_view(request):
         message = "You must be logged in to view this page"
         return custom_404_view(request, message)
 
+def mc(request):
+    return render(request, "mc.html")
+
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.utils import timezone
