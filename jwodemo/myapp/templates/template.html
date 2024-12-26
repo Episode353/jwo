@@ -322,7 +322,7 @@
     <script>
         function applySeasonalStyles() {
             const month = new Date().getMonth(); // getMonth() returns 0 for January, 11 for December
-            eif (month === 11) { // December is 11
+            if (month === 11) { // December is 11
                 document.body.classList.add('christmas');
                 var snowbox = document.getElementById("snow-container-id");
                 var Christmas_Lights = document.getElementById("Christmas_Lights");
@@ -645,14 +645,18 @@
 
                 <div class="header-content">
                     <!--First Row-->
-                    <a href="/" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #fec652;" target="_top">Home🏠</a>
+
                     <a href="/worm" class="header-link" style="color: black; text-shadow: 5px 5px 0px #BABABA;" target="_top">Worm🪱</a>
                     <a href="/food" class="header-link" style="color: #ED6464; text-shadow: 5px 5px 0px #B6C02D;" target="_top">Food🍕</a>
+                    <a href="/bounty/bounties/" class="header-link" style="color: #FFD700; text-shadow: 3px 3px 6px rgba(255, 215, 0, 0.6), 1px 1px 2px rgba(0, 0, 0, 0.8); font-family:minecraft; font-size: 200%;" target="_top">Bounties💰</a>
+
+
 
                     <!--Second Row-->
                     <a href="/seepcoin" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #1adb31;" target="_top">Seep Coin🪙</a>
                     <a href="/stock/stocks/" class="header-link" style="color: #616F40; text-shadow: 5px 5px 0px #97C62C;" target="_top">Stocks📈</a>
                     <a href="/blog" class="header-link" style="color: #8e44ad; text-shadow: 5px 5px 0px #f4d03f ;" target="_top">Joe's World Blog📰</a>
+
 
                     <!--Third Row
                     <a href="https://www.beeg.fish/pages/beegfish" class="header-link" style="color: #616F40; text-shadow: 5px 5px 0px #97C62C;" target="_top">Beeg Fish∝</a>
