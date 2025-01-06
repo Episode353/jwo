@@ -46,7 +46,10 @@
         <div class="blog-post">
             <a href="{% url 'article-detail' post.pk %}">
                 <h2 class="blog-title">{{ post.title|safe }}</h2>
-                <img src="{{ post.header_image.url }}" class="blog-image" alt="{{ post.title }}" style="max-width: 20rem;">
+                {% if post.header_image and post.header_image.url %}
+                    <img src="{{ post.header_image.url }}" class="blog-image" alt="{{ post.title }}" style="max-width: 20rem;">
+                {% endif %}
+
             </a>
             <p class="blog-snippet">{{ post.snippet }}</p>
             <p class="blog-date">{{ post.post_date }}</p>
