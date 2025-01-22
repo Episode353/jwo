@@ -26,6 +26,8 @@
 
 <div class="content-large">
 
+{% if SeasonalContent %}
+
     <!-- SeasonalContent -->
     <div class="feature-section" style="border-left: none; border-right: none;">
         <!--<p><span class="joesworldonline-text">Some Really Cool text goes here</span></p>-->
@@ -38,7 +40,7 @@
             <div style="border: none;">{{ SeasonalContent.content|safe }}</div>
         {% endfor %}
     </div>
-
+{% endif %}
 
 <!-- Recent Blogs -->
 <div class="feature-section">
