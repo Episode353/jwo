@@ -77,11 +77,11 @@
         return `
             <div id="item-${item.id}" class="tree-item-children">
                 <div class="tree-item">
-                    <input 
-                        type="checkbox" 
-                        data-item-id="${item.id}" 
+                    <input
+                        type="checkbox"
+                        data-item-id="${item.id}"
                         class="toggle-item-checkbox"
-                        ${item.is_done ? 'checked' : ''} 
+                        ${item.is_done ? 'checked' : ''}
                     />
 
                     <span contenteditable="true" data-item-id="${item.id}" class="rename-item">
@@ -145,7 +145,7 @@
     });
 
     // -------------------------
-    // EVENT DELEGATION 
+    // EVENT DELEGATION
     // We attach event listeners to the document for dynamic elements.
     // -------------------------
     document.addEventListener('click', function(e) {
@@ -251,7 +251,7 @@
 
     // (2) Function to fetch data from the server
     function pollForUpdates() {
-        fetch("{% url 'poll_tree' %}")
+        fetch("{% url 'poll_tree' %}",{ cache: "no-store"})
             .then(response => response.json())
             .then(data => {
                 if (data.items) {
@@ -291,7 +291,7 @@
             if (!oldItem) {
                 return true; // new item
             }
-            if (oldItem.name !== newItem.name || 
+            if (oldItem.name !== newItem.name ||
                 oldItem.parent_id !== newItem.parent_id ||
                 oldItem.is_done !== newItem.is_done) {
                 return true;
