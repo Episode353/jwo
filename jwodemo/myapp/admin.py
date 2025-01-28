@@ -16,6 +16,7 @@ admin.site.register(SeasonalContent)
 admin.site.register(Bounty  )
 
 
+
 from django.contrib import admin
 from .models import RedeemCode
 

@@ -1,0 +1,30 @@
+<div id="item-{{ item.id }}" class="tree-item-children">
+    <div class="tree-item">
+        <input 
+            type="checkbox" 
+            data-item-id="{{ item.id }}" 
+            class="toggle-item-checkbox"
+            {% if item.is_done %}checked{% endif %}
+        />
+
+        <!-- Use a contenteditable span for name, so user can click+edit inline -->
+        <span 
+            contenteditable="true" 
+            data-item-id="{{ item.id }}"
+            class="rename-item"
+        >
+            {{ item.name }}
+        </span>
+
+        <div class="tree-actions">
+            <button class="btn add-child-button" data-parent-id="{{ item.id }}" style="background:lightgreen;">+</button>
+            <button class="btn delete-item-button" data-item-id="{{ item.id }}" style="color:red;">X</button>
+        </div>
+    </div>
+    <!-- Children container -->
+    <div id="children-{{ item.id }}" class="tree-item-children">
+        {% for child in item.children.all %}
+            {% include "tree_item.html" with item=child %}
+        {% endfor %}
+    </div>
+</div>

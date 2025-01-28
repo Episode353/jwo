@@ -1,0 +1,400 @@
+
+{% load static %}
+
+
+
+{% block content %}
+
+<style>
+.tree-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #DCD1B3;
+    padding: 1rem;
+    border: 2px solid #000;
+    border-radius: 5px;
+}
+
+/* Indent children */
+.tree-item-children {
+    margin-left: 1vw;
+    border-left: 1px dotted #333;
+}
+
+.tree-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.2rem;
+}
+
+.tree-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.tree-actions {
+    margin-left: auto;
+}
+
+/* Buttons */
+.btn {
+    margin: 0 0.3rem;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    padding: 0.2rem 0.4rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #ddd;
+}
+</style>
+
+<div class="tree-container">
+    <!-- "root" object to add a brand new root item -->
+    <div style="margin-bottom: 1rem;">
+        <button class="btn" id="add-root-button" style="background:lightgreen;">
+            + Add Project
+        </button>
+    </div>
+
+    <!-- Container for the entire tree -->
+    <div id="tree-root">
+        {% for item in root_items %}
+            {% include "tree_item.html" with item=item %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // -------------------------
+    // Helper function to build HTML for a new item (on the fly).
+    // This replicates the "tree_item.html" template content for newly added items via AJAX.
+    // -------------------------
+    function buildItemHTML(item) {
+        return `
+            <div id="item-${item.id}" class="tree-item-children">
+                <div class="tree-item">
+                    <input 
+                        type="checkbox" 
+                        data-item-id="${item.id}" 
+                        class="toggle-item-checkbox"
+                        ${item.is_done ? 'checked' : ''} 
+                    />
+
+                    <span contenteditable="true" data-item-id="${item.id}" class="rename-item">
+                        ${item.name}
+                    </span>
+
+                    <div class="tree-actions">
+                        <button class="btn add-child-button" data-parent-id="${item.id}" style="background:lightgreen;">+</button>
+                        <button class="btn delete-item-button" data-item-id="${item.id}" style="color:red;">X</button>
+                    </div>
+                </div>
+                <!-- children container -->
+                <div id="children-${item.id}" class="tree-item-children"></div>
+            </div>
+        `;
+    }
+
+    // -------------------------
+    // CSRF Helper (if you have CSRF enabled)
+    // -------------------------
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    // -------------------------
+    // ADD Root Item
+    // -------------------------
+    document.getElementById('add-root-button').addEventListener('click', function() {
+        fetch("{% url 'add_child' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            body: new URLSearchParams({
+                // No parent_id => create a root item
+                'parent_id': '',
+                'name': 'New Root Item'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Append new root item
+                const treeRoot = document.getElementById('tree-root');
+                treeRoot.insertAdjacentHTML('beforeend', buildItemHTML(data));
+            }
+        });
+    });
+
+    // -------------------------
+    // EVENT DELEGATION 
+    // We attach event listeners to the document for dynamic elements.
+    // -------------------------
+    document.addEventListener('click', function(e) {
+        // 1. Add Child
+        if (e.target && e.target.classList.contains('add-child-button')) {
+            const parentId = e.target.getAttribute('data-parent-id');
+            fetch("{% url 'add_child' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: new URLSearchParams({
+                    'parent_id': parentId,
+                    'name': 'New Child Item'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const childrenContainer = document.getElementById(`children-${parentId}`);
+                    childrenContainer.insertAdjacentHTML('beforeend', buildItemHTML(data));
+                }
+            });
+        }
+
+        // 2. Delete Item
+        if (e.target && e.target.classList.contains('delete-item-button')) {
+            const itemId = e.target.getAttribute('data-item-id');
+            fetch("{% url 'delete_item' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: new URLSearchParams({
+                    'item_id': itemId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const itemDiv = document.getElementById(`item-${itemId}`);
+                    if (itemDiv) {
+                        itemDiv.remove();
+                    }
+                }
+            });
+        }
+    });
+
+    // -------------------------
+    // Toggle is_done when checkbox is clicked (event delegation)
+    // -------------------------
+    document.addEventListener('change', function(e) {
+        if(e.target && e.target.classList.contains('toggle-item-checkbox')) {
+            const itemId = e.target.getAttribute('data-item-id');
+            fetch("{% url 'toggle_item' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: new URLSearchParams({
+                    'item_id': itemId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Optionally do something with data (like a visual update).
+            });
+        }
+    });
+
+    // -------------------------
+    // Rename item on blur (contenteditable)
+    // We'll send an AJAX request after the user finishes editing
+    // -------------------------
+    document.addEventListener('blur', function(e) {
+        if(e.target && e.target.classList.contains('rename-item')) {
+            const itemId = e.target.getAttribute('data-item-id');
+            const newName = e.target.innerText.trim();
+
+            fetch("{% url 'rename_item' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: new URLSearchParams({
+                    'item_id': itemId,
+                    'new_name': newName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Optionally do something with the response
+            });
+        }
+    }, true);
+</script>
+
+<script>
+    // (1) Build a mapping from ID -> item data, or store them as a global.
+    // We'll maintain a simple local representation of the tree
+    let localTreeData = {}; // {id: {...}, ...}
+
+    // (2) Function to fetch data from the server
+    function pollForUpdates() {
+        fetch("{% url 'poll_tree' %}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.items) {
+                    // If we want to do a full re-render:
+                    // 1. Build a data structure in JS that represents the entire tree
+                    // 2. Compare it with local data or just forcibly re-render.
+
+                    // For simplicity, let's do a full re-render if there's a difference
+                    const newDataMap = {};
+                    for (let item of data.items) {
+                        newDataMap[item.id] = item;
+                    }
+
+                    // Simple check: if the length differs or any item changed, re-render
+                    const shouldRerender = shouldWeRerender(newDataMap);
+
+                    if (shouldRerender) {
+                        localTreeData = newDataMap;
+                        rerenderEntireTree();
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Error polling for updates:", err);
+            });
+    }
+
+    // (3) Decide if re-render is needed
+    function shouldWeRerender(newDataMap) {
+        // if different length => definitely changed
+        if (Object.keys(newDataMap).length !== Object.keys(localTreeData).length) {
+            return true;
+        }
+        // or any item changed
+        for (let [id, newItem] of Object.entries(newDataMap)) {
+            const oldItem = localTreeData[id];
+            if (!oldItem) {
+                return true; // new item
+            }
+            if (oldItem.name !== newItem.name || 
+                oldItem.parent_id !== newItem.parent_id ||
+                oldItem.is_done !== newItem.is_done) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // (4) Re-render the entire tree
+    function rerenderEntireTree() {
+        // Easiest approach: remove everything in #tree-root and re-build from scratch
+        const treeRootEl = document.getElementById('tree-root');
+        treeRootEl.innerHTML = '';
+
+        // Build a structure: parent_id => list of children
+        const childrenMap = {};
+        for (let id in localTreeData) {
+            const parent_id = localTreeData[id].parent_id;
+            if (!childrenMap[parent_id]) {
+                childrenMap[parent_id] = [];
+            }
+            childrenMap[parent_id].push(id);
+        }
+
+        // Recursively build DOM
+        function buildTreeDom(parentId, container) {
+            if (!childrenMap[parentId]) return;
+
+            for (let childId of childrenMap[parentId]) {
+                const itemData = localTreeData[childId];
+                // Build item container
+                const itemDiv = document.createElement('div');
+                itemDiv.id = `item-${itemData.id}`;
+                itemDiv.className = 'tree-item-children';
+
+                // Build item header row
+                const itemHeader = document.createElement('div');
+                itemHeader.className = 'tree-item';
+
+                // Checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'toggle-item-checkbox';
+                checkbox.dataset.itemId = itemData.id;
+                if (itemData.is_done) checkbox.checked = true;
+                itemHeader.appendChild(checkbox);
+
+                // Editable name
+                const nameSpan = document.createElement('span');
+                nameSpan.contentEditable = 'true';
+                nameSpan.className = 'rename-item';
+                nameSpan.dataset.itemId = itemData.id;
+                nameSpan.innerText = itemData.name;
+                itemHeader.appendChild(nameSpan);
+
+                // Actions container
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'tree-actions';
+
+                // + button
+                const plusButton = document.createElement('button');
+                plusButton.className = 'btn add-child-button';
+                plusButton.style.background = 'lightgreen';
+                plusButton.dataset.parentId = itemData.id;
+                plusButton.innerText = '+';
+                actionsDiv.appendChild(plusButton);
+
+                // X button
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'btn delete-item-button';
+                deleteButton.style.color = 'red';
+                deleteButton.dataset.itemId = itemData.id;
+                deleteButton.innerText = 'X';
+                actionsDiv.appendChild(deleteButton);
+
+                itemHeader.appendChild(actionsDiv);
+
+                itemDiv.appendChild(itemHeader);
+
+                // Children container
+                const childContainer = document.createElement('div');
+                childContainer.id = `children-${itemData.id}`;
+                childContainer.className = 'tree-item-children';
+                itemDiv.appendChild(childContainer);
+
+                // Append to parent container
+                container.appendChild(itemDiv);
+
+                // Recurse
+                buildTreeDom(itemData.id, childContainer);
+            }
+        }
+
+        // Kick off building from parentId = null (root level)
+        buildTreeDom(null, treeRootEl);
+    }
+
+    // (5) Start polling (every second)
+    setInterval(pollForUpdates, 1000);
+
+    // Initialize local data by calling pollForUpdates once on load
+    pollForUpdates();
+</script>
+
+
+{% endblock %}

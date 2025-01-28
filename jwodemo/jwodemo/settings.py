@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'button',
     'bounty',
+    'todo',
 ]
 
 MIDDLEWARE = [

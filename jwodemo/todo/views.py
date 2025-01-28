@@ -1,0 +1,116 @@
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from .models import TodoItem
+
+# views.py
+from django.db.models import Max
+from django.utils import timezone
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from .models import TodoItem
+
+def tree_todo_view(request):
+    root_items = TodoItem.objects.filter(parent__isnull=True).order_by('created_at')
+    
+    # Calculate the latest update time among all TodoItems
+    latest_update = TodoItem.objects.aggregate(max_time=Max('updated_at'))['max_time']
+
+    # If there are no items, set some default (like now or None)
+    if not latest_update:
+        latest_update = timezone.now()
+
+    context = {
+        'root_items': root_items,
+        'latest_update': latest_update.isoformat()  # pass as string
+    }
+    return render(request, 'tree_todo.html', context)
+
+
+@require_http_methods(["POST"])
+def add_child(request):
+    """
+    AJAX endpoint to add a child item to a given parent.
+    Expects 'parent_id' and 'name' in POST data.
+    If 'parent_id' is null (or missing), it means add a root item.
+    """
+    parent_id = request.POST.get('parent_id')
+    name = request.POST.get('name', 'New Item')
+
+    if parent_id:
+        parent = get_object_or_404(TodoItem, id=parent_id)
+        child = TodoItem.objects.create(name=name, parent=parent)
+    else:
+        # Add as a root item if no parent_id is provided
+        child = TodoItem.objects.create(name=name)
+
+    return JsonResponse({
+        'status': 'success',
+        'id': child.id,
+        'name': child.name,
+        'parent_id': parent_id,
+        'is_done': child.is_done,
+    })
+
+@require_http_methods(["POST"])
+def delete_item(request):
+    """
+    AJAX endpoint to delete an item (and all its children).
+    Expects 'item_id' in POST data.
+    """
+    item_id = request.POST.get('item_id')
+    item = get_object_or_404(TodoItem, id=item_id)
+    item.delete()
+    return JsonResponse({'status': 'success'})
+
+@require_http_methods(["POST"])
+def rename_item(request):
+    """
+    AJAX endpoint to rename an item.
+    Expects 'item_id' and 'new_name' in POST data.
+    """
+    item_id = request.POST.get('item_id')
+    new_name = request.POST.get('new_name')
+    item = get_object_or_404(TodoItem, id=item_id)
+    item.name = new_name
+    item.save()
+    return JsonResponse({'status': 'success', 'new_name': new_name})
+
+@require_http_methods(["POST"])
+def toggle_item(request):
+    """
+    AJAX endpoint to toggle the 'is_done' status of an item.
+    Expects 'item_id' in POST data.
+    """
+    item_id = request.POST.get('item_id')
+    item = get_object_or_404(TodoItem, id=item_id)
+    item.is_done = not item.is_done
+    item.save()
+    return JsonResponse({'status': 'success', 'is_done': item.is_done})
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+from .models import TodoItem
+
+@require_GET
+def poll_tree(request):
+    """
+    Returns JSON data representing the entire tree (all items).
+    """
+    # Query all items
+    items = TodoItem.objects.all().select_related('parent')
+
+    # Convert them into a structure that’s easy to re-render
+    # For example, a list of dicts with {id, name, parent_id, is_done}
+    data = []
+    for item in items:
+        data.append({
+            'id': item.id,
+            'name': item.name,
+            'parent_id': item.parent.id if item.parent else None,
+            'is_done': item.is_done,
+        })
+
+    return JsonResponse({'items': data})
