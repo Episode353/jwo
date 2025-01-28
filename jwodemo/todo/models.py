@@ -10,8 +10,12 @@ class TodoItem(models.Model):
         blank=True
     )
     is_done = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0)  # Ensure this field exists
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # add this
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']  # Ensure default ordering is by 'order'
 
     def __str__(self):
         return self.name

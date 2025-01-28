@@ -7,7 +7,7 @@
             {% if item.is_done %}checked{% endif %}
         />
 
-        <!-- Use a contenteditable span for name, so user can click+edit inline -->
+        <!-- Editable name -->
         <span 
             contenteditable="true" 
             data-item-id="{{ item.id }}"
@@ -17,8 +17,39 @@
         </span>
 
         <div class="tree-actions">
-            <button class="btn add-child-button" data-parent-id="{{ item.id }}" style="background:lightgreen;">+</button>
-            <button class="btn delete-item-button" data-item-id="{{ item.id }}" style="color:red;">X</button>
+            <button 
+                class="btn add-child-button" 
+                data-parent-id="{{ item.id }}" 
+                style="background:lightgreen;" 
+                title="Add Child"
+            >
+                <span title="Add Child">➕</span>
+            </button>
+
+            <button 
+                class="btn move-up-button" 
+                data-item-id="{{ item.id }}" 
+                title="Move Up"
+            >
+                <span title="Move Up">⬆️</span>
+            </button>
+
+            <button 
+                class="btn move-down-button" 
+                data-item-id="{{ item.id }}" 
+                title="Move Down"
+            >
+                <span title="Move Down">⬇️</span>
+            </button>
+
+            <button 
+                class="btn delete-item-button" 
+                data-item-id="{{ item.id }}" 
+                style="color:red;" 
+                title="Delete Item"
+            >
+                <span title="Delete Item">🗑️</span>
+            </button>
         </div>
     </div>
     <!-- Children container -->
