@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import TodoItem
-
+from .utils import group_required  # Import the decorator
 # views.py
 from django.db.models import Max
 from django.utils import timezone
@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import TodoItem
 
+@group_required("todo group")
 def tree_todo_view(request):
     root_items = TodoItem.objects.filter(parent__isnull=True).order_by('order')  # Changed from 'created_at' to 'order'
 
@@ -28,7 +29,7 @@ def tree_todo_view(request):
     return render(request, 'tree_todo.html', context)
 
 
-
+@group_required("todo group")
 @require_http_methods(["POST"])
 def add_child(request):
     """
@@ -64,7 +65,7 @@ def add_child(request):
         'order': child.order,  # Include 'order'
     })
 
-
+@group_required("todo group")
 @require_http_methods(["POST"])
 def delete_item(request):
     """
@@ -76,6 +77,7 @@ def delete_item(request):
     item.delete()
     return JsonResponse({'status': 'success'})
 
+@group_required("todo group")
 @require_http_methods(["POST"])
 def rename_item(request):
     """
@@ -89,6 +91,7 @@ def rename_item(request):
     item.save()
     return JsonResponse({'status': 'success', 'new_name': new_name})
 
+@group_required("todo group")
 @require_http_methods(["POST"])
 def toggle_item(request):
     """
@@ -106,6 +109,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from .models import TodoItem
 
+@group_required("todo group")
 @require_GET
 def poll_tree(request):
     """
@@ -134,7 +138,7 @@ from django.views.decorators.http import require_http_methods
 from .models import TodoItem
 
 # Existing imports and views...
-
+@group_required("todo group")
 @require_http_methods(["POST"])
 def move_item_up(request):
     item_id = request.POST.get('item_id')
@@ -155,7 +159,8 @@ def move_item_up(request):
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error', 'message': 'Already the first item.'})
-
+    
+@group_required("todo group")
 @require_http_methods(["POST"])
 def move_item_down(request):
     item_id = request.POST.get('item_id')
