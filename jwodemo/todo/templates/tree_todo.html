@@ -7,6 +7,12 @@
     --tree-line-color: black; /* Centralized tree line color */
 }
 
+body{
+    background-image: url('{% static 'jpg/background_4.jpeg' %}');
+  image-rendering: pixelated;
+  background-size: 14rem;
+}
+
 .tree-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -20,11 +26,11 @@
 
 /* Alternating row colors for better readability */
 .tree-item:nth-child(odd) > .tree-item-content {
-    background-color: #f9f9f9;
+    background-color: rgba(229, 231, 233, 0.2);
 }
 
 .tree-item:nth-child(even) > .tree-item-content {
-    background-color: #e9e9e9;
+    background-color: rgba(229, 231, 233, 0.2);
 }
 
 
@@ -69,12 +75,12 @@
     padding: 0.5rem;
     border: 1px solid transparent;
     border-radius: 3px;
-    background-color: #f9f9f9;
+    background-color: transparent;
 }
 
 .tree-item-content:hover {
     border: 1px solid #000;
-    background-color: #fff;
+    background-color: rgba(253, 254, 254, 1);
 }
 
 .tree-item input[type="checkbox"] {
