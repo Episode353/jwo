@@ -112,13 +112,8 @@ from .models import TodoItem
 @group_required("todo group")
 @require_GET
 def poll_tree(request):
-    """
-    Returns JSON data representing the entire tree (all items).
-    """
-    # Query all items
-    items = TodoItem.objects.all().select_related('parent').order_by('order')  # Ensure ordering by 'order'
+    items = TodoItem.objects.all().select_related('parent').order_by('order')
 
-    # Convert them into a structure that’s easy to re-render
     data = []
     for item in items:
         data.append({
@@ -126,10 +121,14 @@ def poll_tree(request):
             'name': item.name,
             'parent_id': item.parent.id if item.parent else None,
             'is_done': item.is_done,
-            'order': item.order,  # Include 'order'
+            'order': item.order,
+            'collapsed': item.collapsed,  # Ensure collapsed state is included
+            'child_count': item.children.count()  # Ensure child count is included
         })
 
     return JsonResponse({'items': data})
+
+
 
 
 from django.shortcuts import render, get_object_or_404
@@ -181,3 +180,20 @@ def move_item_down(request):
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error', 'message': 'Already the last item.'})
+
+@group_required("todo group")
+@require_http_methods(["POST"])
+def toggle_collapse(request):
+    item_id = request.POST.get('item_id')
+    collapsed = request.POST.get('collapsed') == 'true'
+    
+    item = get_object_or_404(TodoItem, id=item_id)
+    item.collapsed = collapsed
+    item.save()
+
+    return JsonResponse({
+        'status': 'success',
+        'collapsed': item.collapsed,
+        'name': item.name,
+        'child_count': item.children.count()
+    })

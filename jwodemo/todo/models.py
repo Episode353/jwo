@@ -10,12 +10,13 @@ class TodoItem(models.Model):
         blank=True
     )
     is_done = models.BooleanField(default=False)
-    order = models.PositiveIntegerField(default=0)  # Ensure this field exists
+    collapsed = models.BooleanField(default=False)  # New field to track collapsed state
+    order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['order']  # Ensure default ordering is by 'order'
+        ordering = ['order']
 
     def __str__(self):
         return self.name

@@ -1,3 +1,4 @@
+
 {% load static %}
 
 {% block content %}
@@ -167,9 +168,21 @@ body{
 // Helper function to build HTML for a new item (on the fly).
 // -------------------------
 function buildItemHTML(item, isFirst = false, isLast = false) {
+    const isCollapsed = item.collapsed;
+    const childCount = item.child_count || 0;
+    const collapseIcon = isCollapsed ? '➕' : '➖';
+    const displayChildren = isCollapsed ? 'none' : 'block';
+    const nameDisplay = isCollapsed && childCount > 0 ? `${item.name} (${childCount})` : item.name;
+
     return `
         <div id="item-${item.id}" class="tree-item">
             <div class="tree-item-content">
+                ${childCount > 0 ? `
+                    <button class="btn collapse-button" data-item-id="${item.id}" title="Toggle Collapse">
+                        <span title="Toggle Collapse">${collapseIcon}</span>
+                    </button>
+                ` : ''}
+
                 <input
                     type="checkbox"
                     data-item-id="${item.id}"
@@ -178,7 +191,7 @@ function buildItemHTML(item, isFirst = false, isLast = false) {
                 />
 
                 <span contenteditable="true" data-item-id="${item.id}" class="rename-item">
-                    ${item.name}
+                    ${nameDisplay}
                 </span>
 
                 <div class="tree-actions">
@@ -218,11 +231,12 @@ function buildItemHTML(item, isFirst = false, isLast = false) {
                     </button>
                 </div>
             </div>
-            <!-- children container -->
-            <div id="children-${item.id}" class="tree-item-children"></div>
+            <!-- Children container -->
+            <div id="children-${item.id}" class="tree-item-children" style="display:${displayChildren};"></div>
         </div>
     `;
 }
+
 
 // -------------------------
 // CSRF Helper (if you have CSRF enabled)
@@ -280,6 +294,12 @@ document.getElementById('add-root-button').addEventListener('click', function() 
 // We attach event listeners to the document for dynamic elements.
 // -------------------------
 document.addEventListener('click', function(e) {
+
+    const target = e.target;
+
+    if (!target || !target.classList) {
+        return; // Prevent errors if the target is not a valid element
+    }
     // 1. Add Child
     if (e.target.closest('.add-child-button')) {
         const button = e.target.closest('.add-child-button');
@@ -477,6 +497,11 @@ document.addEventListener('change', function(e) {
 // We'll send an AJAX request after the user finishes editing
 // -------------------------
 document.addEventListener('blur', function(e) {
+    const target = e.target;
+
+    if (!target || !target.classList) {
+        return; // Prevent errors if the target is not a valid element
+    }
     if(e.target && e.target.classList.contains('rename-item')) {
         const itemId = e.target.getAttribute('data-item-id');
         const newName = e.target.innerText.trim();
@@ -549,7 +574,8 @@ function shouldWeRerender(newDataMap) {
             oldItem.name !== newItem.name ||
             oldItem.parent_id !== newItem.parent_id ||
             oldItem.is_done !== newItem.is_done ||
-            oldItem.order !== newItem.order
+            oldItem.order !== newItem.order ||
+            oldItem.collapsed !== newItem.collapsed // Add collapse check
         ) {
             return true;
         }
@@ -557,12 +583,11 @@ function shouldWeRerender(newDataMap) {
     return false;
 }
 
-// Function to re-render the entire tree based on `localTreeData`
+
 function rerenderEntireTree() {
     const treeRootEl = document.getElementById('tree-root');
     treeRootEl.innerHTML = '';
 
-    // Build a structure: parent_id => list of children
     const childrenMap = {};
     for (let id in localTreeData) {
         const parent_id = localTreeData[id].parent_id;
@@ -572,12 +597,10 @@ function rerenderEntireTree() {
         childrenMap[parent_id].push(localTreeData[id]);
     }
 
-    // Sort children within each parent by 'order'
     for (let parentId in childrenMap) {
         childrenMap[parentId].sort((a, b) => a.order - b.order);
     }
 
-    // Recursively build DOM
     function buildTreeDom(parentId, container) {
         if (!childrenMap[parentId]) return;
 
@@ -589,15 +612,16 @@ function rerenderEntireTree() {
             const itemHTML = buildItemHTML(item, isFirst, isLast);
             container.insertAdjacentHTML('beforeend', itemHTML);
 
-            // Recurse for children
             const childrenContainer = document.getElementById(`children-${item.id}`);
+            childrenContainer.style.display = item.collapsed ? 'none' : 'block'; // Apply collapsed state
             buildTreeDom(item.id, childrenContainer);
         }
     }
 
-    // Kick off building from parentId = null (root level)
     buildTreeDom(null, treeRootEl);
 }
+
+
 
 // (5) Start polling (every second)
 setInterval(pollForUpdates, 1000);
@@ -605,5 +629,41 @@ setInterval(pollForUpdates, 1000);
 // Initialize local data by calling pollForUpdates once on load
 pollForUpdates();
 </script>
-
+<script>
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.collapse-button')) {
+            const button = e.target.closest('.collapse-button');
+            const itemId = button.getAttribute('data-item-id');
+            const childrenContainer = document.getElementById(`children-${itemId}`);
+            
+            const isCollapsed = childrenContainer.style.display !== 'none';
+            childrenContainer.style.display = isCollapsed ? 'none' : 'block';
+    
+            // Send update to backend
+            fetch("{% url 'toggle_collapse' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: new URLSearchParams({
+                    'item_id': itemId,
+                    'collapsed': isCollapsed ? 'true' : 'false'
+                })
+            }).then(response => response.json()).then(data => {
+                if (data.status === 'success') {
+                    // Update collapse button icon
+                    button.innerHTML = `<span title="Toggle Collapse">${isCollapsed ? '➕' : '➖'}</span>`;
+    
+                    // Update name display
+                    const nameSpan = document.querySelector(`span.rename-item[data-item-id='${itemId}']`);
+                    nameSpan.innerHTML = isCollapsed && data.child_count > 0 
+                        ? `${data.name} (${data.child_count})` 
+                        : data.name;
+                }
+            });
+        }
+    });
+    
+    </script>
+    
 {% endblock %}

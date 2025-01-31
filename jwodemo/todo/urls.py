@@ -10,4 +10,5 @@ urlpatterns = [
     path('tree-todo/poll-tree/', views.poll_tree, name='poll_tree'),
     path('tree-todo/move-item-up/', views.move_item_up, name='move_item_up'),       # New
     path('tree-todo/move-item-down/', views.move_item_down, name='move_item_down'), # New
+    path('tree-todo/toggle-collapse/', views.toggle_collapse, name='toggle_collapse'),
 ]

@@ -1,5 +1,11 @@
-<div id="item-{{ item.id }}" class="tree-item-children">
-    <div class="tree-item">
+<div id="item-{{ item.id }}" class="tree-item">
+    <div class="tree-item-content">
+        {% if item.children.exists %}
+            <button class="btn collapse-button" data-item-id="{{ item.id }}" title="Toggle Collapse">
+                <span title="Toggle Collapse">{% if item.collapsed %}➕{% else %}➖{% endif %}</span>
+            </button>
+        {% endif %}
+        
         <input 
             type="checkbox" 
             data-item-id="{{ item.id }}" 
@@ -7,53 +13,21 @@
             {% if item.is_done %}checked{% endif %}
         />
 
-        <!-- Editable name -->
-        <span 
-            contenteditable="true" 
-            data-item-id="{{ item.id }}"
-            class="rename-item"
-        >
-            {{ item.name }}
+        <span contenteditable="true" data-item-id="{{ item.id }}" class="rename-item">
+            {{ item.name }} {% if item.children.exists and item.collapsed %}({{ item.children.count }}){% endif %}
         </span>
 
         <div class="tree-actions">
-            <button 
-                class="btn add-child-button" 
-                data-parent-id="{{ item.id }}" 
-                style="background:lightgreen;" 
-                title="Add Child"
-            >
+            <button class="btn add-child-button" data-parent-id="{{ item.id }}" style="background:lightgreen;" title="Add Child">
                 <span title="Add Child">➕</span>
             </button>
-
-            <button 
-                class="btn move-up-button" 
-                data-item-id="{{ item.id }}" 
-                title="Move Up"
-            >
-                <span title="Move Up">⬆️</span>
-            </button>
-
-            <button 
-                class="btn move-down-button" 
-                data-item-id="{{ item.id }}" 
-                title="Move Down"
-            >
-                <span title="Move Down">⬇️</span>
-            </button>
-
-            <button 
-                class="btn delete-item-button" 
-                data-item-id="{{ item.id }}" 
-                style="color:red;" 
-                title="Delete Item"
-            >
+            <button class="btn delete-item-button" data-item-id="{{ item.id }}" style="color:red;" title="Delete Item">
                 <span title="Delete Item">🗑️</span>
             </button>
         </div>
     </div>
-    <!-- Children container -->
-    <div id="children-{{ item.id }}" class="tree-item-children">
+
+    <div id="children-{{ item.id }}" class="tree-item-children" {% if item.collapsed %}style="display:none;"{% endif %}>
         {% for child in item.children.all %}
             {% include "tree_item.html" with item=child %}
         {% endfor %}
