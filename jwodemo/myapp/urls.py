@@ -40,6 +40,7 @@ urlpatterns = [
     path('mc/', views.mc, name='mc'),
     path('bounty/', include('bounty.urls')),
     path('todo/', include("todo.urls")),
+    path("seepcards", views.seepcards_game, name="seepcards_game"),
 
 ]
 

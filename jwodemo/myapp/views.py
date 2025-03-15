@@ -302,3 +302,7 @@ def midgetporn(request):
     message = "You must be logged in to view this page"
     return custom_404_view(request, message)
 
+
+def seepcards_game(request):
+    return redirect(static('seepcards/seepcards.html'))
+
