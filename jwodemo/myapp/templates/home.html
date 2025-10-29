@@ -26,7 +26,7 @@
 
 <div class="content-large">
 
-{% if SeasonalContent %}
+{% if SeasonalContentEntries %}
 
     <!-- SeasonalContent -->
     <div class="feature-section" style="border-left: none; border-right: none;">
@@ -36,11 +36,11 @@
             <h2 class="seasonal-content-title">{{ SeasonalContent.title }}</h2>
             I have hid the title because i honestly dont think i need it.
             -->
-
             <div style="border: none;">{{ SeasonalContent.content|safe }}</div>
         {% endfor %}
     </div>
 {% endif %}
+
 
 <!-- Recent Blogs -->
 <div class="feature-section">
