@@ -227,7 +227,8 @@ def translator(request):
     return render(request, "translator.html")
 
 def mapdirect(request):
-    return redirect("http://manual-requiring.gl.at.ply.gg:46231")
+    # Redirect users to your BlueMap URL (include the scheme)
+    return redirect("http://map.seep.cc:3870")
 
 
 from django.shortcuts import render
